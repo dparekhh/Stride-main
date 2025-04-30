@@ -1,0 +1,64 @@
+UI Enhancement Task: Employee Role Management in Edit Employee Drawer
+
+Objective:
+Implement a new interactive section for employee role management with detailed drawer interactions and notification system.
+
+Detailed Requirements:
+
+1. Employee Area Styling in Edit Employee Drawer:
+   - Convert employee details section into a boxed container
+   - Design matching the reference image (image_1743132643405.png)
+   - Add an edit icon positioned at the right end of the box
+
+2. Change Role Drawer Interaction:
+   Trigger Mechanism:
+   - Open when edit icon is clicked
+   - Overlay Design:
+     a) Cover 50% of screen width
+     b) Slide in from right side
+     c) Blur background when open
+
+   Initial State:
+   - Drawer opens with current employee's role pre-selected
+
+3. Role Selection Behavior:
+   Save Changes Button Dynamics:
+   - Button turns green when:
+     a) A different role is selected
+     b) User returns to the original role after changes
+
+4. Change Role Workflow:
+   - User selects new role
+   - Click "Save Changes" button
+   - Trigger system notification
+   - Notification Design:
+     a) Match existing system notification UI
+     b) Display message: "Successfully changed roles"
+   - Automatically navigate back to Edit Employee Drawer
+
+5. Notification Specifications:
+   - Use consistent system-wide notification design
+   - Brief, clear message
+   - Auto-dismiss after short duration
+
+6. Navigation Constraints:
+   - Smooth transition between drawers
+   - Maintain context of current employee
+
+Design Principles:
+- Consistent UI/UX across interactions
+- Clear visual feedback for user actions
+- Intuitive role management process
+
+Acceptance Criteria:
+- Edit icon functions correctly
+- Change Role drawer opens and behaves as specified
+- Save Changes button color changes appropriately
+- Notification appears and dismisses correctly
+- Smooth navigation between drawers
+- All interactions feel native and intuitive
+
+Implementation Notes:
+- Use existing design system components
+- Ensure responsive design
+- Thoroughly test all interaction flows

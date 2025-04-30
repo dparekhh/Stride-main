@@ -1,0 +1,46 @@
+I need to modify the RestrictionsDrawer component to match the exact UI design shown in the reference image and implement dynamic behavior. Here are the specific requirements:
+
+1. Control Type Dropdown UI:
+- Match exactly the design shown in image_1743330643547.png 
+- Show gray descriptive text under each option explaining what it does
+- Use consistent styling with rounded corners, border colors, and padding
+- Include chevron icon for dropdown
+- Show hover and focus states properly
+
+2. Category Restrictions Section:
+- Keep "Category restrictions" as the section title
+- Control Type dropdown options should be:
+  * None (Default)
+  * Allowed categories (With helper text: "Allow transactions from merchants in these categories.")
+  * Blocked categories (With helper text: "Block transactions from merchants in these categories.")
+- Show categories selection dropdown ONLY when "Allowed categories" or "Blocked categories" is selected
+- Dynamic helper text below the selection dropdown:
+  * For "Allowed categories": "Block all other categories."
+  * For "Blocked categories": "Allow all other categories."
+
+3. Merchant Restrictions Section:
+- Change section title to "Merchant restrictions" 
+- Control Type dropdown options should be:
+  * Allowed merchants (With helper text: "Allow transactions only from selected merchants.")
+  * Blocked merchants (With helper text: "Block transactions from selected merchants.")
+- Show merchant selection dropdown ONLY when "Allowed merchants" or "Blocked merchants" is selected
+- Dynamic helper text below the selection dropdown:
+  * For "Allowed merchants": "Block all other merchants. Disable category restrictions."
+  * For "Blocked merchants": "Allow all other merchants. Disable category restrictions."
+
+4. State Management Requirements:
+- Maintain selected values when switching between control types
+- Reset dependent dropdowns when control type changes to "None"
+- Ensure proper state updates trigger UI changes
+
+5. Component Integration:
+- Maintain existing integration with VirtualCardDrawer and PhysicalCardDrawer
+- Preserve current save/cancel functionality
+- Keep the existing drawer header and footer components
+
+Please update the RestrictionsDrawer component following these specifications while maintaining the current codebase patterns and functionality.
+
+Reference Files:
+- frontend/src/components/RestrictionsDrawer.jsx (Main component to modify)
+- frontend/src/components/VirtualCardDrawer.jsx (Integration point)
+- frontend/src/components/PhysicalCardDrawer.jsx (Integration point)

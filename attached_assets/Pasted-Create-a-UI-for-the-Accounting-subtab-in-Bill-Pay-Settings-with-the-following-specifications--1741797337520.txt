@@ -1,0 +1,81 @@
+Create a UI for the Accounting subtab in Bill Pay Settings with the following specifications:
+
+## Layout and Structure
+- Page header: "Bill Pay Settings"
+- Navigation tabs: "Permissions", "Approvals", "Accounting" (with "Accounting" being active), and "Importing"
+- Content organized into 3 main sections with proper spacing between them
+
+## Header Section
+- Bold, large font "Bill Pay Settings" at the top of the page
+- Navigation tabs underneath with equal spacing
+- "Accounting" tab should appear selected/active
+- All tabs should be clickable
+
+## Section 1: Tally Connection
+- A bordered container with proper padding
+- Display the Tally logo from the PNG file I'll provide:
+  - Size the logo appropriately to fit within a 32x32px circular area
+  - Position the logo vertically centered with the text
+  - Maintain the original aspect ratio of the logo
+  - If the logo has a transparent background, preserve it
+  - Ensure the logo is properly aligned with the text elements
+- Text "Tally" next to the logo in bold, medium-sized font
+- Text "Connected" in light gray beneath the "Tally" text in smaller font
+- All elements should be left-aligned inside the container with appropriate spacing
+- Total height of the container should be approximately 60-70px to accommodate all elements
+
+## Section 2: Sync Settings
+- A bordered container with proper padding
+- Bold text "Sync Settings" as the section title
+- Lighter gray text beneath: "Manage how bill activity is synced to Tally"
+- A subtle dashed line on the right side indicating expandable content
+- All text should be left-aligned inside the container
+
+## Section 3: Accounting Fields
+- A bordered container with proper padding
+- Bold text "Accounting Fields" as the section title
+- Lighter gray text beneath: "Configure what accounts you and your organization can select from"
+- All text should be left-aligned inside the container
+
+## Visual Styles
+- Clean, minimalist design with consistent spacing
+- Light gray borders for all containers (1px width)
+- Dark text for headings, slightly lighter gray for descriptions
+- White background for the page and containers
+- Containers should have subtle rounded corners (2-4px radius)
+- Proper vertical spacing between sections (approximately 16-20px)
+- Consistent padding inside containers (approximately 16-20px)
+
+## Logo Integration Instructions
+- I will provide the Tally logo as a PNG file
+- Import the PNG file into the project assets
+- Reference the logo in the HTML/CSS using the appropriate file path
+- Apply CSS to ensure the logo is contained within a circular area:
+  ```css
+  .tally-logo {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    border-radius: 50%;
+    background-color: transparent;
+    margin-right: 12px;
+  }
+  ```
+- If the PNG doesn't have transparency, you may need to add:
+  ```css
+  .tally-logo-container {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  ```
+- Ensure the container has proper alignment to maintain visual hierarchy with the logo and text elements
+
+## Interaction Hints
+- All containers should appear clickable
+- The "Sync Settings" container should have a visual indicator suggesting expandable content
+- The navigation tabs should be responsive to different screen sizes

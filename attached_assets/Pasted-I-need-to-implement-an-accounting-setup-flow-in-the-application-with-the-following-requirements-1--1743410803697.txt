@@ -1,0 +1,46 @@
+I need to implement an accounting setup flow in the application with the following requirements:
+1. Component Structure:
+- Create a new AccountingSetup component that shows when accounting is not configured
+- This should be separate from the regular accounting views/subtabs
+- The setup view is temporary and only shown during initial onboarding
+2. State Management (Frontend-only for now):
+- Use local storage or React context to track whether accounting is set up
+- This lets us simulate the setup state without backend integration
+- Default to "not setup" for development/testing
+3. Key Features From Design:
+- Center-aligned content with Stride book icon
+- "Sync your transactions to your accounting provider" heading
+- "Set up in minutes and say goodbye to manual coding" subheading
+- Two action buttons:
+  * Primary "Get started now" button in primary (orange) color
+  * Secondary "Select someone to set it up" text button
+- "No stress, Stride  never syncs data without your approval" disclaimer text
+
+4. Routing & Navigation:
+- Update /accounting route to check setup status
+- Redirect to setup view if not configured
+- After setup completion, redirect to main accounting view
+5. Files to Create/Modify:
+- Create new AccountingSetup.jsx in pages directory
+- Modify existing Accounting-related components
+- Add routing logic in the main router
+6. Specific Requirements:
+- Make setup view exactly match provided image_1743410066391.png
+- Ensure responsive design
+- Support both setup and post-setup states
+- Clean transition between states
+7. Development Approach:
+- Keep backend dependencies minimal
+- Use mock data/states for testing
+- Implement with future backend integration in mind
+8. Testing Flow:
+- Ability to toggle between setup/configured states
+- Verify all UI elements match design
+- Test responsive behavior
+- Confirm routing logic
+The implementation should prioritize frontend flow and user experience while keeping future backend integration simple. Use existing UI components and styles where possible.
+File locations to focus on:
+- frontend/src/pages/
+- frontend/src/components/
+- frontend/src/routes/
+Use the existing design system and components from the codebase for consistency.

@@ -1,0 +1,36 @@
+, I've analyzed the root cause of the nesting issue in your WorkflowBuilder component. This is a foundational problem with parent-child relationship management.
+
+Root Cause Analysis
+The problem occurs in how the parent-child relationships are being handled when adding child conditions. Looking at the image, the same condition appears twice - once as the main condition and again nested inside the "Required fields: Memo" block.
+
+How Parent-Child Relationships Are Managed
+Condition Identification:
+
+Each condition has an id property that uniquely identifies it
+Conditions have a parentConditionId property when they are children
+Nesting Logic Problem:
+When you add a child condition (like required fields), the system:
+
+Correctly sets the parentConditionId on the child condition
+But incorrectly duplicates the parent condition as a child of the new condition
+Rendering Loop Issue:
+In WorkflowBuilder.jsx, the component is rendering conditions recursively:
+
+It first renders all main conditions
+Then for each condition, it looks for children
+The problem is that when adding a child condition, the system is erroneously creating a circular reference
+Specific Implementation Issue
+Looking at handleOpenFieldSelector and handleFieldSelectorSave in the WorkflowBuilder component, when you add a "Required fields" element:
+
+It correctly gets the parentConditionId from the active condition
+When saving, it creates a properly formatted condition with type: 'required-fields'
+However, it's creating a duplicated reference to the parent condition within its children structure
+This is likely happening in the condition block rendering logic where the parent is both rendered at the top level AND incorrectly included in the child condition's own children array.
+
+Key Components In The Issue
+ConditionBlock.jsx - How it displays parent and child conditions
+WorkflowBuilder.jsx - How it manages condition relationships and state
+ConditionEditor.jsx - How new conditions are created and added
+The foundational issue is in the state management pattern that doesn't properly maintain the tree structure of conditions without creating circular references.
+
+To fix this, you'd need to modify how child conditions are created and added, ensuring that parent conditions aren't duplicated within their children's structures. This would require updating the condition creation logic that handles the parent-child relationship.

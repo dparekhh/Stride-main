@@ -1,0 +1,149 @@
+Overview
+Implement enhanced dropdown functionality in the WorkflowBuilder component using our existing SearchableDropdown component, focusing on condition selection and dynamic width adjustments.
+
+Technical Requirements
+Component Integration
+Use existing SearchableDropdown.jsx component
+Remove footer functionality from SearchableDropdown usage in this context
+Integrate with WorkflowBuilder.jsx component
+Dropdown Specifications
+Primary Condition Dropdown
+{
+  placeholder: "Set a condition (required)",
+  className: "border border-gray-300 rounded-md",
+  options: [
+    // Populated from customOptions['set-conditions']
+  ],
+  chevronIcon: {
+    type: 'rotating',
+    rotation: isOpen ? 180 : 0,
+    transition: 'transform 0.2s ease'
+  }
+}
+Operator Dropdown (appears after condition selection)
+{
+  options: [
+    'is',
+    'greater than',
+    'equal to',
+    'less than'
+  ],
+  defaultValue: (conditionType) => {
+    return conditionType === 'text' ? 'is' : 'equal to'
+  },
+  width: 'auto',
+  className: 'ml-2'
+}
+Value Selection Dropdown
+{
+  placeholder: "Select option(s) (required)",
+  width: '100%', // Matches combined width of above dropdowns
+  className: 'mt-2'
+}
+Width Behavior
+
+Initial State:
+Primary dropdown takes full width
+Border: gray (border-gray-300)
+
+After First Selection:
+Primary dropdown width shrinks to content
+Operator dropdown appears (width same as Primary dropdown)
+Combined layout using flex
+
+Value Selection:
+Appears below
+Width matches combined width of above dropdowns
+Maintains consistent styling
+
+UI/UX Requirements
+Chevron Animation:
+.chevron {
+  transition: transform 0.2s ease;
+  transform: ${isOpen ? 'rotate(180deg)' : 'rotate(0deg)'};
+}
+
+Dropdown Transitions:
+Smooth width transitions
+Fade in/out for appearing dropdowns
+Maintain consistent height to prevent layout shift
+
+Accessibility:
+Maintain ARIA labels
+Keyboard navigation support
+Focus management between dropdowns
+State Management
+
+Condition Selection:
+interface ConditionState {
+  selectedCondition: string | null;
+  operator: string | null;
+  value: any | null;
+  isConditionDropdownOpen: boolean;
+  isOperatorDropdownOpen: boolean;
+  isValueDropdownOpen: boolean;
+}
+
+Width Calculations:
+const getDropdownWidths = (state: ConditionState) => {
+  if (!state.selectedCondition) {
+    return { primary: '100%' };
+  }
+  return {
+    primary: 'auto',
+    operator: 'auto',
+    combined: `${primaryWidth + operatorWidth}px`
+  };
+};
+
+Integration Example
+// Example usage in WorkflowBuilder
+<SearchableDropdown
+  value={selectedCondition}
+  onChange={handleConditionChange}
+  options={customOptions['set-conditions']}
+  placeholder="Set a condition (required)"
+  className="condition-dropdown"
+  showFooter={false}
+  chevronStyle="rotating"
+/>
+
+{selectedCondition && (
+  <SearchableDropdown
+    value={operator}
+    onChange={handleOperatorChange}
+    options={getOperatorOptions(selectedCondition)}
+    className="operator-dropdown"
+    showFooter={false}
+    chevronStyle="rotating"
+  />
+)}
+
+{selectedCondition && operator && (
+  <SearchableDropdown
+    value={value}
+    onChange={handleValueChange}
+    options={getValueOptions(selectedCondition)}
+    placeholder="Select option(s) (required)"
+    className="value-dropdown"
+    showFooter={false}
+    chevronStyle="rotating"
+  />
+)}
+
+Testing Requirements
+Functionality Tests:
+Dropdown appearance/disappearance
+Width transitions
+Default value population
+Chevron rotation
+Keyboard navigation
+Visual Tests:
+Layout alignment
+Width calculations
+Animation smoothness
+Responsive behavior
+Integration Tests:
+WorkflowBuilder interaction
+State management
+Event handling

@@ -1,0 +1,15 @@
+
+    GOODS RECEIPT NOTE
+    
+    GRN Number: GRN-2025-001
+    Date: 2025-03-18
+    
+    Reference PO: PO-2025-001
+    Vendor: Samvik Marketing
+    
+    Items Received:
+    1. Laptop - 2 units - Condition: Good
+    2. Mouse - 2 units - Condition: Good
+    
+    Received by: John Smith
+    

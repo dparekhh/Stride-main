@@ -1,0 +1,109 @@
+Implement vendor_service.py
+Open services/vendor_service.py and add the following code to handle vendor-related business logic:
+"""Business logic for vendor management."""
+import logging
+from typing import Dict, Any, List, Tuple, Optional
+from marshmallow import ValidationError
+from models import Vendor, db
+from utils.bill_utils import create_vendor_details, check_vendor_exists
+from routes.vendors_routes import VendorSchema
+
+logger = logging.getLogger(__name__)
+
+class VendorService:
+    """Service class for vendor management operations."""
+    def __init__(self, tenant_id: int):
+        self.tenant_id = tenant_id
+
+    def get_all_vendors(self) -> List[Dict[str, Any]]:
+        """Retrieve all vendors for the tenant."""
+        vendors = Vendor.query.filter_by(tenant_id=self.tenant_id).all()
+        return [
+            {
+                'id': vendor.id,
+                'name': vendor.name,
+                'gstin': vendor.gstin,
+                'pan': vendor.pan,
+                'email': vendor.email,
+                'phone': vendor.phone,
+                'address': vendor.address,
+                'category': vendor.category
+            } for vendor in vendors
+        ]
+
+    def create_vendor(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        """Create a new vendor with the provided data."""
+        try:
+            validated_data = VendorSchema().load(data)
+        except ValidationError as err:
+            raise ValueError(str(err.messages))
+
+        vendor_exists, vendor_details, potential_vendors = check_vendor_exists(
+            vendor_name=validated_data['name'],
+            vendor_gstin=validated_data.get('gstin'),
+            tenant_id=self.tenant_id
+        )
+        if vendor_exists:
+            raise ValueError("Vendor already exists")
+        if potential_vendors:
+            raise ValueError("Similar vendors exist", extra_data={'potential_vendors': potential_vendors})
+
+        vendor = Vendor(
+            name=validated_data['name'],
+            gstin=validated_data.get('gstin', ''),
+            pan=validated_data.get('pan', ''),
+            email=validated_data.get('email', ''),
+            phone=validated_data.get('phone', ''),
+            address=validated_data.get('address', ''),
+            category=validated_data.get('category', ''),
+            tenant_id=self.tenant_id
+        )
+        db.session.add(vendor)
+        db.session.commit()
+        logger.info(f"Vendor created: ID {vendor.id} for tenant {self.tenant_id}")
+        return create_vendor_details(vendor)
+
+    def check_if_vendor_exists(self, vendor_name: Optional[str] = None, vendor_gstin: Optional[str] = None) -> Tuple[bool, Optional[Dict[str, Any]], List[Dict[str, Any]]]:
+        """Check if a vendor exists in the database."""
+        if not vendor_name and not vendor_gstin:
+            raise ValueError("Either vendor_name or vendor_gstin must be provided")
+        return check_vendor_exists(vendor_name=vendor_name, vendor_gstin=vendor_gstin, tenant_id=self.tenant_id)
+
+    def create_vendor_from_invoice(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        """Create a vendor from extracted invoice data."""
+        class InvoiceVendorSchema(VendorSchema):
+            vendor_name = fields.Str(required=True)
+            vendor_gstin = fields.Str(allow_none=True)
+            vendor_address = fields.Str(allow_none=True)
+            vendor_email = fields.Str(allow_none=True)
+            vendor_phone = fields.Str(allow_none=True)
+
+        try:
+            validated_data = InvoiceVendorSchema().load(data)
+        except ValidationError as err:
+            raise ValueError(str(err.messages))
+
+        vendor_exists, vendor_details, potential_vendors = check_vendor_exists(
+            vendor_name=validated_data['vendor_name'],
+            vendor_gstin=validated_data.get('vendor_gstin'),
+            tenant_id=self.tenant_id
+        )
+        if vendor_exists:
+            return vendor_details
+        if potential_vendors:
+            raise ValueError("Similar vendors found", extra_data={'potential_vendors': potential_vendors})
+
+        new_vendor = Vendor(
+            name=validated_data['vendor_name'],
+            gstin=validated_data.get('vendor_gstin', ''),
+            pan=validated_data.get('vendor_pan', ''),
+            email=validated_data.get('vendor_email', ''),
+            phone=validated_data.get('vendor_phone', ''),
+            address=validated_data.get('vendor_address', ''),
+            category=validated_data.get('vendor_category', ''),
+            tenant_id=self.tenant_id
+        )
+        db.session.add(new_vendor)
+        db.session.commit()
+        logger.info(f"Vendor created from invoice: ID {new_vendor.id} for tenant {self.tenant_id}")
+        return create_vendor_details(new_vendor)

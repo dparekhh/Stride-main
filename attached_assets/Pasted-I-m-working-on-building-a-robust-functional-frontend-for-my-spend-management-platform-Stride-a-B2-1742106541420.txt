@@ -1,0 +1,17 @@
+I’m working on building a robust, functional frontend for my spend management platform, Stride, a B2B SaaS platform for the Indian market, similar to Ramp and Brex. The app is running on Replit, with the frontend built using React with Vite. The platform includes various sections, and I’m currently focusing on designing the UI for the "Payment Details" section, which appears as part of the "New Bill" flow or a related page. My goal is to design the frontend UI first, without involving backend logic, and I’ve attached two screenshots to guide this task:
+
+Image 1: The current "Payment Details" section, showing a dropdown labeled "Add payment details" with three options: "Request from the vendor," "Enter manually," and "Skip for now." The design includes a header, a dropdown with a downward arrow, and a nested submenu for the "Enter manually" option.
+Image 2: The desired "Payment Details" section, showing a dropdown labeled "Add payment details" with two options: "Enter manually" and "Skip for now," without the "Request from the vendor" option. The design features a clean layout with a dropdown arrow, proper spacing, and a nested submenu for "Enter manually" that includes "Choose a payment method and enter account details yourself."
+I want to update the "Payment Details" dropdown to match the design in Image 2 exactly, excluding the "Request from the vendor" option. The new dropdown should include only two options: "Enter manually" and "Skip for now," with the "Enter manually" option expanding to a submenu with the single choice "Choose a payment method and enter account details yourself." The UI should use placeholders for dynamic data, maintain consistent styling (e.g., fonts, colors, borders), and be pixel-perfect to Image 2. Since I’m focusing on frontend design only, no backend logic or functionality should be implemented at this stage—the dropdown and submenu are static UI elements for now.
+
+Set Up the "Payment Details" Section Structure
+Task: Create or update the React component to include the "Payment Details" section with a basic layout.
+
+Instruct Replit to locate or create a React component file where the "Payment Details" section will reside (e.g., within frontend/src/pages/NewBill.jsx or a separate PaymentDetails.jsx component if it exists). This section should be part of the broader "New Bill" flow or a related page.
+Guide Replit to set up the section with a header and a container for the dropdown:
+Add a header labeled "Payment details" in bold, dark text, aligned to the left at the top of the section.
+Below the header, create a container for the "Add payment details" dropdown, ensuring it spans the full width of the section with a slight padding and a white background.
+Direct Replit to:
+Use Tailwind CSS (or the existing CSS framework) to style the section with a light gray border at the bottom, padding on all sides, and a clean, modern look.
+Ensure the container is positioned directly below the header with a small gap between them.
+Deliverables: Share the initial component code with the "Payment Details" section layout, a screenshot of the section with the header and empty container, and confirm the basic structure is in place.

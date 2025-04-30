@@ -1,0 +1,117 @@
+{
+  "test_time": "2025-03-15",
+  "test_summary": {
+    "ocr_basic_tests": {
+      "success_count": 0,
+      "total_count": 10,
+      "success_rate": "0.00%"
+    },
+    "policy_compliance_tests": {
+      "success_count": 0,
+      "total_count": 2,
+      "success_rate": "0.00%"
+    },
+    "document_matching_tests": {
+      "success_count": 0,
+      "total_count": 4,
+      "success_rate": "0.00%"
+    },
+    "overall": {
+      "success_count": 0,
+      "total_count": 16,
+      "success_rate": "0.00%"
+    }
+  },
+  "test_details": {
+    "invoice_tenant1": {
+      "success": false,
+      "tenant_id": "1",
+      "document_type": "invoice",
+      "error": "Status 500: {\"error\":\"Document processing failed: process_full_document_image() got an unexpected keyword argument 'image_content'\"}\n"
+    },
+    "invoice_tenant2": {
+      "success": false,
+      "tenant_id": "2",
+      "document_type": "invoice",
+      "error": "Status 500: {\"error\":\"Document processing failed: process_full_document_image() got an unexpected keyword argument 'image_content'\"}\n"
+    },
+    "receipt_tenant1": {
+      "success": false,
+      "tenant_id": "1",
+      "document_type": "receipt",
+      "error": "Status 500: {\"error\":\"Document processing failed: process_full_document_image() got an unexpected keyword argument 'image_content'\"}\n"
+    },
+    "receipt_tenant2": {
+      "success": false,
+      "tenant_id": "2",
+      "document_type": "receipt",
+      "error": "Status 500: {\"error\":\"Document processing failed: process_full_document_image() got an unexpected keyword argument 'image_content'\"}\n"
+    },
+    "po_tenant1": {
+      "success": false,
+      "tenant_id": "1",
+      "document_type": "po",
+      "error": "Status 500: {\"error\":\"Document processing failed: process_full_document_image() got an unexpected keyword argument 'image_content'\"}\n"
+    },
+    "po_tenant2": {
+      "success": false,
+      "tenant_id": "2",
+      "document_type": "po",
+      "error": "Status 500: {\"error\":\"Document processing failed: process_full_document_image() got an unexpected keyword argument 'image_content'\"}\n"
+    },
+    "grn_tenant1": {
+      "success": false,
+      "tenant_id": "1",
+      "document_type": "grn",
+      "error": "Status 500: {\"error\":\"Document processing failed: process_full_document_image() got an unexpected keyword argument 'image_content'\"}\n"
+    },
+    "grn_tenant2": {
+      "success": false,
+      "tenant_id": "2",
+      "document_type": "grn",
+      "error": "Status 500: {\"error\":\"Document processing failed: process_full_document_image() got an unexpected keyword argument 'image_content'\"}\n"
+    },
+    "policy_tenant1": {
+      "success": false,
+      "tenant_id": "1",
+      "document_type": "policy",
+      "error": "Status 500: {\"error\":\"Document processing failed: process_full_document_image() got an unexpected keyword argument 'image_content'\"}\n"
+    },
+    "policy_tenant2": {
+      "success": false,
+      "tenant_id": "2",
+      "document_type": "policy",
+      "error": "Status 500: {\"error\":\"Document processing failed: process_full_document_image() got an unexpected keyword argument 'image_content'\"}\n"
+    },
+    "compliance_tenant1": {
+      "success": false,
+      "tenant_id": "1",
+      "error": "Status 500: {\"error\":\"Policy compliance check failed: process_full_document_image() got an unexpected keyword argument 'image_content'\"}\n"
+    },
+    "compliance_tenant2": {
+      "success": false,
+      "tenant_id": "2",
+      "error": "Status 500: {\"error\":\"Policy compliance check failed: process_full_document_image() got an unexpected keyword argument 'image_content'\"}\n"
+    },
+    "2way_matching_tenant1": {
+      "success": false,
+      "tenant_id": "1",
+      "error": "Status 500: {\"error\":\"Document matching failed: process_full_document_image() got an unexpected keyword argument 'image_content'\"}\n"
+    },
+    "2way_matching_tenant2": {
+      "success": false,
+      "tenant_id": "2",
+      "error": "Status 500: {\"error\":\"Document matching failed: process_full_document_image() got an unexpected keyword argument 'image_content'\"}\n"
+    },
+    "3way_matching_tenant1": {
+      "success": false,
+      "tenant_id": "1",
+      "error": "Status 500: {\"error\":\"Document matching failed: process_full_document_image() got an unexpected keyword argument 'image_content'\"}\n"
+    },
+    "3way_matching_tenant2": {
+      "success": false,
+      "tenant_id": "2",
+      "error": "Status 500: {\"error\":\"Document matching failed: process_full_document_image() got an unexpected keyword argument 'image_content'\"}\n"
+    }
+  }
+}

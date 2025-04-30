@@ -1,0 +1,17 @@
+I’m working on building a robust, functional frontend for my spend management platform, Stride, a B2B SaaS platform for the Indian market, similar to Ramp and Brex. The app is running on Replit, with the frontend built using React with Vite. The platform includes various sections, and I’m currently focusing on designing the UI for the invoice preview, which is displayed on the "New Bill" page. My goal is to design the frontend UI first, without involving backend logic. Previously, Replit hardcoded the entire invoice content in the invoice preview section, but I don’t want to replicate the design or content of the invoice itself (e.g., its internal structure, fonts, or specific details). Instead, I want to focus on how the invoice preview is placed and fitted within the screen, matching the layout and styling of the invoice preview container as seen in image_1742120518655.png.
+
+In image_1742120518655.png, the "New Bill" page is split into two equal-width sections: the left side shows the invoice preview, and the right side shows the "Who's it for?" section. The invoice preview on the left side is a the actual uploaded document, like a PDF or image displayed within a styled container. I want to adjust the invoice preview to match the placement, size, and styling of this container, without hardcoding any invoice content. The invoice preview should display the actual uploaded document, styled and positioned as described below.
+
+et Up the "New Bill" Page Layout
+Task: Ensure the "New Bill" page has the correct two-column layout.
+
+Instruct Replit to open the React component for the "New Bill" page (likely frontend/src/pages/NewBill.jsx) and confirm the page layout is split into two equal-width sections:
+The left side (50% of the screen width) should be reserved for the invoice preview.
+The right side (50% of the screen width) should contain the "Who's it for?" section.
+Guide Replit to:
+Use a flexbox layout to ensure the two sections are side by side, each taking up exactly 50% of the screen width, with no gaps or overlaps.
+Add a white background to the entire page, with a slight padding around the edges of the page to create a clean look.
+Direct Replit to:
+Add a header at the top of the page with the title "New bill" in a bold, dark font, aligned to the left, and a close button (an "X" icon) in the top-right corner.
+Ensure the two sections extend to the full height of the page (minus the header height), with scrollable content if needed.
+Deliverables: Share the updated NewBill.jsx component code, a screenshot of the "New Bill" page showing the two-column layout, and confirm the sections are equal width and properly aligned.

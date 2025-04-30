@@ -1,0 +1,62 @@
+I need to modify the VendorDrawer component (frontend/src/components/VendorDrawer.jsx) in my spend management platform to update its size and add new fields. Here are the specific requirements:
+
+1. Layout Changes:
+- Increase drawer width from 40% (w-2/5) to 50% (w-1/2) of viewport width
+- Remove the cancel button
+- Maintain existing slide-in animation and backdrop
+
+2. Basic Info Section Updates:
+Add under "(Accounting software) Vendor Name":
+- Address Line 1 (text input)
+- Address Line 2 (text input)
+
+Add under Country and State fields:
+- City (text input)
+- PIN Code (text input, same line as City)
+
+3. Tax Details Section Updates:
+- Rename "GSTN" to "GSTIN"
+- Add file upload for GST Certificate (same line as GSTIN field)
+- Add file upload for PAN Certificate (same line as PAN Number field)
+- Add MSME Certificate upload field
+- Add Latest ITR upload field
+
+4. Add New Section - Bank Account Details:
+Create a new section with the following fields:
+- Account Holder Name (text input, label: "Account Holder Name (As per Bank Records)")
+- Bank Name (text input)
+- Branch (text input, same line as Bank Name)
+- Address Line 1 (text input)
+- Address Line 2 (text input)
+- Country (dropdown, same existing options as vendor country)
+- State (dropdown, same line as Country)
+- City (text input)
+- PIN Code (text input, same line as City)
+- Account Type (dropdown with options: Savings, Current)
+- Account Number (text input)
+- IFSC Code (text input)
+- MICR Code (text input)
+
+5. State Management:
+- Add new state variables for all new fields
+- Include new fields in form validation
+- Include new fields in the handleSubmit function
+
+6. Styling:
+- Maintain consistent styling with existing fields
+- Use the same input field styling
+- Use consistent spacing between sections
+- Ensure proper alignment for fields on the same line
+- Maintain responsive behavior
+
+7. File Upload Handling:
+- Add file upload handlers for:
+  * GST Certificate
+  * PAN Certificate
+  * MSME Certificate
+  * Latest ITR
+- Include file validation
+- Show upload status indicators
+- Display file names when uploaded
+
+Please implement these changes while maintaining the existing functionality and error handling.

@@ -1,0 +1,84 @@
+WorkflowBuilder UI Enhancement Specification
+Overview
+Update the WorkflowBuilder component's field selection and condition boxes to improve usability and visual consistency.
+
+Target Changes
+1. Field Selection Box Width
+Currently analyzing WorkflowBuilder.jsx, the field selection box appears in the handleRequirementsClick function with a standard width. We need to:
+
+Increase width from current fixed width to match the Set conditions box width
+Maintain consistent padding and margins
+Ensure responsive behavior on different screen sizes
+2. Field Selection Dropdown Overlay
+The dropdown positioning issue is visible in the component where the fieldSelectionDropdownRef is used. To fix:
+
+Update dropdown positioning to use fixed positioning
+Ensure dropdown overlays other content
+Maintain proper z-index hierarchy
+Handle scroll behavior appropriately
+3. Set Conditions Box Styling
+The orange border/highlight appears in hover states within the Set conditions interface. Changes needed:
+
+Remove orange highlight/border from condition option boxes
+Maintain consistent hover state styling
+Keep focus states accessible
+Implementation Details
+Field Selection Box Width
+/* Current width needs to be updated from */
+w-full max-w-md
+/* To match Set conditions box width */
+w-full max-w-4xl
+Dropdown Positioning
+/* Update dropdown container positioning */
+fixed mt-1 w-[600px]
+/* Ensure proper z-index */
+z-50
+Remove Orange Highlight
+/* Replace orange highlight classes */
+hover:bg-orange-50
+/* With neutral highlight */
+hover:bg-gray-50
+Component Interface
+The existing props interface should remain unchanged:
+
+{
+  conditions: Array<Condition>;
+  onConditionAdd?: (condition: Condition) => void;
+  onConditionDelete?: (index: number) => void;
+  customOptions?: Record<string, string[]>;
+  useInternalState?: boolean;
+}
+Visual Specifications
+Field Selection Box
+Width: Match Set conditions box (max-w-4xl)
+Background: White
+Border: 1px solid gray-200
+Border Radius: Consistent with existing (rounded-lg)
+Shadow: Maintain existing shadow-md
+Dropdown Menu
+Position: Fixed
+Width: 600px (matching parent)
+Max Height: 60vh
+Overflow: Auto
+Background: White
+Z-index: Above other UI elements
+Condition Options
+Remove orange highlight
+Use gray-50 for hover states
+Maintain existing padding/spacing
+Keep consistent text styles
+Accessibility Considerations
+Maintain keyboard navigation
+Ensure dropdown is properly positioned for screen readers
+Keep focus indicators visible
+Maintain ARIA labels and roles
+Testing Requirements
+Verify field selection box width matches Set conditions box
+Test dropdown positioning across different screen sizes
+Confirm hover states work without orange highlights
+Validate keyboard navigation still functions
+Check responsive behavior on mobile devices
+Performance Considerations
+Avoid layout shifts when opening dropdowns
+Maintain smooth transitions
+Handle window resize events efficiently

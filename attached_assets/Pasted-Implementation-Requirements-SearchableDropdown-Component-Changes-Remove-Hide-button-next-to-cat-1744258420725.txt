@@ -1,0 +1,54 @@
+Implementation Requirements
+SearchableDropdown Component Changes:
+Remove "Hide" button next to category names
+Update footer visibility toggle:
+Replace "Show hidden options" text with eye icons only
+Add hover tooltip with matching style to StrideCardPage merchant icons
+Toggle between crossed/uncrossed eye icons based on state
+Fix visibility filtering logic to show only relevant items
+AccountingCategoryFieldNew Updates:
+Make option counts clickable with hover state
+Add navigation to AccountingCategoryOptionsDrawer with correct tab selection
+Detailed Implementation Notes:
+SearchableDropdown Updates:
+Remove Hide Button:
+Remove the hide button from next to category names in options rendering
+Keep the EyeOff icon for indicating hidden status
+Footer Toggle:
+Replace text with just the eye icon (EyeOff/Eye)
+Add absolute positioned tooltip:
+tooltip: {
+  position: absolute,
+  bottom: '100%',
+  left: '50%',
+  transform: 'translateX(-50%)',
+  marginBottom: '8px',
+  padding: '6px 8px',
+  background: 'white',
+  border: '1px solid rgb(229 231 235)',
+  borderRadius: '6px',
+  boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+  fontSize: '0.75rem',
+  whiteSpace: 'nowrap'
+}
+Visibility Filter Logic:
+Update getFilteredOptions() to properly filter based on visibility state
+When showHiddenOptions is true, only show hidden items
+When false, only show visible items
+AccountingCategoryFieldNew Updates:
+Option Count Links:
+Add hover states to option count numbers
+Make numbers clickable
+Add onClick handlers to open AccountingCategoryOptionsDrawer
+Pass correct initial tab selection
+Drawer Navigation:
+Add method to open drawer with specified tab
+Update drawer state management to handle initial tab selection
+The implementation should maintain consistency with existing UI patterns and accessibility features while adding the new functionality.
+
+This change will improve the UX by:
+
+Simplifying the category visibility management
+Making navigation between views more intuitive
+Providing clearer visual feedback for hidden/visible states
+Maintaining consistent design patterns

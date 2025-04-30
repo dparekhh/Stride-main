@@ -1,0 +1,46 @@
+Implement a proper ID system for the Chart of Accounts categories in our spend management platform by making the following changes:
+
+In frontend/src/utils/accountingData.js, transform the CHART_OF_ACCOUNTS from a simple array of strings to an array of objects. Each object should have:
+id: A unique numeric identifier (starting from 100 to match existing UI)
+name: The category name (current string value)
+code: Optional accounting code that can be null
+type: The account type (Asset, Liability, Income, Expense, etc.)
+Update the helper functions in accountingData.js to handle the new object structure:
+filterAccountsBySearchTerm: Should search in both name and code
+validateCategory: Should check against category ID or name
+formatCategoryName: Should handle the object structure
+createCategoryMap: Update to use the new ID system
+Update the AccountingCategoryFieldNew component to:
+Display both ID and name in the dropdown where needed
+Allow searching by both ID and name
+Pass the full category object to handlers
+Modify the Chart of Accounts data structure to support hierarchical relationships (parent-child) for nested categories if needed in the future.
+The updated structure should look like:
+
+export const CHART_OF_ACCOUNTS = [
+  {
+    id: 100,
+    name: "Raw Material Consumed",
+    code: "EXP-100",
+    type: "Expense"
+  },
+  {
+    id: 101,
+    name: "Direct Labor",
+    code: "EXP-101", 
+    type: "Expense"
+  },
+  // ... other entries
+];
+This change will provide:
+
+Consistent ID handling across the application
+Better data structure for accounting integrations
+Future-proof design for advanced features
+Improved dropdown UX with proper category identification
+Maintain backward compatibility by:
+
+Adding migration logic for existing cached data
+Keeping name-only lookup functions
+Adding type checking for the new structure
+Focus on making these changes while preserving existing functionality and ensuring smooth transitions in the UI components that consume this data.

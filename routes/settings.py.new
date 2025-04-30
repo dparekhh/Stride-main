@@ -1,0 +1,25 @@
+"""
+Settings module for the Stride platform.
+This is a wrapper module that imports and registers all settings-related blueprints.
+"""
+from flask import Blueprint
+import logging
+
+# Import all setting-related blueprints
+from routes.users_routes import users_bp
+from routes.categories_routes import categories_bp
+from routes.integrations_routes import integrations_bp
+from routes.accounting_routes import accounting_bp
+from routes.config_routes import config_bp
+
+# Set up logger
+logger = logging.getLogger(__name__)
+
+# Create a master settings blueprint for legacy support
+settings_bp = Blueprint('settings', __name__, url_prefix='/api/settings')
+
+# The settings_bp will retain some original routes that haven't been migrated yet
+# and will serve as a placeholder for backward compatibility
+
+# Note: This module primarily serves as an import point for the new modular blueprints.
+# Each blueprint is registered directly in app.py and handles its own routes.

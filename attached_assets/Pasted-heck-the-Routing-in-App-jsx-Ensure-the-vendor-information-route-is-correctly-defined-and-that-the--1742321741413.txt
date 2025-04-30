@@ -1,0 +1,117 @@
+heck the Routing in App.jsx
+Ensure the /vendor-information route is correctly defined and that the VendorReviewWrapper isn’t overriding the navigation. Here’s the corrected App.jsx:
+// src/App.jsx
+import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import VendorReview from "./components/VendorReview";
+import VendorInformation from "./components/VendorInformation";
+
+const NewBill = () => {
+  const navigate = useNavigate();
+  const [formData] = useState({ vendorName: "Existing Vendor", email: "vendor@example.com" });
+  const [uploadedInvoice] = useState({ url: "example.pdf" });
+
+  const handleContinue = () => {
+    navigate("/vendor-review", { state: { formData, uploadedInvoice, sourceRoute: "newBill" } });
+  };
+
+  return (
+    <div>
+      <h1>New Bill</h1>
+      <button onClick={handleContinue}>Continue</button>
+    </div>
+  );
+};
+
+const NewVendor = () => {
+  const navigate = useNavigate();
+  const [formData] = useState({ vendorName: "New Vendor", email: "newvendor@example.com" });
+
+  const handleContinue = () => {
+    navigate("/vendor-review", { state: { formData, sourceRoute: "newVendor" } });
+  };
+
+  return (
+    <div>
+      <h1>New Vendor</h1>
+      <button onClick={handleContinue}>Continue</button>
+    </div>
+  );
+};
+
+const VendorReviewWrapper = () => {
+  const navigate = useNavigate();
+  const { state } = useLocation();
+  const { formData: initialFormData, uploadedInvoice, sourceRoute } = state || {};
+  const [formData, setFormData] = useState(initialFormData || {});
+
+  const handleBack = () => {
+    console.log("Back button clicked, navigating to:", sourceRoute === "newBill" ? "/new-bill" : "/new-vendor");
+    navigate(sourceRoute === "newBill" ? "/new-bill" : "/new-vendor");
+  };
+
+  const handleContinue = () => {
+    if (sourceRoute === "newVendor") {
+      console.log("Saving new vendor:", formData);
+    }
+    navigate("/next-step");
+  };
+
+  return (
+    <VendorReview
+      formData={formData}
+      uploadedInvoice={uploadedInvoice}
+      onBack={handleBack}
+      onContinue={handleContinue}
+      sourceRoute={sourceRoute || "newVendor"}
+      isSubmitting={false}
+    />
+  );
+};
+
+const VendorInformationWrapper = () => {
+  const navigate = useNavigate();
+  const { state } = useLocation();
+  const { formData, uploadedInvoice, sourceRoute } = state || {};
+
+  const handleSaveChanges = (updatedFormData) => {
+    console.log("Saving changes:", updatedFormData);
+    navigate("/vendor-review", { state: { formData: updatedFormData, uploadedInvoice, sourceRoute } });
+  };
+
+  const handleDiscardChanges = () => {
+    console.log("Discarding changes, returning with original data");
+    navigate("/vendor-review", { state: { formData, uploadedInvoice, sourceRoute } });
+  };
+
+  return (
+    <VendorInformation
+      initialData={formData}
+      uploadedInvoice={uploadedInvoice}
+      onSaveChanges={handleSaveChanges}
+      onDiscardChanges={handleDiscardChanges}
+    />
+  );
+};
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/new-bill" element={<NewBill />} />
+        <Route path="/new-vendor" element={<NewVendor />} />
+        <Route path="/vendor-review" element={<VendorReviewWrapper />} />
+        <Route path="/vendor-information" element={<VendorInformationWrapper />} />
+        <Route path="/next-step" element={<div><h1>Next Step (Placeholder)</h1></div>} /> {/* Placeholder */}
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;
+
+Checks:
+
+Ensure the /vendor-information route is present and points to VendorInformationWrapper.
+Added debug logs in handleBack, handleSaveChanges, and handleDiscardChanges to trace navigation.
+The handleBack function in VendorReviewWrapper should only be triggered by the back arrow, not the "Edit" button.

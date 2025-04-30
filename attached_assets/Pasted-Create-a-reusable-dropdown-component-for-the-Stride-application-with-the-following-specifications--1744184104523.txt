@@ -1,0 +1,64 @@
+Create a reusable dropdown component for the Stride application with the following specifications:
+
+1. Component Structure:
+- Create a new file at frontend/src/components/common/SearchableDropdown.jsx
+- The component should handle:
+  - Search functionality
+  - Loading states
+  - Error states
+  - Option selection
+  - Clear selection
+  - Custom option rendering
+  - Accessibility
+
+2. Required Features:
+- Search input with debounced filtering
+- Loading spinner during data fetch
+- Error state display
+- Dropdown visibility toggle
+- Outside click detection for closing
+- Selected value display
+- Clear selection button
+- Custom option rendering support
+- Keyboard navigation
+
+3. Props Interface:
+- value: Current selected value
+- onChange: Selection change handler
+- options: Array of options
+- isLoading: Loading state flag
+- error: Error message
+- placeholder: Input placeholder
+- searchPlaceholder: Search field placeholder
+- noOptionsMessage: Message when no options match
+- formatOptionLabel: Custom option label formatter
+- renderOption: Custom option renderer
+- className: Custom styling classes
+
+4. Implementation Details:
+- Use Tailwind CSS for styling (matching existing app styles)
+- Implement click-outside detection using useRef
+- Handle keyboard navigation (up/down/enter/escape)
+- Support both single and multi-select modes
+- Match existing Stride UI design patterns
+
+5. Integration:
+- Update AccountingCategoryFieldNew to use this new component
+- Ensure backwards compatibility with existing implementations
+- Document usage examples for other developers
+
+6. Styling Requirements:
+- Match the existing Stride design system
+- Use consistent padding, margins, and border radius
+- Support hover and focus states
+- Include loading and error state styling
+- Maintain accessibility standards
+
+Key considerations:
+- Use the existing color scheme from the app
+- Maintain consistency with other form elements
+- Ensure mobile responsiveness
+- Follow existing component patterns from AppDrawer and other common components
+- Leverage existing icons from lucide-react
+
+The component should work seamlessly with the current Chart of Accounts implementation while being generic enough for other use cases across the application.

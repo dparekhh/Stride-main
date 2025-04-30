@@ -1,0 +1,36 @@
+I need to update the UI and navigation in the Purchase Order and Vendors pages of my spend management platform. Here's the specific context and requirements:
+1. Purchase Order Page Updates:
+- Remove the three dots menu button completely from the Purchase Order page
+- Keep all other existing UI elements and functionality intact
+Key files that need attention for Purchase Order changes:
+- frontend/src/pages/PurchaseOrderPage.jsx:
+  - Remove three dots menu button and its related code
+  - Remove associated state management for three dots menu
+  - Clean up any unused imports related to three dots menu
+
+  2. Vendors Page Updates:
+Current UI:
+- Has a three dots menu button
+- Has a basic "New Vendor" button
+Desired UI:
+- Replace existing buttons with two new buttons:
+  a. "Import Vendor CSV" (white background with border)
+  b. "New Vendor" (primary color background)
+Navigation Requirements:
+- "Import Vendor CSV" button should open the VendorImportModal
+- "New Vendor" button should navigate to the VendorInformation page and the UI Design of this page is in teh VendorInfromationWrapper if i am not mistaken
+Key files that need attention for Vendors changes:
+- frontend/src/pages/VendorsPage.jsx:
+  - Remove three dots menu implementation
+  - Update button container markup
+  - Implement new button styles matching the reference image
+  - Add navigation handlers for both buttons
+Files that may need updates:
+- frontend/src/components/MainContent.jsx (if it contains any vendor-related navigation logic)
+- Any related vendor modal or form components
+The goal is to ensure:
+1. Purchase Order page is cleaner without the three dots menu
+2. Vendors page has exactly two buttons matching the provided design
+3. Navigation to VendorImportModal and VendorInformation works correctly
+4. Existing vendor management functionality remains intact
+Please analyze these components and propose the necessary changes to implement the correct UI and navigation behavior while maintaining all existing functionality.

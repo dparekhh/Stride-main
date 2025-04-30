@@ -1,0 +1,53 @@
+Create a Reusable Transaction Selection Banner Component
+
+Create a new component called TransactionSelectionBanner that will display when more than one transactions are selected in the Stride Card interface. This banner should be fixed to the bottom of the viewport and display above all other content.
+
+Key Requirements:
+
+Banner Layout (UI Design should match exactly as image_1744279513364.png):
+Fixed position banner at bottom of viewport, full width
+Semi-transparent dark background (rgba(0, 0, 0, 0.8))
+Padding: 16px
+Display flex with space-between for left and right content
+z-index should be higher than main content but lower than drawers
+
+Left Section Content:
+Display selected transaction count: "{count} transactions selected"
+Use white text for visibility
+Implement proper spacing between elements
+Count should be dynamically pulled from checkedRows state in Accounting_StrideCardPage
+
+Right Section Content:
+"View details ({count})" as a clickable button
+"Edit {providerName} Category" button where providerName comes from connectedProvider in AccountingContext
+"Mark ready" button that is:
+Disabled when any selected transaction lacks a category
+Enabled only when all selected transactions have categories assigned
+Uses primary color when enabled
+Uses gray/disabled styling when not enabled
+"View details ({count})" and "Edit {providerName} Category" button should be white fill buttons with black texts
+
+Integration Points:
+Component should accept props:
+selectedCount: Number of selected transactions
+selectedTransactions: Array of selected transaction objects
+onViewDetails: Handler for view details click
+onEditCategories: Handler for edit categories click
+onMarkReady: Handler for mark ready click
+providerName: Connected accounting provider name
+Visibility Control:
+Banner should only appear when more than one transaction is selected
+Banner should animate in/out smoothly
+Banner should remain visible during page scroll
+
+Accessibility:
+All buttons should be keyboard accessible
+Include proper ARIA labels
+Maintain proper color contrast ratios
+Usage in Accounting_StrideCardPage:
+
+Import the new component
+Pass required props from page state
+Integrate with existing selection logic
+Handle all required actions passed as props
+This component should be highly reusable across different parts of the application where bulk transaction selection functionality is needed.

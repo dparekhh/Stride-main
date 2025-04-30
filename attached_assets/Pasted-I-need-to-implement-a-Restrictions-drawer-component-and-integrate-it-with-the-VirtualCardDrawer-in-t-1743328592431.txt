@@ -1,0 +1,27 @@
+I need to implement a Restrictions drawer component and integrate it with the VirtualCardDrawer in the spend management platform. Here are the specific requirements:
+1. Create a new component called RestrictionsDrawer that follows the same styling patterns as VirtualCardDrawer. The drawer should be triggered when users click the "Add restrictions" button in VirtualCardDrawer.
+2. The RestrictionsDrawer should have:
+- A header with "Restrictions" title and description "Restrict spending to specific categories and merchants"
+- A close button (X) in the top-right corner
+- Two main sections: Category restrictions and Merchant restrictions
+- Footer with Cancel and Save changes buttons
+3. For Category restrictions:
+- Primary dropdown with options: None, Allowed categories, Blocked categories (reference image_1743327979740.png) (the default value of the dropdown should be None)
+- When either "Allowed categories" or "Blocked categories" is selected, show a secondary multi-select dropdown
+- The secondary dropdown should contain Merchant Category Codes (MCC) along with corresponding category names
+- Users should be able to select multiple categories
+
+4. For Merchant restrictions:
+- Primary dropdown with options: None, Allowed merchants, Blocked merchants (reference image_1743328521074.png) (the default value of the dropdown should be None)
+- When either option is selected, show a secondary multi-select dropdown for merchant names
+- Users should be able to select multiple merchants
+- Add helper text: "Block all other merchants. Disable category restrictions.
+
+5. State management requirements:
+- Track selected control types for both Category and Merchant restrictions
+- Maintain arrays of selected categories and merchants
+- Handle state updates when selections change
+- Persist changes when "Save changes" is clicked
+- Reset state when "Cancel" is clicked
+6. The component should integrate with the existing VirtualCardDrawer component in frontend/src/components/VirtualCardDrawer.jsx and follow the same styling patterns used throughout the application.
+Please implement this functionality maintaining consistency with the existing codebase patterns and component structure. The implementation should use the same styling approach (Tailwind CSS) and follow the established React patterns in the project.

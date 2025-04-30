@@ -1,0 +1,40 @@
+We need to modify our AppDrawer component to properly detect when it's being opened from another drawer to adjust the header layout accordingly.
+
+Currently, our AppDrawer component doesn't intelligently determine if it's a primary or secondary drawer. When a drawer is opened directly (primary drawer), we should display the header with title and close button on the same line. When a drawer is opened from another drawer (secondary drawer), we should show a back button aligned with the close button, with the title appearing below.
+
+Current Implementation Analysis
+The issue exists in our AppDrawer.jsx component which:
+
+Currently displays header elements based on explicit props (showBackButton, onBack)
+Shows the back button and title on separate lines
+Doesn't automatically detect whether it's opened in a hierarchical context
+The DrawerContext already tracks drawer stacking, but we're not leveraging that context to determine header layout.
+
+Implementation Requirements
+Detection Logic:
+
+In AppDrawer.jsx, use the useDrawer context to determine if this drawer is a top-level drawer or a nested drawer
+Leverage activeDrawers state in the DrawerContext to check if there are multiple active drawers when this drawer opens
+Conditional Header Layout:
+
+For primary drawers (not opened from another drawer): Header should have title and close button on same line
+For secondary drawers (opened from another drawer): Header should have back button and close button on same line, with title below
+Backwards Compatibility:
+
+Maintain support for explicit showBackButton and onBack props for custom use cases
+Add a new prop isNestedDrawer that can be used to explicitly override the auto-detection
+Key Changes Required
+Update DrawerContext.jsx:
+
+Add a method to check if a drawer is a nested drawer
+Track opening sequence of drawers
+Update AppDrawer.jsx:
+
+Modify header layout logic based on drawer hierarchy
+Adjust CSS for header components for both primary and nested drawer scenarios
+Ensure transitions work properly in both modes
+Technical Considerations
+Ensure z-index handling remains correct for drawer stacking
+Maintain animation transitions across both scenarios
+Keep the overall component API consistent with our current implementation
+This enhancement will provide a more intuitive user experience by clearly distinguishing between primary and nested drawers in our UI hierarchy.

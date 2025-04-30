@@ -1,0 +1,102 @@
+Update vendors_routes.py
+Open routes/vendors_routes.py and replace its content with the following:
+"""Vendor management routes for the Stride platform."""
+from flask import Blueprint, request, jsonify, g
+import logging
+from marshmallow import Schema, fields, ValidationError
+from models import Vendor, db
+from utils.response_utils import standardize_response
+from services.vendor_service import VendorService
+
+logger = logging.getLogger(__name__)
+vendors_bp = Blueprint('vendors', __name__, url_prefix='/api/vendors')
+
+class VendorSchema(Schema):
+    name = fields.Str(required=True)
+    gstin = fields.Str(allow_none=True)
+    pan = fields.Str(allow_none=True)
+    email = fields.Str(allow_none=True)
+    phone = fields.Str(allow_none=True)
+    address = fields.Str(allow_none=True)
+    category = fields.Str(allow_none=True)
+
+@bills_bp.route('/', methods=['GET'])
+def get_vendors():
+    """Get all vendors."""
+    try:
+        vendor_service = VendorService(g.tenant_id)
+        result = vendor_service.get_all_vendors()
+        return standardize_response(data={'vendors': result})
+    except Exception as e:
+        logger.error(f"Error retrieving vendors: {str(e)}")
+        raise
+
+@bills_bp.route('/', methods=['POST'])
+def create_vendor():
+    """Create a new vendor."""
+    try:
+        vendor_service = VendorService(g.tenant_id)
+        vendor_details = vendor_service.create_vendor(request.json)
+        return standardize_response(data=vendor_details, message='Vendor created successfully', status_code=201)
+    except ValueError as e:
+        extra_data = getattr(e, 'extra_data', None)
+        if extra_data:
+            return standardize_response(data=extra_data, message=str(e), success=False, status_code=409)
+        raise
+    except Exception as e:
+        logger.error(f"Error creating vendor: {str(e)}")
+        db.session.rollback()
+        raise
+
+@bills_bp.route('/check-vendor', methods=['POST'])
+def check_if_vendor_exists():
+    """Check if a vendor exists in the database."""
+    class CheckVendorSchema(Schema):
+        vendor_name = fields.Str(allow_none=True)
+        vendor_gstin = fields.Str(allow_none=True)
+
+    try:
+        data = CheckVendorSchema().load(request.json)
+    except ValidationError as err:
+        return standardize_response(message=str(err.messages), success=False, status_code=400)
+
+    try:
+        vendor_service = VendorService(g.tenant_id)
+        vendor_exists, vendor_details, potential_vendors = vendor_service.check_if_vendor_exists(
+            vendor_name=data.get('vendor_name'),
+            vendor_gstin=data.get('vendor_gstin')
+        )
+        message = (
+            "Vendor found." if vendor_exists else
+            "Multiple potential vendors found." if potential_vendors else
+            "No matching vendor found."
+        )
+        return standardize_response(data={
+            'vendor_exists': vendor_exists,
+            'vendor_details': vendor_details,
+            'potential_vendors': potential_vendors
+        }, message=message)
+    except ValueError as e:
+        raise
+    except Exception as e:
+        logger.error(f"Error checking vendor existence: {str(e)}")
+        raise
+
+@bills_bp.route('/create-vendor-from-invoice', methods=['POST'])
+def create_vendor_from_invoice():
+    """Create a vendor from extracted invoice data."""
+    try:
+        vendor_service = VendorService(g.tenant_id)
+        vendor_details = vendor_service.create_vendor_from_invoice(request.json)
+        message = 'Vendor already exists in the system' if vendor_details.get('id') else 'New vendor created successfully'
+        status_code = 200 if vendor_details.get('id') else 201
+        return standardize_response(data={'vendor': vendor_details}, message=message, status_code=status_code)
+    except ValueError as e:
+        extra_data = getattr(e, 'extra_data', None)
+        if extra_data:
+            return standardize_response(data=extra_data, message=str(e), success=False, status_code=409)
+        raise
+    except Exception as e:
+        logger.error(f"Error creating vendor from invoice: {str(e)}")
+        db.session.rollback()
+        raise

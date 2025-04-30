@@ -1,0 +1,58 @@
+I need to modify the Vendors page to implement a new drawer-based interface for creating new vendors. Here are the specific requirements:
+
+Current Implementation to Remove:
+- Remove the current New Vendor button functionality in VendorsPage.jsx
+- Remove any existing navigation logic to a separate page
+
+New Implementation Requirements:
+1. In the Vendors page:
+- Keep the "New Vendor" button position and styling
+- Update click handler to open a new drawer component
+- Add backdrop blur effect when drawer is open
+
+2. Create a new VendorDrawer component that:
+- Takes up 50% of the screen width
+- Slides in from the right side
+- Has a white background
+- Shows on top of the main content
+- Contains three main sections as shown in the reference image:
+  * Basic Information
+    - Vendor Name field with "(Accounting software)" placeholder
+    - Country dropdown
+    - State dropdown
+    - Vendor Owner field
+  * Vendor Contact
+    - First Name field
+    - Last Name field
+    - Email field (required)
+    - Country code selector
+    - Phone number field
+  * Tax Details
+    - GSTN field
+    - PAN Number field
+
+3. Styling requirements:
+- Use a semi-transparent backdrop with blur effect
+- Implement smooth slide-in animation from right
+- Match the exact field layouts from the reference image
+- Use consistent form field styling
+
+Key files to modify:
+
+1. frontend/src/pages/VendorsPage.jsx:
+- Remove current new vendor button logic
+- Add drawer state management
+- Add drawer component integration
+
+2. frontend/src/components/VendorDrawer.jsx (new file):
+- Create drawer component structure
+- Implement form fields
+- Add slide-in animation
+- Handle backdrop blur
+
+3. frontend/src/components/vendors/VendorForm.jsx (if needed):
+- Create reusable form components
+- Implement form validation
+- Handle form submission
+
+Please ensure proper state management, smooth animations, and maintain the existing design system while implementing these changes.

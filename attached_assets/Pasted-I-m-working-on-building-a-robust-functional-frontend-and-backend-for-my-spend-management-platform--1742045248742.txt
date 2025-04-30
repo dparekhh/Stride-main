@@ -1,0 +1,19 @@
+I’m working on building a robust, functional frontend and backend for my spend management platform, Stride, a B2B SaaS platform for the Indian market, similar to Ramp and Brex. The backend is built with Python, Flask, Flask-SQLAlchemy, and PostgreSQL, served with Gunicorn, and the frontend uses React with Vite. The app is running on Replit, and the sidebar includes tabs like Inbox, Insights, Expense, Accounting, Bill Pay (Bills, Purchase Order, Vendors), Card, Policy, and People. I’ve enabled the Google Document AI API under a single service account for "My First Project," with assigned roles: Document AI API User and Document AI Viewer. I’ve provided the service account JSON credentials to Replit as GOOGLE_APPLICATION_CREDENTIALS_JSON. The utils/ocr_vision.py file implements Document AI OCR and NLP processing for invoices, with multi-tenancy support (tenant_id) and usage tracking.
+
+I’ve attached two screenshots:
+
+Image 1: The current "New Bill" page built by Replit, showing the "Invoice Preview" on the left and the "Who's it for?" section on the right. The right side correctly shows the message "We couldn't find an existing vendor that matches this bill..." and a "Select another vendor" search bar, but it’s missing the "Create new vendor from invoice" section with the extracted vendor name (e.g., "Jefferson Healthcare") and the "Create new vendor" button.
+Image 2: The desired "New Bill" page, showing the same "Invoice Preview" and "Who's it for?" section, but with the "Create new vendor from invoice" heading, the dynamically extracted vendor name ("Sassy SAAS Vendor, Inc."), and a "Create new vendor" button below it.
+The issue is that Replit is unable to create the "Create new vendor from invoice" part, including printing the vendor name extracted via OCR (e.g., "Jefferson Healthcare" or "Sassy SAAS Vendor, Inc.") below that heading and adding the "Create new vendor" button. The backend is already set up to extract the vendor name using process_document_image from utils/ocr_vision.py and check if the vendor exists in the database, passing vendor_name and vendor_exists to the frontend. However, the frontend React component is not rendering the expected section when vendor_exists is false.
+
+Task: Update the React frontend to add the "Create new vendor from invoice" section with the extracted vendor name and "Create new vendor" button when the vendor is not found, matching Image 2.
+
+Verify Backend Data for Vendor Extraction
+Task: Confirm that the backend is correctly passing the vendor name to the frontend.
+
+Instruct Replit to check the Flask route handling the "New Bill" page (likely in app/routes/bill_routes.py or a similar file).
+Guide Replit to ensure the route calls process_document_image from utils/ocr_vision.py with the uploaded invoice and extracts the vendor_name (e.g., "Jefferson Healthcare" from Image 1 or "Sassy SAAS Vendor, Inc." from Image 2) using extract_invoice_fields.
+Direct Replit to:
+Log the extracted vendor_name (e.g., logging.info(f"Extracted vendor name: {vendor_name}")).
+Pass vendor_name and vendor_exists (from check_vendor_exists) to the frontend (either via template variables or a JSON response).
+Deliverables: Share the Flask route code, the log output with the extracted vendor_name, and confirm the data is being sent to the frontend (e.g., {"vendor_name": "Jefferson Healthcare", "vendor_exists": false}).

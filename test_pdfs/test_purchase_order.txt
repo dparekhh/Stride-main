@@ -1,0 +1,16 @@
+
+    PURCHASE ORDER
+    
+    PO Number: PO-2025-001
+    Date: 2025-03-10
+    
+    Vendor: Samvik Marketing
+    
+    Items:
+    1. Laptop - 2 units at Rs. 2000.00
+    2. Mouse - 2 units at Rs. 280.00
+    
+    Total: Rs. 2280.00
+    
+    Expected Delivery: 2025-03-20
+    

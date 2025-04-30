@@ -1,0 +1,19 @@
+I want to keep the UI of the "New Vendor" page exactly as shown in image_1742127941399.png, including its layout, styling, and structure, while implementing the "Tax Details" functionality. image_1742127941399.png shows the "New Vendor" page with a two-column layout: the left side (50% width) has an "Invoice Preview," and the right side (50% width) has a form with sections like "Basic info," "Vendor name," "Country," "State," "Vendor owner," and a "Create vendor" button at the bottom. The "Tax Details" dropdown and its conditional fields should be added to this form, styled and positioned to match the existing sections in image_1742127941399.png, without altering the overall UI.
+
+Restore the "New Vendor" Page UI to Matchimage_1742127941399.png
+Task: Revert the "New Vendor" page UI to match the layout and styling of image_1742127941399.png.
+
+Instruct Replit to open the React component for the "New Vendor" page (likely frontend/src/pages/NewVendor.jsx or a similar component used after clicking "Create new vendor").
+Guide Replit to:
+Restore the two-column layout as shown in image_1742127941399.png:
+The left side (50% width) should display the "Invoice Preview" section, with a white background, thin gray border, rounded corners, and a scrollable container for the invoice preview.
+The right side (50% width) should contain the form with sections like "Basic info," "Vendor name," "Country," "State," "Vendor owner," and a "Create vendor" button at the bottom.
+Restore the form’s structure and styling:
+The form should have a header with tabs ("General" and "Accounting"), with "General" active.
+Below the tabs, add a notification box with a green checkmark and text: "Creating a vendor from this invoice. We couldn’t find [insert: Vendor Name] in the [insert: User Accounting Software Name]. We will create a new vendor for you, or you can manage the [insert: Vendor Name] vendor below."
+Below the notification, add the "Basic info" section with fields for "Vendor name," "Country," "State," and "Vendor owner," styled with thin gray borders, rounded corners, and light gray placeholder text.
+Ensure the "Create vendor" and "Discard changes" buttons are at the bottom, styled as in image_1742127941399.png (e.g., "Create vendor" in a orange button, "Discard changes" in a gray text link).
+Direct Replit to:
+Use Tailwind CSS to style the layout (e.g., flex for the two-column layout, w-1/2 for each column, bg-white, border-gray-200, rounded-md, p-4 for containers).
+Remove any UI elements or styling that match image_1742127953259.png (e.g., "Vendor email," "Vendor phone," or any layout changes that deviate from image_1742127941399.png).
+Deliverables: Share the updated component code for the "New Vendor" page, a screenshot of the page matching image_1742127941399.png’s layout (without the "Tax Details" functionality yet), and confirm the UI has been restored.

@@ -1,0 +1,43 @@
+Create a new reusable modal component called CreateNewRuleModal for setting up categorization rules in our accounting system. This modal should open when the user clicks on Create rule button in the Category Column dropdown in Accounting_StrideCardPage. Here are the key requirements:
+
+Component Structure:
+Create a new file CreateNewRuleModal.jsx in frontend/src/components/common
+The modal should be a standalone component that can be imported anywhere
+Use our existing design patterns and Tailwind CSS classes for consistency
+
+Data Integration:
+Import Chart of Accounts data from frontend/src/utils/accountingData.js
+The modal should accept these props:
+isOpen: boolean to control modal visibility
+onClose: function to handle modal closing
+Take dynamic props for:
+merchantName
+merchantUnsyncedCount
+mccCategory
+mccUnsyncedCount
+cardName
+cardNameUnsyncedCount
+selectedCategory
+existingRule (for edit mode)
+onSave: callback function for saving the rule
+
+UI Requirements (should look exactly as image_1744263048503.png):
+Modal should be centered on the page using fixed positioning
+Include a semi-transparent overlay background
+The modal header should show "Create Rule"
+Organize content in distinct sections:
+Merchant section showing {merchantName} with unsynced count
+MCC section displaying {MCC} with unsynced count
+Card Name section showing {cardName} with unsynced count
+Accounting Category section with Tally category dropdown populated from Chart of Accounts
+
+Functionality:
+Dropdown for Tally category should use our existing SearchableDropdown component
+After rule creation, update the UI to show "Edit rule" instead of "Create rule"
+Create/Edit Rule button should use our primary orange color (#FF6B00)
+Integration:
+Import the modal in Accounting_StrideCardPage.jsx
+Trigger modal from SearchableDropdown's onAddRule callback
+Manage modal state in the parent component
+Handle rule creation/editing through AccountingContext
+The modal should follow our existing pattern of reusable components while maintaining consistency with our application's design system. Focus on making it flexible enough to be used in other parts of the application if needed.

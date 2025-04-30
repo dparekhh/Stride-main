@@ -1,0 +1,11 @@
+Implement the Pop-Up Box for Configuring Options
+When the user selects any option from the dropdown menu ("Add Required fields," "Add Optional fields," or "Set conditions"), open a pop-up box in the center of the screen. The pop-up box should have a white background, a thin gray border, rounded corners, and a subtle shadow. It should be overlaid on a semi-transparent gray background that dims the rest of the page.
+The pop-up box should have a title at the top in bold black text. The title should match the selected option (e.g., if the user selects "Add Required fields," the title should be "Add Required field(s)").
+Below the title, add a dropdown menu with a white background, a thin gray border, and a downward arrow on the right side. The dropdown options depend on the selected option:
+For "Add Required fields" and "Add Optional fields," the dropdown options should be: "Receipts," "Memos," "Mileage reimbursement locations," and "Accounting fields."
+For "Set conditions," the dropdown options should be: "Spend Type (Card transaction or Reimbursement)," "Amount," "Employee Role," "Reimbursement type," "Direct Stride manager," "Employee," "Merchant," "Merchant category," "Ramp Department," "Ramp Location," and "HR Integration fields."
+Below the dropdown menu, add two buttons at the bottom of the pop-up box:
+A "Cancel" button on the left, styled as a rectangular button with a light gray background, black text, and rounded corners.
+A "Save & close" button on the right, styled as a rectangular button with a green background, white text, and rounded corners.
+When the user selects an option from the dropdown and clicks "Save & close," the pop-up box should close, and the selected condition or field should be added to the workflow below the "If Expense is" line in the condition block. The new condition should be displayed in a light orange box with rounded corners and black text (e.g., "Require Receipts" if the user selected "Receipts" under "Add Required fields").
+If the user clicks "Cancel," the pop-up box should close without saving any changes.

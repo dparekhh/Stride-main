@@ -1,0 +1,76 @@
+UI Enhancement Task: Employee Management Interface Improvements
+
+Objective:
+Implement multiple UI improvements for the Employee Management interface, focusing on navigation, interaction, and drawer functionality.
+
+Detailed Requirements:
+
+1. Cross Navigation Fix:
+   - Ensure all cross navigation between drawers works correctly and consistently
+
+2. Invite Employee Drawer Modifications:
+   - Update Send Invite button to use primary color styling
+   - Maintain previous scrollability requirements
+
+3. People's Tab "All" Subtab Enhancements:
+   - Add a placeholder employee entry
+   - Implement interactive behavior for placeholder employee
+
+4. Employee-Specific Drawer:
+   Interaction and Display Specifications:
+   - Trigger on placeholder employee click
+   - Overlay design:
+     a) Cover 50% of screen width
+     b) Slide in from right side
+     c) Blur background when open
+   
+   Drawer Content Requirements:
+   - Dynamically populate with placeholder employee information
+   - Physical Card Section:
+     * Add "No card added" text
+     * Include "Add card" button 
+       - Style similar to "Add card" button in Invite Employee drawer
+
+5. Edit Employee Profile Drawer:
+   Interaction and Display Specifications:
+   - Triggered by "Edit Profile" button in Employee-Specific Drawer
+   - Overlay design:
+     a) Cover 50% of screen width
+     b) Slide in from right side
+     c) Blur background when open
+   
+   Navigation Behavior:
+   - Back button: Return to Employee-Specific Drawer
+   - Cross button: Navigate to People's Tab interface
+
+6. Account Settings Section Enhancements:
+   - Manager Field Updates:
+     a) Add "Department" field
+     b) Add "Location" field
+   
+   Phone Number Configuration:
+   - Default phone code: IN (+91)
+   - Remove "Update" button next to phone number field
+
+7. Drawer Header Consistency:
+   - Employee name and email (subtext below Name heading)
+   - Ensure these are in the same container as back/cross buttons
+   - NOT part of the scrollable content area
+
+Design Principles:
+- Maintain consistent UI/UX across all drawers
+- Ensure smooth, intuitive navigation
+- Implement clear visual hierarchy
+- Provide informative placeholder content
+
+Acceptance Criteria:
+- All navigation works as specified
+- Drawers overlay and blur background correctly
+- Placeholder employee functionality is complete
+- Account settings fields are added and configured
+- UI remains clean, consistent, and intuitive
+
+Notes for Implementation:
+- Use existing design system components
+- Ensure responsive design
+- Test all interaction flows thoroughly

@@ -1,0 +1,64 @@
+// src/components/CreateBillWrapper.jsx
+import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import CreateBill from "../pages/CreateBill"; // Adjust path as needed
+import { useNotification } from "../contexts/NotificationContext";
+
+/**
+ * Wrapper component for CreateBill that handles data management and navigation
+ * Passes uploadedInvoice, vendorData, and sourceRoute to CreateBill
+ * Simplified for UI testing; backend calls to be added later
+ */
+const CreateBillWrapper = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { showSuccess } = useNotification();
+
+  // Extract data from location state
+  const { uploadedInvoice, vendorData, sourceRoute } = location.state || {};
+
+  // Log for debugging
+  console.log("CreateBillWrapper rendered with state:", location.state);
+
+  // Handle back navigation (delegated to CreateBill)
+  const handleBack = () => {
+    console.log("BACK BUTTON CLICKED in CreateBillWrapper");
+    navigate("/bill-pay/bills");
+  };
+
+  // Handle save (temporary, to be moved to CreateBill with backend integration)
+  const handleSave = (billData) => {
+    console.log("Save button clicked in CreateBillWrapper");
+    console.log("Bill data:", billData);
+    showSuccess("Bill saved successfully");
+    setTimeout(() => navigate("/bill-pay/bills"), 1000);
+  };
+
+  return (
+    <div className="create-bill-container">
+      {/* Debug banner for testing only */}
+      <div className="bg-green-100 p-2 mb-4 text-green-800 text-sm rounded">
+        <strong>Debug:</strong> CreateBillWrapper active with source: {sourceRoute || "unknown"}
+      </div>
+
+      {/* Test results banner */}
+      <div className="bg-blue-100 p-2 mb-4 text-blue-800 text-sm rounded">
+        <strong>Test Results:</strong> Navigation to Create Bill page successful!
+        <br />
+        <strong>Source Route:</strong> {sourceRoute || "unknown"}
+        <br />
+        <strong>Navigation Method:</strong> {location.state ? "React Router State" : "Session Storage"}
+      </div>
+
+      <CreateBill
+        showCreateBill={true}
+        uploadedInvoice={uploadedInvoice}
+        vendorData={vendorData}
+        onBack={handleBack}
+        onSave={handleSave}
+      />
+    </div>
+  );
+};
+
+export default CreateBillWrapper;

@@ -1,0 +1,45 @@
+Step 2: Update `App.jsx` for Functional Changes
+Let’s update App.jsx to reflect the functional changes: modify the file upload logic to support configurable data extraction, update the dropdown menu options, and prepare the layout for the full platform structure.
+Update File Upload Logic
+Open frontend/src/hooks/useFileUpload.js and update the file upload logic to remove vendor name extraction and add a placeholder for configurable data extraction:
+
+import { useCallback } from 'react';
+
+export const useFileUpload = (setUploadedInvoice, setShowNewBill, notificationContext) => {
+  const handleFileUpload = useCallback(async (file) => {
+    if (!file) return;
+
+    const acceptedFileTypes = ['application/pdf', 'image/jpeg', 'image/png'];
+    const fileType = file.type.toLowerCase();
+    if (!acceptedFileTypes.includes(fileType)) {
+      notificationContext.showError(`Unsupported file type: ${fileType}. Please use PDF, JPEG, or PNG.`);
+      return;
+    }
+
+    const fileURL = URL.createObjectURL(file);
+
+    // Placeholder for configurable data extraction (e.g., via backend OCR API)
+    // In a real app, this would call a backend endpoint to process the file and extract data
+    // For now, we'll mock the extracted data
+    const extractedData = {
+      invoiceNumber: 'INV-' + Math.floor(Math.random() * 10000).toString().padStart(4, '0'),
+      date: new Date().toISOString().split('T')[0],
+      amount: (Math.random() * 10000).toFixed(2),
+      // Add more fields as needed based on requirements (e.g., vendorName, vendorId, items, etc.)
+    };
+
+    setUploadedInvoice({
+      file: file,
+      preview: fileURL,
+      name: file.name,
+      extractedData: extractedData,
+    });
+    setShowNewBill(true);
+  }, [setUploadedInvoice, setShowNewBill, notificationContext]);
+
+  return { handleFileUpload };
+};
+
+Removed the vendor name extraction logic.
+Added a placeholder extractedData object to simulate data extraction (e.g., invoice number, date, amount).
+In a real app, you’d replace this with an API call to a backend endpoint (e.g., POST /api/ocr/extract with the file as a FormData payload).

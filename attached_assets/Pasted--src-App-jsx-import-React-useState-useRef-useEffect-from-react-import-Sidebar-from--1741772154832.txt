@@ -1,0 +1,135 @@
+// src/App.jsx
+import React, { useState, useRef, useEffect } from "react";
+import Sidebar from "./components/Sidebar";
+import MainContent from "./components/MainContent";
+import SettingsModal from "./components/SettingsModal";
+import InvoicePreview from "./components/InvoicePreview";
+import { sampleBillsData, sampleAPClerks } from "./utils/data";
+
+const App = () => {
+  const [activeView, setActiveView] = useState("overview");
+  const [showFilter, setShowFilter] = useState(false);
+  const [showNewBillMenu, setShowNewBillMenu] = useState(false);
+  const [showMoreOptionsMenu, setShowMoreOptionsMenu] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+  const [activeSettingsTab, setActiveSettingsTab] = useState("permissions");
+  const [importTallyEnabled, setImportTallyEnabled] = useState(true);
+  const [importPOEnabled, setImportPOEnabled] = useState(true);
+  const [showInvoicePreview, setShowInvoicePreview] = useState(false);
+  const [uploadedInvoice, setUploadedInvoice] = useState(null);
+
+  const newBillMenuRef = useRef(null);
+  const moreOptionsMenuRef = useRef(null);
+  const settingsModalRef = useRef(null);
+  const fileInputRef = useRef(null);
+
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (newBillMenuRef.current && !newBillMenuRef.current.contains(event.target)) {
+        setShowNewBillMenu(false);
+      }
+      if (moreOptionsMenuRef.current && !moreOptionsMenuRef.current.contains(event.target)) {
+        setShowMoreOptionsMenu(false);
+      }
+      // Don't close settings when clicking inside the modal
+      if (settingsModalRef.current && !settingsModalRef.current.contains(event.target)) {
+        // Uncomment below line if you want to close settings when clicking outside
+        // setShowSettings(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showSettings]);
+
+  // Handle new bill options
+  const handleNewBillOption = (option) => {
+    console.log(`Selected option: ${option}`);
+    if (option === "upload_document") {
+      fileInputRef.current.click();
+    } else {
+      setShowNewBillMenu(false);
+    }
+  };
+
+  // Handle more options
+  const handleMoreOption = (option) => {
+    console.log(`Selected more option: ${option}`);
+    setShowMoreOptionsMenu(false);
+    if (option === "settings") {
+      setShowSettings(true);
+    }
+  };
+
+  // Handle file upload
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const fileURL = URL.createObjectURL(file);
+      setUploadedInvoice({
+        file: file,
+        preview: fileURL,
+        name: file.name
+      });
+      setShowInvoicePreview(true);
+      setShowNewBillMenu(false);
+    }
+  };
+
+  // Toggle sidebar collapsed state
+  const toggleSidebar = () => {
+    setSidebarCollapsed(!sidebarCollapsed);
+  };
+
+  return (
+    <div className="flex h-screen relative">
+      <Sidebar
+        sidebarCollapsed={sidebarCollapsed}
+        toggleSidebar={toggleSidebar}
+        activeView={activeView}
+        setActiveView={setActiveView}
+      />
+      <MainContent
+        activeView={activeView}
+        setActiveView={setActiveView}
+        showFilter={showFilter}
+        setShowFilter={setShowFilter}
+        showNewBillMenu={showNewBillMenu}
+        setShowNewBillMenu={setShowNewBillMenu}
+        showMoreOptionsMenu={showMoreOptionsMenu}
+        setShowMoreOptionsMenu={setShowMoreOptionsMenu}
+        showSettings={showSettings}
+        newBillMenuRef={newBillMenuRef}
+        moreOptionsMenuRef={moreOptionsMenuRef}
+        handleNewBillOption={handleNewBillOption}
+        handleMoreOption={handleMoreOption}
+        sampleBillsData={sampleBillsData}
+        fileInputRef={fileInputRef}
+        handleFileUpload={handleFileUpload}
+      />
+      <SettingsModal
+        showSettings={showSettings}
+        setShowSettings={setShowSettings}
+        activeSettingsTab={activeSettingsTab}
+        setActiveSettingsTab={setActiveSettingsTab}
+        sampleAPClerks={sampleAPClerks}
+        importTallyEnabled={importTallyEnabled}
+        setImportTallyEnabled={setImportTallyEnabled}
+        importPOEnabled={importPOEnabled}
+        setImportPOEnabled={setImportPOEnabled}
+        settingsModalRef={settingsModalRef}
+      />
+      <InvoicePreview
+        showInvoicePreview={showInvoicePreview}
+        setShowInvoicePreview={setShowInvoicePreview}
+        uploadedInvoice={uploadedInvoice}
+        setUploadedInvoice={setUploadedInvoice}
+      />
+    </div>
+  );
+};
+
+export default App;

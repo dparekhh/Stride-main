@@ -1,0 +1,49 @@
+Please update the InvitePeopleHRIS component in frontend/src/components/InvitePeopleHRIS.jsx to implement the following changes:
+
+Filter Button Enhancement:
+Add a dropdown menu to the Filter button with 4 options: Role, Manager, Department, and Location
+When any filter option is selected, show a step-down dropdown with relevant choices
+For Role filter: Show list of available roles
+For Manager filter: Show list of managers
+For Department filter: Show list of departments
+For Location filter: Show list of office locations
+Use nested dropdowns with Chevron icons for navigation
+Apply selected filters to the employee list
+Pending Subtab Table Updates:
+Update the table columns in the pending subtab to match the layout:
+Email (with employee name above)
+Role
+Invited date
+Actions (with icons)
+Ensure proper column spacing and alignment
+Add hover states for rows
+Include action icons in the last column
+"Send Invite" Button Behavior:
+Replace the "Review" button with "Send invite" in the Pending subtab
+Initially render the button in a disabled state (gray color)
+Enable the button and change to primary orange color (#FF6B00) when an employee is selected
+Add hover and active states for the enabled button
+Position the button at the bottom of the subtab content
+Review Page Implementation:
+Create a full-width review page that opens when the Review button is clicked in the "To invite" subtab
+Include dynamic content based on the selected employee:
+Employee name and email at the top
+Role dropdown (required)
+Manager selection (required)
+Department selection (required)
+Location selection (required)
+Add a "Missing fields" warning tag at the bottom when required fields are empty
+Include a "Send 0 invites" button that:
+Shows in gray when fields are missing
+Changes to primary orange (#FF6B00) when all required fields are filled
+Becomes clickable only when all required fields are complete
+Add a close (X) button in the top right corner
+Include a back arrow navigation
+Add keyboard navigation support
+Maintain existing functionality:
+
+Keep the search functionality
+Preserve the auto-sync toggle
+Maintain the custom fields expansion panel
+Keep the existing drawer structure using AppDrawer component
+The implementation should follow the existing patterns in the codebase and use the current state management approach. Use Tailwind CSS for styling consistent with the rest of the application.

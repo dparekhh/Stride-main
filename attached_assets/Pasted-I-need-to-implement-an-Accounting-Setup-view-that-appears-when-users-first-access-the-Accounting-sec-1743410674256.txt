@@ -1,0 +1,36 @@
+I need to implement an Accounting Setup view that appears when users first access the Accounting section, with the following specifications:
+
+1. Create a new component AccountingSetup.jsx in frontend/src/pages/ that will serve as the initial setup view. The design should match image_1743408848181.png exactly, with:
+- A centered layout with the book icon at the top
+- "Sync your transactions to your accounting provider" as the main heading
+- "Set up in minutes and say goodbye to manual coding" as the subheading
+- "Get started now" primary button in light yellow color
+- "Select someone to set it up" as a secondary text button
+- "No stress, Ramp never syncs data without your approval" disclaimer text
+- Top right "Take a tour" button
+
+2. Modify frontend/src/components/settings/accounting/AccountingTab.jsx to conditionally render either:
+- The AccountingSetup view when accounting is not configured
+- The existing tabbed interface (General, Chart of Accounts, Taxes, ERP Integrations) when setup is complete
+
+3. Since we want to avoid backend dependencies for now:
+- Add a local state management solution (React Context or Redux) to track the accounting setup status
+- Store setup progress in localStorage temporarily
+- Add mock data and handlers for the setup flow
+
+4. Key functionality requirements:
+- The "Get started now" button should initiate the setup flow
+- "Select someone to set it up" should open a delegate selection modal
+- "Take a tour" should trigger a product tour overlay
+- Once setup is complete, users should never see the setup view again
+- All subtabs should remain accessible but show their own distinct views after setup
+
+5. Technical implementation notes:
+- Use the existing routing system from frontend/src/components/settings/accounting/AccountingTab.jsx
+- Follow the established styling patterns using Tailwind CSS
+- Ensure responsive design works for all screen sizes
+- Keep component structure clean and modular for future backend integration
+
+The code should follow the existing patterns in the codebase, particularly matching the structure seen in frontend/src/components/settings/accounting/.
+
+No backend integration is needed at this stage - focus on building a fully functional frontend flow that can be easily connected to the backend later.

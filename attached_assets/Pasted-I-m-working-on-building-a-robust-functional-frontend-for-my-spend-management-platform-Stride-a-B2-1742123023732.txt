@@ -1,0 +1,16 @@
+I’m working on building a robust, functional frontend for my spend management platform, Stride, a B2B SaaS platform for the Indian market, similar to Ramp and Brex. The app is running on Replit, with the frontend built using React with Vite. The platform includes various sections, and I’m currently focusing on designing the UI for the "New Vendor" page, which appears after clicking "Create new vendor" on the "New Bill" page. The "New Vendor" page includes sections like "Basic info," "Vendor contact," and "Tax details," as shown in the attached screenshot. The "Tax details" section at the bottom of the page has a dropdown (or input field) that is getting cut off and is not fully visible, even after scrolling all the way through the page. This makes it difficult to interact with the dropdown or view its options.
+
+My goal is to fix the layout and styling of the "New Vendor" page so that the "Tax details" section and its dropdown are fully visible and accessible without being cut off. The dropdown should either remain within the container’s boundaries, or the container should allow proper scrolling to ensure all content is viewable. Since I’m focusing on frontend design only, no backend logic or functionality should be implemented at this stage—the fix should be purely UI-related.
+
+Inspect the "New Vendor" Page Layout
+Task: Review the layout of the "New Vendor" page to identify why the "Tax details" section is being cut off.
+
+Instruct Replit to open the React component for the "New Vendor" page (likely frontend/src/pages/NewVendor.jsx or a similar component used after clicking "Create new vendor" on the "New Bill" page).
+Guide Replit to:
+Confirm the page layout: The page should have two main sections side by side—an "Invoice Preview" on the left (50% width) and a form section on the right (50% width) containing fields like "Basic info," "Vendor owner," "Vendor contact," and "Tax details."
+Check the height of the right-side form container and determine if it’s fixed or dynamic. The container might be cutting off content if its height is constrained or if overflow is not handled properly.
+Inspect the "Tax details" section and its dropdown to see if the dropdown is overflowing outside the container’s boundaries when opened, or if the container itself is not tall enough to display all sections.
+Direct Replit to:
+Open the browser’s developer tools (e.g., Chrome DevTools) and inspect the "Tax details" section to identify any CSS properties (e.g., height, overflow, position) that might be causing the cutoff.
+Take note of whether the dropdown is positioned absolutely (which could cause it to overflow outside the container) or if the container’s height is too small to accommodate all sections.
+Deliverables: Share a screenshot of the "New Vendor" page with the browser’s developer tools open, highlighting the "Tax details" section and its container, along with a brief explanation of the layout issue (e.g., "The container has a fixed height of 500px, and the dropdown overflows outside it").

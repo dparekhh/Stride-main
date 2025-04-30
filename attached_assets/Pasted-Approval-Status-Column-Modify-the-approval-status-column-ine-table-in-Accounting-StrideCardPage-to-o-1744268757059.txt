@@ -1,0 +1,59 @@
+Approval Status Column
+Modify the approval status column ine table in Accounting_StrideCardPage to only show three states:
+Approved
+Awaiting Cardholder
+Awaiting reviewer
+
+Update the CreateNewRuleModal component in frontend/src/components/common/CreateNewRuleModal.jsx with the following requirements:
+
+UI/UX Enhancements
+Button Styling:
+
+Change the Create Rule button color to our primary orange (#FF6B00)
+Use hover state (#e65c00) for better interaction feedback
+Show More Options:
+
+Add an underline to "Show more options" text using our standard underline styles
+When expanded, add two new condition sections:
+Department section with unsynced transaction count
+Location section with unsynced transaction count
+Implement smooth height transition animation for modal expansion
+Ensure modal repositions itself to stay centered after expansion
+
+Radio Button Styling
+Remove the default blue focus ring/border on radio buttons
+Use custom styles matching our design system:
+Border: 1px solid #D1D5DB (gray-300)
+Selected state: Use green-500 (#22C55E) for the inner circle
+Hover state: Background gray-50
+
+Category Dropdown Integration
+Use our existing SearchableDropdown component for Zoho Books Category
+Populate options from CHART_OF_ACCOUNTS imported from accountingData.js
+Set initial selected value to match the category that triggered the rule creation
+Fix dropdown container sizing:
+Increase modal width if needed to prevent dropdown cutoff (open the dropdown upwards if needed)
+Add proper z-indexing to ensure dropdown appears above other elements
+Add proper padding/spacing around the dropdown
+
+Modal Sizing & Layout
+Make modal size dynamic based on content:
+Min width: 24rem (384px)
+Max width: 32rem (512px)
+Height: Auto with max-height constraint
+Ensure proper spacing between sections:
+1.5rem (24px) between major sections
+1rem (16px) between related elements
+Add smooth transition for height changes
+
+Error Handling
+Add validation for required fields
+Show appropriate error messages if validation fails
+Handle edge cases for category selection
+
+State Management
+Track expanded state for "Show more options"
+Preserve form data during modal reopening
+Handle category pre-selection based on trigger context
+
+This implementation should maintain consistency with our existing UI patterns while improving the user experience for rule creation. The changes should seamlessly integrate with our current codebase and styling system.

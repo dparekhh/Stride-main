@@ -1,0 +1,14 @@
+
+    EXPENSE POLICY
+    
+    Policy ID: EXP-2025-001
+    Effective Date: 2025-01-01
+    Expiry Date: 2025-12-31
+    
+    Travel expenses capped at Rs. 500 per day
+    Hotel expenses capped at Rs. 4000 per night
+    Meals capped at Rs. 1000 per day
+    
+    All expenses must be accompanied by receipts.
+    Expenses must be submitted within 30 days.
+    

@@ -1,0 +1,22 @@
+The set condtions box should remain the same size irrespective of the option selected in the Primary Condition Dropdown.
+
+The dropdowns (Primary Condition Dropdown, Operator Dropdown, Value Selection Dropdown) are not working properly, they a getting cut by the Set conditons box, the dropdowns should overlay over the box.
+The Operator Dropdown, is opening on the right of the Operator box, it should open immediately below the Operator box.
+
+Add 3 more options to the Operator Dropdown:
+greater than or equal to
+less than or equal to
+is not
+
+Remove Business entity from Primary Condition dropdown
+
+Value Selection Dropdown for each Primary Condition will be different:
+Primary conditon: Spend type (transaction or reimbursement) ; Value Selection: Card transaction, Reimbursement
+Primary conditon: Amount ; Value Selection: No dropdown, just an input box to input amount, curreny in the box being INR symbl on the extreme right of the box
+Primary conditon: User type ; Value Selection: dropdown of the roles in the company imported from frontend/src/utils/PeoplePage_Role.js
+Primary conditon: Direct Stride manager; Value Selection: dropdown of the manager in the company imported from frontend/src/utils/PeoplePage_PlaceholderPeople.js
+Primary conditon: Employee ; Value Selection: dropdown of the employees in the company imported from frontend/src/utils/PeoplePage_PlaceholderPeople.js
+Primary conditon: Merchant ; Value Selection: dropdown of the merchant in the company imported from frontend/src/utils/Expenses_CardTransactionPageData.js
+Primary conditon: Merchant category ; Value Selection: Dropdown of the category in the company imported from frontend/src/utils/Expenses_CardTransactionPageData.js
+Primary conditon: Stride department ; Value Selection: Dropdown of the department in the company imported from frontend/src/utils/PeoplePage_PlaceholderPeople.js
+Primary conditon: Stride location ; Value Selection: Dropdown of the location in the company imported from frontend/src/utils/PeoplePage_PlaceholderPeople.js

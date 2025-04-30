@@ -1,0 +1,15 @@
+I’m working on building a robust, functional frontend for my spend management platform, Stride, a B2B SaaS platform for the Indian market, similar to Ramp and Brex. The app is running on Replit, with the frontend built using React with Vite. The platform includes various sections, and I’m currently focusing on designing the UI for the invoice preview, which is displayed in multiple places across the web app, such as the "New Bill" page (as seen in Image 1). My goal is to design the frontend UI first, without involving backend logic, and I’ve attached two screenshots to guide this task:
+
+Image 1: The current "New Bill" page, showing the invoice preview on the left side. The style and layout do not match the desired design.
+Image 2: The desired invoice preview style and layout, shown on the left side of the "New Bill" page. It features a clean, modern invoice design with sections like "Bill to," "Items," "Total," and "Notes," using specific fonts, colors, and spacing. The invoice includes a header, a table for items, and a highlighted total section.
+I want to update the invoice preview UI to match the style and layout in Image 2 exactly, and apply this design consistently wherever the invoice preview is displayed in the web app (e.g., on the "New Bill" page or any other page showing an invoice). However, I do not want to hardcode the invoice content (e.g., vendor names, dates, amounts, or specific details like "Sassy SAAS Vendor, Inc." or "$3420.00").
+
+Identify and Update the Invoice Preview Component
+Task: Locate or create a reusable React component for the invoice preview and set up its basic structure.
+
+Instruct Replit to identify where the invoice preview is currently implemented in the app (e.g., likely in frontend/src/pages/NewBill.jsx or a separate InvoicePreview.jsx component used on the left side of the "New Bill" page as shown in Image 1).
+Guide Replit to create a reusable React component (e.g., InvoicePreview.jsx) if it doesn’t already exist, so the same invoice preview style can be applied consistently across the app.
+Direct Replit to set up the basic structure of the invoice preview:
+Create a container for the invoice preview with a white background, a thin gray border, and rounded corners.
+Add a header section at the top with the title "Invoice" in a bold, dark font, aligned to the left.
+Deliverables: Share the initial InvoicePreview.jsx component code (or the updated section in NewBill.jsx), a screenshot of the basic invoice preview container, and confirm the structure is in place.

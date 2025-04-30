@@ -1,0 +1,100 @@
+I need to make some updates to the Bill Pay -> Bills -> Three Dots -> Settings -> Bill Pay Settings tab interface in my application. Below are the detailed changes I’d like you to implement. I’ve attached an image of the current interface for reference, which should guide the design and functionality updates. Please ensure the changes align with modern UI/UX practices, are responsive, and include proper error handling.
+
+General Change: Overlay Positioning
+When the "Bill Pay Settings" modal is opened (via the "Settings" option in the three dots menu under Bill Pay -> Bills), it should overlay only the right half of the screen:
+
+The modal should occupy exactly 50% of the screen width, aligned to the right edge of the viewport.
+The left half of the screen should remain visible (but possibly dimmed with an overlay to indicate the modal is active).
+The modal should stretch from the top to the bottom of the viewport (100% height).
+Ensure the modal remains responsive:
+On smaller screens (e.g., mobile devices), the modal should take up 100% of the screen width instead of 50%.
+Add a subtle animation (e.g., slide in from the right) when the modal opens and closes for a smooth user experience.
+The close button (X) in the top-right corner should remain functional to close the modal.
+Change 1: Update the Permissions Tab of Bill Pay Settings
+In the Bill Pay Settings modal, under the "Permissions" tab, I want to make the following changes to the "AP Clerk Permissions" section. The attached image shows the current state, but I want to overhaul the layout and functionality as described below.
+
+UI Changes:
+Rearrange the Layout:
+Move the search bar below the "AP Clerks" box (the box where selected employees with AP clerk permissions are displayed).
+Move the "Add" button (currently a red button on the right) inside the "AP Clerks" box, positioned at the far right end of the box.
+Style the "Add" button to match the existing design (orange background, white text, rounded corners), but ensure it fits naturally within the "AP Clerks" box without overcrowding.
+Add appropriate padding (e.g., 8px) around the "Add" button to ensure it doesn’t touch the edges of the box.
+Update the "AP Clerks" Box:
+The "AP Clerks" box should be a container where selected employees are displayed.
+When an employee is added (via the search functionality described below), their name should appear in the "AP Clerks" box as a tag-like element:
+Display the employee’s full name (First and Last Name) in a rectangular box with a light green shade fill (e.g., background-color: #E6F4EA or a similar light green).
+Each tag should have rounded corners (e.g., border-radius: 4px) and some padding (e.g., 4px 8px) for readability.
+Add a small "X" (cross) icon on the right side of each employee’s tag:
+The "X" should be small, black, and clickable.
+Clicking the "X" should remove the employee from the "AP Clerks" box.
+Ensure the "X" is accessible (e.g., add aria-label="Remove [Employee Name] from AP Clerks").
+If no employees are added, the "AP Clerks" box should display a placeholder text: "AP Clerks" on top and below "Choose people to add to AP clerks" in a light gray color (e.g., color: #999)."AP Clerks" in smaller font size than "Choose people to add to AP clerks"
+Remove the Employee List (Marked with Red Box):
+The list of employees currently displayed below the search bar (marked in red in the image, e.g., "Arham Chafer," "Dev Paraash," "Krupesh Patesh," "Pratik Save") should not be there.
+This list is just a demo of how search results should be displayed. Instead, the search bar should be functional, and the employee list should appear as a dropdown when the user interacts with the search bar (details below).
+Functionality Changes:
+Make the Search Bar Functional:
+The search bar (currently displaying "Search") should be fully functional and allow users to search for employees by name from the database.
+The placeholder text of the search bar should be: "Search".
+When the user clicks into the search bar or starts typing:
+A dropdown should open below the search bar, displaying a list of all employees in alphabetical order based on their first name.
+The dropdown should be scrollable if the list is long (e.g., set a max height of 300px with overflow-y: auto).
+Each employee in the dropdown should be displayed with:
+Employee Name: In a larger font (e.g., 16px), bold, left-aligned, and on top.
+Department and Location: In a smaller font (e.g., 14px), regular weight, left-aligned, and below the name (e.g., "Invoice Team - Mumbai").
+Example format in the dropdown:
+Dev Parekh
+Sales Team - Mumbai
+As the user types in the search bar, the dropdown should dynamically filter the list of employees based on their first or last name (case-insensitive). For example:
+Typing "De" should show "Dev Parekh" but not "Pratik Save."
+When the user selects an employee from the dropdown (by clicking or pressing Enter):
+The employee’s full name should be automatically added to the "AP Clerks" box as a tag (with the light green background and "X" to remove, as described above).
+The search bar should clear (reset to the placeholder text) after selection.
+If no matching employees are found, display a message in the dropdown: "No employees found" in a light gray color.
+Accessibility and Responsiveness:
+Ensure the search bar and dropdown are accessible:
+Add appropriate ARIA labels (e.g., aria-label="Search" for the search bar).
+Support keyboard navigation:
+Users should be able to tab to the search bar and press Enter to open the dropdown.
+Users should be able to navigate the dropdown list using arrow keys and select an employee by pressing Enter.
+Announce search results and selections to screen readers (e.g., "Added Dev Parekh to AP Clerks").
+The UI should be fully responsive:
+On smaller screens, the "AP Clerks" box and search bar should stack vertically and take up the full width of the modal.
+Ensure the dropdown doesn’t overflow the modal on smaller screens (e.g., adjust its max height dynamically based on available space).
+The "Add" button inside the "AP Clerks" box should remain clickable and visible on all screen sizes.
+General Notes:
+Use the existing design system of the application (e.g., colors, typography, icon styles) to ensure consistency.
+For example, the red "Add" button should be orange but retain its other current style but be repositioned.
+The light green shade for the employee tags should be subtle and match the app’s color palette.
+Employee Data Source:
+Since the backend (including the HRIS integration for employee data) is not ready, use a hardcoded list of employees in the frontend code for now. Here’s a sample list to use:
+const employees = [
+  { firstName: "Amit", lastName: "Sharma", department: "Finance Team", location: "Mumbai" },
+  { firstName: "Priya", lastName: "Mehta", department: "HR Team", location: "Bangalore" },
+  { firstName: "Rajesh", lastName: "Patel", department: "Support Team", location: "Delhi" },
+  { firstName: "Sneha", lastName: "Iyer", department: "Audit Team", location: "Chennai" },
+  { firstName: "Vikram", lastName: "Reddy", department: "Sales Team", location: "Hyderabad" },
+  { firstName: "Neha", lastName: "Joshi", department: "Marketing Team", location: "Pune" },
+  { firstName: "Arjun", lastName: "Verma", department: "Engineering Team", location: "Noida" },
+  { firstName: "Ananya", lastName: "Ghosh", department: "Product Team", location: "Kolkata" },
+  { firstName: "Rohan", lastName: "Kapoor", department: "Operations Team", location: "Ahmedabad" },
+  { firstName: "Kiran", lastName: "Nair", department: "Legal Team", location: "Chandigarh" }
+];
+Store this list in a separate file or variable so it can be easily replaced with a real data source (e.g., an API call) later. For example, you might create a file called employeeData.js:
+export const employees = [
+  { firstName: "Amit", lastName: "Sharma", department: "Finance Team", location: "Mumbai" },
+  { firstName: "Priya", lastName: "Mehta", department: "HR Team", location: "Bangalore" },
+  { firstName: "Rajesh", lastName: "Patel", department: "Support Team", location: "Delhi" },
+  { firstName: "Sneha", lastName: "Iyer", department: "Audit Team", location: "Chennai" },
+  { firstName: "Vikram", lastName: "Reddy", department: "Sales Team", location: "Hyderabad" },
+  { firstName: "Neha", lastName: "Joshi", department: "Marketing Team", location: "Pune" },
+  { firstName: "Arjun", lastName: "Verma", department: "Engineering Team", location: "Noida" },
+  { firstName: "Ananya", lastName: "Ghosh", department: "Product Team", location: "Kolkata" },
+  { firstName: "Rohan", lastName: "Kapoor", department: "Operations Team", location: "Ahmedabad" },
+  { firstName: "Kiran", lastName: "Nair", department: "Legal Team", location: "Chandigarh" }
+];
+Add a comment in the code to indicate that this is temporary data:
+// TODO: Replace this hardcoded employee list with a real API call to fetch employee data from the HRIS integration once the backend is ready.
+Filter the list client-side as the user types.
+Test the changes thoroughly to ensure there are no regressions in the existing functionality of the Bill Pay Settings modal.
+Please implement these changes and provide the updated code along with a brief explanation of your approach. Let me know if you need any additional information to proceed!

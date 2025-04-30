@@ -1,0 +1,95 @@
+Open `routes/bills.py` in the Replit editor. Copy the following functions to `utils/bill_utils.py`:
+- `create_vendor_details` (lines in page 20)
+- `check_vendor_exists` (lines in pages 20-22)
+- The date formatting logic used in multiple places (e.g., in `upload_invoice` and `extract_invoice_details`).
+
+Create the file `utils/bill_utils.py` with the following content:
+
+```python
+"""Utility functions for bill management."""
+import logging
+from datetime import datetime
+from typing import Optional, Tuple, Dict, Any, List
+from models import Vendor
+
+logger = logging.getLogger(__name__)
+
+def create_vendor_details(vendor: Vendor) -> Dict[str, Any]:
+    """Create a consistent vendor details dictionary."""
+    return {
+        'id': vendor.id,
+        'name': vendor.name,
+        'gstin': vendor.gstin,
+        'pan': vendor.pan,
+        'email': vendor.email,
+        'phone': vendor.phone,
+        'address': vendor.address
+    }
+
+def check_vendor_exists(vendor_name: Optional[str] = None, vendor_gstin: Optional[str] = None, tenant_id: Optional[int] = None) -> Tuple[bool, Optional[Dict[str, Any]], List[Dict[str, Any]]]:
+    """Check if a vendor exists in the database for a specific tenant using various matching strategies."""
+    if tenant_id is None:
+        from flask import g
+        tenant_id = g.tenant_id
+    logger.info(f"Checking if vendor exists: name='{vendor_name}', gstin='{vendor_gstin}' for tenant {tenant_id}")
+    
+    vendor_exists = False
+    vendor_details = None
+    potential_vendors = []
+
+    # Strategy 1: Try matching by GSTIN if available (most reliable)
+    if vendor_gstin:
+        vendor = Vendor.query.filter(
+            Vendor.gstin == vendor_gstin,
+            Vendor.tenant_id == tenant_id
+        ).first()
+        if vendor:
+            vendor_exists = True
+            vendor_details = create_vendor_details(vendor)
+            logger.info(f"Vendor matched by GSTIN: {vendor.name}")
+            return vendor_exists, vendor_details, []
+
+    # Strategy 2: Try fuzzy matching by name if no match by GSTIN and name is provided
+    if not vendor_exists and vendor_name:
+        # Look for exact name match first
+        exact_vendor = Vendor.query.filter(
+            Vendor.name.ilike(vendor_name),
+            Vendor.tenant_id == tenant_id
+        ).first()
+        if exact_vendor:
+            vendor_exists = True
+            vendor_details = create_vendor_details(exact_vendor)
+            logger.info(f"Vendor matched by exact name: {exact_vendor.name}")
+            return vendor_exists, vendor_details, []
+
+        # Try partial name matching
+        partial_vendors = Vendor.query.filter(
+            Vendor.name.ilike(f"%{vendor_name}%"),
+            Vendor.tenant_id == tenant_id
+        ).all()
+        if partial_vendors:
+            if len(partial_vendors) == 1:
+                vendor = partial_vendors[0]
+                vendor_exists = True
+                vendor_details = create_vendor_details(vendor)
+                logger.info(f"Vendor matched by partial name: {vendor.name}")
+                return vendor_exists, vendor_details, []
+            else:
+                for vendor in partial_vendors:
+                    potential_vendors.append(create_vendor_details(vendor))
+                logger.info(f"Multiple potential vendor matches found: {len(potential_vendors)}")
+                return vendor_exists, vendor_details, potential_vendors
+
+    return vendor_exists, vendor_details, potential_vendors
+
+def format_date(date_input: Any) -> Optional[str]:
+    """Format a date input to a string in YYYY-MM-DD format."""
+    if not date_input:
+        return None
+    try:
+        if isinstance(date_input, str):
+            return date_input
+        return date_input.strftime('%Y-%m-%d')
+    except Exception as date_error:
+        logger.warning(f"Error formatting date: {str(date_error)}")
+        return None

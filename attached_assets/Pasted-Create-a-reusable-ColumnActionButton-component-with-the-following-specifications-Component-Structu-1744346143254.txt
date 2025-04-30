@@ -1,0 +1,67 @@
+Create a reusable ColumnActionButton component with the following specifications:
+
+Component Structure:
+Create these files under frontend/src/components/common/action-buttons/:
+ColumnActionButton.jsx: Main component implementation
+ColumnActionButton.example.jsx: Usage examples
+ColumnActionButton.test.jsx: Component tests
+ColumnActionButton.md: Documentation
+ColumnActionButton.usage.js: Common usage patterns
+
+Props Interface:
+The ColumnActionButton should accept:
+columns: Array of column configurations with properties:
+id: Unique identifier
+name: Display name
+visible: Boolean for visibility
+order: Display order
+onToggleVisibility: (columnId) => void
+onReorder: (draggedId, droppedId) => void
+buttonRef: For click outside handling
+tooltipText: Optional hover text
+position: Dropdown position ('top', 'bottom', 'left', 'right')
+className: Additional styling classes
+
+Features:
+Column visibility toggle with checkboxes
+Drag and drop reordering
+Click outside to close
+Customizable button icon (default to Columns from lucide-react)
+Support for showing/hiding hidden columns
+Accessible keyboard navigation
+
+Integration Steps:
+a. Extract existing column management logic from Accounting_StrideCardPage
+b. Move drag-and-drop functionality to new component
+c. Create proper state management within component
+d. Update Accounting_StrideCardPage to use new component
+e. Ensure all existing functionality is preserved
+
+Key Behaviors:
+
+Maintain column order state internally
+Support controlled and uncontrolled modes
+Handle bulk visibility toggle
+Persist column preferences
+Support mobile responsiveness
+Handle large column lists with virtualization
+
+Styling:
+Use consistent Tailwind classes
+Match existing UI patterns
+Support theme customization
+Handle dark/light mode
+Proper focus/hover states
+Smooth animations for interactions
+Error Handling:
+Validate prop types
+Handle edge cases (empty columns, duplicate IDs)
+Provide fallback UI
+Console warnings for development
+Accessibility:
+ARIA labels and roles
+Keyboard navigation
+Screen reader support
+Focus management
+High contrast support
+This component should follow our existing patterns for action buttons like CalendarActionButton, maintaining consistency in API design and user experience.

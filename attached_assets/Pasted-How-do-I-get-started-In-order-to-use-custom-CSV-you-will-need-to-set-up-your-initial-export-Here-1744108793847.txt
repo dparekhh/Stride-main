@@ -1,0 +1,53 @@
+How do I get started?
+In order to use custom CSV, you will need to set up your initial export. Here are the steps to get to those settings:
+
+Go to Accounting in the left-hand menu of the Ramp dashboard
+
+Go to Settings in the top right of that page
+
+Select CSV Customization 
+
+There are two ways to do this:
+
+1. Upload a previous CSV with header names. This can be any previous CSV you have imported into your ERP.
+
+2. Use the Ramp default template. This will give you a preset export with the required fields. Like any other custom CSV on Ramp, this template can be edited.
+
+3. Check your Column names and their placement to make sure the format fits what your team needs.
+
+4. To ensure that content is pulled for every "Column name", select a corresponding "Content type" option. "Leave blank" will leave that column blank when exporting the CSV file.
+
+Transactions
+Key features
+Show or hide columns
+Rename column headers
+Re-arrange how columns appear in the export
+Ability to show refunds in single-line journal entries as negative
+Hardcoded fields (default value specified by user)
+Double Line Export Requirements
+Debit, Credit, Accounting Date, Account Name or Account ID
+
+Single Line Export Requirements
+Amount, Accounting Date, Account Name or Account ID
+
+With single line transactions, you also have the ability to export refunds as negative. This is the default but can be toggled off in your CSV Export Settings.
+
+Bills and Bill Payments
+Key features
+Show or hide columns
+Rename column headers
+Re-arrange how columns appear in the exports
+Hardcoded fields (default value specified by user)
+Bill (Expense) Export Requirements
+Single Line:
+Amount, Invoice Number, Bill Date, Account Name or Account ID, Vendor or Vendor ID
+
+Double Line:
+Debit, Credit Invoice Number Bill Date, Account Name or Account ID, Vendor or Vendor ID
+
+Bill Payment Export Requirements
+Single Line:
+Amount, Invoice Number, Payment ID, Payment Date, Account Name or Account ID, Vendor or Vendor ID
+
+Double Line:
+Debit, Credit, Invoice Number, Payment ID, Payment Date, Account Name or Account ID, Vendor or Vendor ID

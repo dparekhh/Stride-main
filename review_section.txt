@@ -1,0 +1,105 @@
+      {showReviewPage ? (
+        <div className="flex flex-col h-full">
+          {/* Employee Details Form */}
+          <div className="bg-gray-50 p-4 rounded-lg mb-6">
+            <h3 className="font-medium text-gray-800 mb-3">Configure employee details</h3>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-1">Role</label>
+                <select 
+                  id="role"
+                  value={employeeDetails.role}
+                  onChange={(e) => setEmployeeDetails({...employeeDetails, role: e.target.value})}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
+                >
+                  <option value="">Select role</option>
+                  {filterOptions.role.map(role => (
+                    <option key={role} value={role}>{role}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label htmlFor="manager" className="block text-sm font-medium text-gray-700 mb-1">Manager</label>
+                <select 
+                  id="manager"
+                  value={employeeDetails.manager}
+                  onChange={(e) => setEmployeeDetails({...employeeDetails, manager: e.target.value})}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
+                >
+                  <option value="">Select manager</option>
+                  {filterOptions.manager.map(manager => (
+                    <option key={manager} value={manager}>{manager}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label htmlFor="department" className="block text-sm font-medium text-gray-700 mb-1">Department</label>
+                <select 
+                  id="department"
+                  value={employeeDetails.department}
+                  onChange={(e) => setEmployeeDetails({...employeeDetails, department: e.target.value})}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
+                >
+                  <option value="">Select department</option>
+                  {filterOptions.department.map(department => (
+                    <option key={department} value={department}>{department}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                <select 
+                  id="location"
+                  value={employeeDetails.location}
+                  onChange={(e) => setEmployeeDetails({...employeeDetails, location: e.target.value})}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
+                >
+                  <option value="">Select location</option>
+                  {filterOptions.location.map(location => (
+                    <option key={location} value={location}>{location}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div className="mt-4">
+              <label htmlFor="customMessage" className="block text-sm font-medium text-gray-700 mb-1">Custom message (optional)</label>
+              <textarea
+                id="customMessage"
+                value={employeeDetails.customMessage}
+                onChange={(e) => setEmployeeDetails({...employeeDetails, customMessage: e.target.value})}
+                placeholder="Add a personal message to the invitation email"
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary h-24"
+              ></textarea>
+            </div>
+          </div>
+          
+          {/* Selected Employees List */}
+          <div className="flex-1 overflow-auto">
+            <div className="border-b border-gray-200 pb-2 mb-4">
+              <h3 className="font-medium text-gray-800">Selected employees ({selectedEmployees.length})</h3>
+            </div>
+            {getActiveTabData()
+              .filter(employee => selectedEmployees.includes(employee.id))
+              .map(employee => (
+                <div key={employee.id} className="flex items-center py-3 border-b border-gray-100">
+                  <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center mr-3">
+                    <span className="font-medium text-sm text-gray-600">
+                      {getInitials(employee.name)}
+                    </span>
+                  </div>
+                  <div className="flex-1">
+                    <div className="font-medium text-gray-800">{employee.name}</div>
+                    <div className="text-gray-600 text-sm">{employee.email}</div>
+                  </div>
+                  <button
+                    onClick={() => handleEmployeeSelect(employee.id)}
+                    className="text-gray-500 hover:text-red-500"
+                    aria-label={`Remove ${employee.name} from selection`}
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
+              ))
+            }
+          </div>
+        </div>

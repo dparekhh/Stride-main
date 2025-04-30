@@ -1,0 +1,57 @@
+I need to refactor multiple pages to use PageLayout components instead of MainContent while maintaining existing functionality. Here's the detailed migration plan:
+
+For PolicyTab (/frontend/src/pages/PolicyTab.jsx):
+Replace MainContent wrapper with PageLayout and PageHeader
+Keep all existing policy document upload logic
+Maintain current drag-and-drop functionality
+Preserve approval items, submission items, and guideline items sections
+Keep ExpenseRequirementsDrawer integration
+Maintain current policy document preview rendering
+Keep all existing event handlers and state management
+For CardTransactionExpenses (/frontend/src/pages/CardTransactionExpenses.jsx):
+Replace MainContent with PageLayout, PageHeader, and PageTable
+Preserve all transaction filtering functionality
+Maintain balance information and progress bar
+Keep PaymentsDrawer and StatementsDrawer integration
+Preserve all column management features
+Keep all existing action buttons (Filter, Calendar, Columns, Download)
+Maintain current cashback display
+Keep all existing transaction data handling
+
+Key Requirements:
+
+Component Structure:
+Use PageLayout as the top-level wrapper
+Implement PageHeader for consistent headers
+Use PageTable where tabular data is displayed
+Maintain existing drawer portals
+Preserve Functionality:
+Keep all existing state management
+Maintain current event handlers
+Preserve all drawer/modal behaviors
+Keep current filter implementations
+Maintain search functionality
+Preserve all data loading logic
+UI Elements:
+Keep current action buttons
+Maintain existing filter panels
+Preserve dropdown menus
+Keep all existing icons and visual elements
+Maintain current spacing and layout
+Data Flow:
+Preserve all API integrations
+Maintain current data fetching
+Keep existing state updates
+Preserve context usage
+The PageLayout component should receive:
+
+pageTitle: Current section name (e.g., 'Policy', 'Card transactions')
+heading: Current page heading
+actions: Existing action buttons/elements
+children: Current page content
+For pages with tables, PageTable should receive:
+
+columns: Current column configurations
+data: Existing data array
+onSort: Current sort handlers
+onFilter: Existing filter handlers

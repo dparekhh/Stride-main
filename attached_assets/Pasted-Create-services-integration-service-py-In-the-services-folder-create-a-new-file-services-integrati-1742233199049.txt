@@ -1,0 +1,153 @@
+Create services/integration_service.py
+In the services folder, create a new file services/integration_service.py with the following content:
+"""Business logic for integration settings management."""
+import logging
+from typing import Dict, Any, List
+from datetime import datetime
+from marshmallow import Schema, fields, ValidationError
+from models import WhatsAppSetting, ERPIntegration, db
+from utils.settings_utils import format_datetime
+
+logger = logging.getLogger(__name__)
+
+class WhatsAppSettingsSchema(Schema):
+    api_key = fields.Str(allow_none=True)
+    phone_number_id = fields.Str(allow_none=True)
+    webhook_secret = fields.Str(allow_none=True)
+    enabled = fields.Boolean(missing=False)
+
+class ERPIntegrationSchema(Schema):
+    name = fields.Str(required=True)
+    api_key = fields.Str(allow_none=True)
+    api_url = fields.Str(allow_none=True)
+    username = fields.Str(allow_none=True)
+    password = fields.Str(allow_none=True)
+    enabled = fields.Boolean(missing=False)
+    settings = fields.Dict(allow_none=True)
+
+class IntegrationService:
+    """Service class for integration settings management operations."""
+    def __init__(self, tenant_id: int):
+        self.tenant_id = tenant_id
+
+    def get_whatsapp_settings(self) -> Dict[str, Any]:
+        """Retrieve WhatsApp integration settings for the tenant."""
+        settings = WhatsAppSetting.query.filter_by(tenant_id=self.tenant_id).first()
+        if not settings:
+            return {
+                'api_key': None,
+                'phone_number_id': None,
+                'webhook_secret': None,
+                'enabled': False
+            }
+        return {
+            'id': settings.id,
+            'api_key': None,  # Never expose sensitive data
+            'phone_number_id': settings.phone_number_id,
+            'webhook_secret': None,  # Never expose sensitive data
+            'enabled': settings.enabled,
+            'created_at': format_datetime(settings.created_at),
+            'updated_at': format_datetime(settings.updated_at)
+        }
+
+    def update_whatsapp_settings(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        """Create or update WhatsApp integration settings."""
+        try:
+            validated_data = WhatsAppSettingsSchema().load(data)
+        except ValidationError as err:
+            raise ValueError(str(err.messages))
+
+        settings = WhatsAppSetting.query.filter_by(tenant_id=self.tenant_id).first()
+        if not settings:
+            settings = WhatsAppSetting(tenant_id=self.tenant_id)
+            db.session.add(settings)
+
+        if 'api_key' in validated_data:
+            settings.api_key = validated_data['api_key']
+        if 'phone_number_id' in validated_data:
+            settings.phone_number_id = validated_data['phone_number_id']
+        if 'webhook_secret' in validated_data:
+            settings.webhook_secret = validated_data['webhook_secret']
+        if 'enabled' in validated_data:
+            settings.enabled = validated_data['enabled']
+        settings.updated_at = datetime.utcnow()
+        db.session.commit()
+        logger.info(f"WhatsApp settings updated for tenant {self.tenant_id}")
+        return {'id': settings.id}
+
+    def get_erp_integrations(self) -> List[Dict[str, Any]]:
+        """Retrieve all ERP integrations for the tenant."""
+        integrations = ERPIntegration.query.filter_by(tenant_id=self.tenant_id).all()
+        return [
+            {
+                'id': integration.id,
+                'name': integration.name,
+                'api_url': integration.api_url,
+                'username': integration.username,
+                'enabled': integration.enabled,
+                'last_sync': format_datetime(integration.last_sync),
+                'created_at': format_datetime(integration.created_at)
+            } for integration in integrations
+        ]
+
+    def create_erp_integration(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        """Create a new ERP integration with the provided data."""
+        try:
+            validated_data = ERPIntegrationSchema().load(data)
+        except ValidationError as err:
+            raise ValueError(str(err.messages))
+
+        new_integration = ERPIntegration(
+            name=validated_data['name'],
+            api_key=validated_data.get('api_key'),
+            api_url=validated_data.get('api_url'),
+            username=validated_data.get('username'),
+            enabled=validated_data.get('enabled', False),
+            settings=validated_data.get('settings', {}),
+            tenant_id=self.tenant_id
+        )
+        if 'password' in validated_data:
+            new_integration.set_password(validated_data['password'])
+        db.session.add(new_integration)
+        db.session.commit()
+        logger.info(f"ERP integration created: ID {new_integration.id} for tenant {self.tenant_id}")
+        return {'id': new_integration.id}
+
+    def update_erp_integration(self, integration_id: int, data: Dict[str, Any]) -> Dict[str, Any]:
+        """Update an existing ERP integration with the provided data."""
+        integration = ERPIntegration.query.filter_by(id=integration_id, tenant_id=self.tenant_id).first()
+        if not integration:
+            raise ValueError(f"ERP integration with ID {integration_id} not found")
+
+        try:
+            validated_data = ERPIntegrationSchema().load(data, partial=True)
+        except ValidationError as err:
+            raise ValueError(str(err.messages))
+
+        if 'name' in validated_data:
+            integration.name = validated_data['name']
+        if 'api_key' in validated_data:
+            integration.api_key = validated_data['api_key']
+        if 'api_url' in validated_data:
+            integration.api_url = validated_data['api_url']
+        if 'username' in validated_data:
+            integration.username = validated_data['username']
+        if 'enabled' in validated_data:
+            integration.enabled = validated_data['enabled']
+        if 'settings' in validated_data:
+            integration.settings = validated_data['settings']
+        if 'password' in validated_data:
+            integration.set_password(validated_data['password'])
+        integration.updated_at = datetime.utcnow()
+        db.session.commit()
+        logger.info(f"ERP integration updated: ID {integration.id} for tenant {self.tenant_id}")
+        return {'id': integration.id}
+
+    def delete_erp_integration(self, integration_id: int) -> None:
+        """Delete an ERP integration by ID."""
+        integration = ERPIntegration.query.filter_by(id=integration_id, tenant_id=self.tenant_id).first()
+        if not integration:
+            raise ValueError(f"ERP integration with ID {integration_id} not found")
+        db.session.delete(integration)
+        db.session.commit()
+        logger.info(f"ERP integration deleted: ID {integration_id} for tenant {self.tenant_id}")

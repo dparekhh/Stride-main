@@ -1,0 +1,244 @@
+reate bills_routes.py
+Open routes/bills_routes.py and add the following code, which includes bill-related routes (get_bills, get_bill, create_bill, update_bill, delete_bill, submit_for_approval, get_categories). We’ll add validation and standardize responses.
+"""Bill management routes for the Stride platform."""
+from flask import Blueprint, request, jsonify, g
+import logging
+from marshmallow import Schema, fields, ValidationError
+from models import Bill, BillStatus, Lineltem, Approval, ApprovalType, ApprovalStatus, Category, db
+from app import db
+
+logger = logging.getLogger(__name__)
+bills_bp = Blueprint('bills', __name__, url_prefix='/api/bills')
+
+# Define Schemas for Validation
+class LineItemSchema(Schema):
+    description = fields.Str(required=True)
+    quantity = fields.Float(missing=1.0)
+    unit_price = fields.Float(required=True)
+    amount = fields.Float(required=True)
+    tax_rate = fields.Float(missing=0.0)
+    tax_amount = fields.Float(missing=0.0)
+    category_id = fields.Int(allow_none=True)
+
+class BillSchema(Schema):
+    vendor_id = fields.Int(required=True)
+    amount = fields.Float(required=True)
+    currency = fields.Str(missing='INR')
+    issue_date = fields.Date(required=True)
+    due_date = fields.Date(required=True)
+    invoice_file = fields.Str(allow_none=True)
+    notes = fields.Str(allow_none=True)
+    line_items = fields.List(fields.Nested(LineItemSchema), missing=[])
+
+def standardize_response(data=None, message=None, success=True, status_code=200):
+    """Standardize API responses."""
+    response = {
+        'success': success,
+        'message': message or ('Success' if success else 'Error'),
+        'data': data or {},
+    }
+    return jsonify(response), status_code
+
+@bills_bp.route('/', methods=['GET'])
+def get_bills():
+    """Get all bills for the tenant."""
+    bills = Bill.query.filter_by(tenant_id=g.tenant_id).all()
+    result = [
+        {
+            'id': bill.id,
+            'vendor_id': bill.vendor_id,
+            'amount': bill.amount,
+            'currency': bill.currency,
+            'issue_date': bill.issue_date.isoformat() if bill.issue_date else None,
+            'due_date': bill.due_date.isoformat() if bill.due_date else None,
+            'status': bill.status.value,
+            'invoice_file': bill.invoice_file
+        } for bill in bills
+    ]
+    return standardize_response(data={'bills': result})
+
+@bills_bp.route('/<int:bill_id>', methods=['GET'])
+def get_bill(bill_id):
+    """Get a specific bill by ID with line items."""
+    bill = Bill.query.filter_by(id=bill_id, tenant_id=g.tenant_id).first_or_404()
+    result = {
+        'id': bill.id,
+        'vendor_id': bill.vendor_id,
+        'amount': bill.amount,
+        'currency': bill.currency,
+        'issue_date': bill.issue_date.isoformat() if bill.issue_date else None,
+        'due_date': bill.due_date.isoformat() if bill.due_date else None,
+        'status': bill.status.value,
+        'invoice_file': bill.invoice_file,
+        'line_items': [
+            {
+                'id': item.id,
+                'description': item.description,
+                'quantity': item.quantity,
+                'unit_price': item.unit_price,
+                'amount': item.amount,
+                'tax_rate': item.tax_rate,
+                'tax_amount': item.tax_amount,
+                'category_id': item.category_id
+            } for item in bill.line_items
+        ]
+    }
+    return standardize_response(data=result)
+
+@bills_bp.route('/', methods=['POST'])
+def create_bill():
+    """Create a new bill."""
+    try:
+        data = BillSchema().load(request.json)
+    except ValidationError as err:
+        return standardize_response(message=str(err.messages), success=False, status_code=400)
+
+    try:
+        bill = Bill(
+            vendor_id=data['vendor_id'],
+            amount=data['amount'],
+            currency=data['currency'],
+            issue_date=data['issue_date'],
+            due_date=data['due_date'],
+            status=BillStatus.DRAFT,
+            invoice_file=data.get('invoice_file'),
+            notes=data.get('notes'),
+            tenant_id=g.tenant_id
+        )
+        db.session.add(bill)
+
+        for item_data in data.get('line_items', []):
+            line_item = Lineltem(
+                bill=bill,
+                description=item_data['description'],
+                quantity=item_data['quantity'],
+                unit_price=item_data['unit_price'],
+                amount=item_data['amount'],
+                tax_rate=item_data['tax_rate'],
+                tax_amount=item_data['tax_amount'],
+                category_id=item_data.get('category_id')
+            )
+            db.session.add(line_item)
+
+        db.session.commit()
+        return standardize_response(data={'id': bill.id}, message='Bill created successfully', status_code=201)
+    except Exception as e:
+        db.session.rollback()
+        logger.error(f"Error creating bill: {str(e)}")
+        return standardize_response(message=f'Failed to create bill: {str(e)}', success=False, status_code=500)
+
+@bills_bp.route('/<int:bill_id>', methods=['PUT'])
+def update_bill(bill_id):
+    """Update an existing bill."""
+    bill = Bill.query.filter_by(id=bill_id, tenant_id=g.tenant_id).first_or_404()
+    if bill.status != BillStatus.DRAFT:
+        return standardize_response(message=f'Bill cannot be updated. Current status: {bill.status.value}', success=False, status_code=400)
+
+    try:
+        data = BillSchema().load(request.json, partial=True)
+    except ValidationError as err:
+        return standardize_response(message=str(err.messages), success=False, status_code=400)
+
+    try:
+        if 'vendor_id' in data:
+            bill.vendor_id = data['vendor_id']
+        if 'amount' in data:
+            bill.amount = data['amount']
+        if 'currency' in data:
+            bill.currency = data['currency']
+        if 'issue_date' in data:
+            bill.issue_date = data['issue_date']
+        if 'due_date' in data:
+            bill.due_date = data['due_date']
+        if 'invoice_file' in data:
+            bill.invoice_file = data['invoice_file']
+        if 'notes' in data:
+            bill.notes = data['notes']
+
+        if 'line_items' in data:
+            for item in bill.line_items:
+                db.session.delete(item)
+            for item_data in data['line_items']:
+                line_item = Lineltem(
+                    bill=bill,
+                    description=item_data['description'],
+                    quantity=item_data['quantity'],
+                    unit_price=item_data['unit_price'],
+                    amount=item_data['amount'],
+                    tax_rate=item_data['tax_rate'],
+                    tax_amount=item_data['tax_amount'],
+                    category_id=item_data.get('category_id')
+                )
+                db.session.add(line_item)
+
+        db.session.commit()
+        return standardize_response(message='Bill updated successfully')
+    except Exception as e:
+        db.session.rollback()
+        logger.error(f"Error updating bill: {str(e)}")
+        return standardize_response(message=f'Failed to update bill: {str(e)}', success=False, status_code=500)
+
+@bills_bp.route('/<int:bill_id>', methods=['DELETE'])
+def delete_bill(bill_id):
+    """Delete a bill."""
+    bill = Bill.query.filter_by(id=bill_id, tenant_id=g.tenant_id).first_or_404()
+    if bill.status != BillStatus.DRAFT:
+        return standardize_response(message=f'Bill cannot be deleted. Current status: {bill.status.value}', success=False, status_code=400)
+
+    try:
+        for item in bill.line_items:
+            db.session.delete(item)
+        if bill.approval:
+            db.session.delete(bill.approval)
+        db.session.delete(bill)
+        db.session.commit()
+        return standardize_response(message='Bill deleted successfully')
+    except Exception as e:
+        db.session.rollback()
+        logger.error(f"Error deleting bill: {str(e)}")
+        return standardize_response(message=f'Failed to delete bill: {str(e)}', success=False, status_code=500)
+
+@bills_bp.route('/submit-for-approval/<int:bill_id>', methods=['POST'])
+def submit_for_approval(bill_id):
+    """Submit a bill for approval."""
+    bill = Bill.query.filter_by(id=bill_id, tenant_id=g.tenant_id).first_or_404()
+    if bill.status != BillStatus.DRAFT:
+        return standardize_response(message=f'Bill cannot be submitted. Current status: {bill.status.value}', success=False, status_code=400)
+
+    class ApprovalSchema(Schema):
+        approver_id = fields.Int(required=True)
+
+    try:
+        data = ApprovalSchema().load(request.json)
+    except ValidationError as err:
+        return standardize_response(message=str(err.messages), success=False, status_code=400)
+
+    try:
+        bill.status = BillStatus.SUBMITTED
+        approval = Approval(
+            approver_id=data['approver_id'],
+            type=ApprovalType.BILL,
+            bill_id=bill.id,
+            status=ApprovalStatus.PENDING,
+            tenant_id=g.tenant_id
+        )
+        db.session.add(approval)
+        db.session.commit()
+        return standardize_response(data={'approval_id': approval.id}, message='Bill submitted for approval')
+    except Exception as e:
+        db.session.rollback()
+        logger.error(f"Error submitting bill for approval: {str(e)}")
+        return standardize_response(message=f'Failed to submit bill for approval: {str(e)}', success=False, status_code=500)
+
+@bills_bp.route('/categories', methods=['GET'])
+def get_categories():
+    """Get all expense categories."""
+    categories = Category.query.filter_by(tenant_id=g.tenant_id).all()
+    result = [
+        {
+            'id': category.id,
+            'name': category.name,
+            'description': category.description
+        } for category in categories
+    ]
+    return standardize_response(data={'categories': result})

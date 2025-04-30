@@ -1,0 +1,41 @@
+Enhance the WorkflowBuilder component's state management and rendering lifecycle to properly handle the transition between approver selection and condition block display, with the following requirements:
+
+State Transition Flow:
+Implement proper state synchronization between the approver box closure and condition block rendering
+Ensure condition blocks are immediately rendered after approver information is saved
+Maintain the hierarchical relationship between conditions and their approvers
+Session Storage Integration:
+Review the handleSaveApprovers() implementation in WorkflowBuilder.jsx
+Ensure proper retrieval and processing of pendingFirstCondition and pendingAdditionalConditions from sessionStorage
+Validate the integration between session storage data and the WorkflowState hook
+Component Re-rendering:
+Analyze the re-rendering trigger points after approver data is saved
+Review the useEffect dependencies in the WorkflowBuilder component
+Ensure proper state updates trigger the necessary re-renders
+Data Flow Architecture:
+Review the data flow between:
+Approver box state
+Session storage
+WorkflowState hook
+Condition block rendering logic
+Ensure proper sequence of state updates
+Visual Hierarchy Maintenance:
+Preserve the visual connection between conditions and approvers
+Maintain proper indentation and structure
+Ensure smooth transition animations remain intact
+Error Handling:
+Add proper validation for session storage data
+Handle edge cases where approver or condition data might be incomplete
+Implement proper fallbacks for missing or malformed data
+Key Files to Review:
+
+frontend/src/components/common/action-buttons/Workflow builder/WorkflowBuilder.jsx
+frontend/src/hooks/useWorkflowState.js
+Focus Areas:
+
+handleSaveApprovers() function implementation
+WorkflowState hook integration
+Component lifecycle management
+State synchronization logic
+Re-rendering triggers
+The solution should maintain the existing component structure while improving the state management and rendering lifecycle to ensure proper visual updates after approver selection.

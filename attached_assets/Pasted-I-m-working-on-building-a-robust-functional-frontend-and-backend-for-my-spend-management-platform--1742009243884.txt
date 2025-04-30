@@ -1,0 +1,15 @@
+I’m working on building a robust, functional frontend and backend for my spend management platform, Stride, a B2B SaaS platform for the Indian market, similar to Ramp and Brex. The backend is built with Python, Flask, Flask-SQLAlchemy, and PostgreSQL, served with Gunicorn, and the frontend uses React with Vite. The app is running on Replit, and the sidebar includes tabs like Inbox, Insights, Expense, Accounting, Bill Pay (Bills, Purchase Order, Vendors), Card, Policy, and People. Significant progress has been made on integrating the Google Cloud Vision API for OCR, with a robust system in utils/ocr_vision.py, testing in test_ocr_vision.py, secure credential management, error handling, and field extraction (GSTIN, invoice numbers, dates, amounts, line items, tax details). Multi-tenant isolation and logging are implemented. I need to complete the OCR integration to make it fully functional for extracting details from receipts, invoices, POs, GRNs, and company expense policies, while selectively adding NLP for interpreting expense policies and 2-way/3-way matching (PO, Invoice, GRN) to detect out-of-policy expenses and discrepancies. OCR should be used for basic extraction to keep costs low, with OCR+NLP applied only where needed. Comment and document every single code properly. This is the next step in our development process.
+
+Task: Finalize the OCR integration for all document types, implement a system to selectively apply OCR+NLP for specific use cases, and ensure the web app handles these processes seamlessly.
+
+Step 18.1: Finalize OCR Field Extraction for All Document Types
+Task: Enhance utils/ocr_vision.py to extract fields from receipts, invoices, POs, GRNs, and company expense policies using Google Cloud Vision API.
+Instruct Replit to update the OCR function to handle the following document-specific fields:
+Receipts: Vendor Name, Date, Total Amount, Payment Method.
+Invoices: Vendor Name, Vendor Address, Invoice No, PO No, Date, E-way Bill-No, Mode of Payment, Payment Terms, Description of Goods/Line Items, Quantity, Rate, Per, Amount, Tax, Total Amount, Tax Details (GSTIN).
+POs: PO Number, Vendor Name, Date, Line Items (Description, Quantity, Rate, Amount), Total Amount.
+GRNs: GRN Number, Invoice No, PO No, Date, Received Quantity, Line Items.
+Expense Policies: Policy Name, Effective Date, Allowed Categories, Spending Limits, Approval Rules.
+Guide Replit to use generalized regex patterns (e.g., [A-Z0-9]{2,5}[/-][0-9]+ for invoice/PO numbers, \b\d{1,2}[-/]\d{1,2}[-/]\d{2,4}\b for dates) and contextual labels (e.g., “Invoice No”, “Total”) to extract fields flexibly.
+Direct Replit to return a structured JSON response with all fields, marking missing or uncertain fields as null (e.g., {"docType": "invoice", "vendorName": "Sassy SaaS Vendor, Inc.", "invoiceNo": "501", "totalAmount": "3420.00", "gstin": null, ...}).
+Ensure logging captures extraction successes and failures for each document type.

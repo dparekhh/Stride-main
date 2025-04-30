@@ -1,0 +1,16 @@
+I’m working on building a robust, functional frontend for my spend management platform, Stride, a B2B SaaS platform for the Indian market, similar to Ramp and Brex. The app is running on Replit, with the frontend built using React with Vite. The sidebar includes tabs like Inbox, Insights, Expense, Accounting, Bill Pay (Bills, Purchase Order, Vendors), Card, Policy, and People. Previously, I was working on integrating backend logic with OCR and vendor management for the "New Bill" page, but I want to take a step back and focus on designing the entire frontend UI first before building the backend logic. For now, I want to disable all OCR functionality (previously in utils/document_ai/ or utils/ocr_vision.py) and vendor logic (e.g., checking if a vendor exists or creating a new vendor) in the "New Bill" page, specifically in the InvoicePreview.jsx component. My goal is to build every single UI element for the "New Bill" page as shown in the attached screenshot (Image 1), using placeholders for dynamic data like the vendor name, and then I’ll work on the backend logic later.
+
+The "New Bill" page should look exactly like Image 1, with every element included, but without hardcoding information like the vendor name. I’ll provide placeholders for dynamic data, and I want to add one additional element: a "Continue" button (rectangle, orange fill, white text) in the bottom-right corner of the page. This "Continue" button is for cases where a vendor exists in the database, allowing the user to proceed to the next step of the flow. The next step of the flow (after clicking "Continue" or "Create new vendor") will be the same regardless of whether the vendor exists or is created, with the only difference being that if the vendor exists, the fields in the next step will be prefilled, and if a new vendor is created, the fields will not be prefilled. For now, I only want to build the UI for the pages
+
+Set Up the New Bill Page Component Structure
+Task: Create or update the React component for the "New Bill" page to match the overall layout.
+
+Instruct Replit to create a new React component file frontend/src/pages/NewBill.jsx (or update InvoicePreview.jsx if it’s being used for this page) to serve as the main component for the "New Bill" page.
+Guide Replit to set up the page layout with two main sections side by side:
+Left side (50% width): To display the uploaded invoice.
+Right side (50% width): An area labeled "New Bill" to display whom the Bill is for "Who's it for" vendor selection options.
+Direct Replit to:
+Add a header at the top of the right half of the page with the title "New bill" in bold, dark text, aligned to the left.
+Add a close button (an "X" icon) in the top-right corner of the page.
+Use Tailwind CSS (or the existing CSS framework) to style the layout with a flexbox row, ensuring the left and right sections are equal width and take up the full height of the page, with padding and a white background.
+Deliverables: Share the initial NewBill.jsx component code and a screenshot of the page layout with the two sections and header.

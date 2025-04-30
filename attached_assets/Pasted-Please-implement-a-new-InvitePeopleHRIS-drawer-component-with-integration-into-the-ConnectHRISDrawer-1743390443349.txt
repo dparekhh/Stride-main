@@ -1,0 +1,60 @@
+Please implement a new InvitePeopleHRIS drawer component with integration into the ConnectHRISDrawer component with the following specifications:
+
+Create InvitePeopleHRIS Drawer Component:
+Create a new file 'InvitePeopleHRIS.jsx' in frontend/src/components
+Use AppDrawer as the base component (from components/common/AppDrawer.jsx)
+Match the UI layout shown in the reference image
+Header section should include:
+Back button with ArrowLeft icon
+Close (X) button
+Title "Team updates"
+Tabs: "To invite (10)", "To terminate", "Pending (1)"
+Focus on "To invite" tab implementation
+Sync Settings Section:
+Add an organization sync message box:
+Icon: Automatically sync icon
+Text: "Automatically sync your organizational changes to Stride?"
+Subtext: "Changes to an employee's role, manager, location and department will be reflected in Stride."
+"Opt in" toggle button with "PUB" label
+Close (X) button for the message box
+Search and Filter Section:
+Search bar with search icon
+Filter button with dropdown
+Download and grid view icons
+"Custom fields" collapsible section
+Employee List Implementation:
+Use the existing employee placeholder data from across the app (reference the demo employees used in other components)
+Each employee row should show:
+2-letter avatar
+Full name
+HRIS Department
+HRIS Office
+Email address
+Copy icon for email
+Checkbox for selection
+Bottom Section:
+"Review 0 invites" text at bottom
+Gray background for review section
+Integration with ConnectHRISDrawer:
+Modify the existing ConnectHRISDrawer to:
+Change "Sync" button to "Invite people" when HRIS is connected
+Add green blinking dot indicator for connected HRIS
+Handle navigation to InvitePeopleHRIS drawer when "Invite people" is clicked
+State Management:
+Implement state management for:
+Selected employees
+Search functionality
+Filter options
+Sync settings toggle
+Tab selection
+Use the existing architectural patterns from BulkInviteDrawer and other drawer components in the codebase. Reference the employee data structure used in PhysicalCardDrawer.jsx for consistency.
+
+For styling, maintain consistency with the existing design system using Tailwind CSS classes, especially for:
+
+Header styling
+Button designs
+Input fields
+List layouts
+Avatar components
+Toggle switches
+Icons from lucide-react

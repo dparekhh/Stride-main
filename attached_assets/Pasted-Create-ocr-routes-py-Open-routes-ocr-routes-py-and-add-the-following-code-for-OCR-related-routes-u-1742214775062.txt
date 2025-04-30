@@ -1,0 +1,175 @@
+Create ocr_routes.py
+Open routes/ocr_routes.py and add the following code for OCR-related routes (upload_invoice, extract_invoice_details). We’ll consolidate the redundant logic between these routes.
+
+"""OCR processing routes for the Stride platform."""
+from flask import Blueprint, request, jsonify, g
+import os
+import logging
+import uuid
+from marshmallow import Schema, fields, ValidationError
+from utils.ocr_vision import process_full_document_image, DocumentType
+from utils.bill_utils import check_vendor_exists, format_date
+
+logger = logging.getLogger(__name__)
+ocr_bp = Blueprint('ocr', __name__, url_prefix='/api/ocr')
+
+def standardize_response(data=None, message=None, success=True, status_code=200):
+    """Standardize API responses."""
+    response = {
+        'success': success,
+        'message': message or ('Success' if success else 'Error'),
+        'data': data or {},
+    }
+    return jsonify(response), status_code
+
+def process_invoice_file(file, use_nlp: bool, tenant_id: int) -> Dict[str, Any]:
+    """Process an invoice file and return extracted data."""
+    allowed_extensions = {'pdf', 'png', 'jpg', 'jpeg'}
+    if not file.filename or not '.' in file.filename or file.filename.rsplit('.', 1)[1].lower() not in allowed_extensions:
+        raise ValueError('Invalid file type')
+
+    upload_dir = os.path.join('static', 'uploads', str(tenant_id))
+    os.makedirs(upload_dir, exist_ok=True)
+    unique_filename = f"{uuid.uuid4().hex}_{file.filename}"
+    file_path = os.path.join(upload_dir, unique_filename)
+    file.save(file_path)
+
+    with open(file_path, 'rb') as f:
+        image_content = f.read()
+
+    logger.info(f"Processing invoice with useNLP={use_nlp} for tenant: {tenant_id}")
+    result = process_full_document_image(
+        image_content=image_content,
+        document_type=DocumentType.INVOICE,
+        tenant_id=tenant_id,
+        use_nlp=use_nlp
+    )
+    extracted_data = result.get('extracted_data', {})
+    if not extracted_data and 'error' in result:
+        logger.error(f"OCR processing error: {result.get('error')}")
+        extracted_data = {}
+
+    vendor_exists, vendor_details, potential_vendors = check_vendor_exists(
+        vendor_name=extracted_data.get('vendor_name'),
+        vendor_gstin=extracted_data.get('vendor_gstin'),
+        tenant_id=tenant_id
+    )
+
+    formatted_line_items = []
+    if extracted_data.get('line_items'):
+        for item in extracted_data['line_items']:
+            formatted_line_items.append({
+                'description': item.get('description', ''),
+                'quantity': item.get('quantity', 1),
+                'unit_price': item.get('unit_price', 0),
+                'amount': item.get('amount', 0),
+                'tax_rate': 0,
+                'tax_amount': 0,
+                'category_id': None
+            })
+
+    issue_date = format_date(extracted_data.get('invoice_date'))
+    due_date = format_date(extracted_data.get('due_date'))
+
+    vendor_name = extracted_data.get('vendor_name', '')
+    response_data = {
+        'invoice_file': file_path,
+        'vendor_exists': vendor_exists,
+        'vendor_details': vendor_details,
+        'potential_vendors': potential_vendors,
+        'nlp_enabled': use_nlp,
+        'extracted_data': {
+            'vendor_name': vendor_name,
+            'vendor_address': extracted_data.get('vendor_address', ''),
+            'vendor_gstin': extracted_data.get('vendor_gstin', ''),
+            'invoice_number': extracted_data.get('invoice_number', ''),
+            'invoice_date': issue_date,
+            'due_date': due_date,
+            'po_number': extracted_data.get('po_number', ''),
+            'eway_bill_number': extracted_data.get('eway_bill_number', ''),
+            'payment_terms': extracted_data.get('payment_terms', ''),
+            'payment_mode': extracted_data.get('payment_mode', ''),
+            'total_amount': extracted_data.get('total_amount', 0),
+            'subtotal_amount': extracted_data.get('subtotal_amount', 0),
+            'tax_amount': extracted_data.get('tax_amount', 0),
+            'cgst_amount': extracted_data.get('cgst_amount', 0),
+            'sgst_amount': extracted_data.get('sgst_amount', 0),
+            'igst_amount': extracted_data.get('igst_amount', 0),
+            'line_items': formatted_line_items,
+            'confidence_scores': extracted_data.get('confidence_scores', {})
+        }
+    }
+
+    if use_nlp:
+        nlp_fields = result.get('nlp_fields', {})
+        if nlp_fields:
+            response_data['nlp_fields'] = nlp_fields
+
+    if not vendor_exists and vendor_name:
+        if potential_vendors:
+            response_data['message'] = "We found multiple potential vendor matches."
+        else:
+            response_data['message'] = "We couldn't find an existing vendor that matches."
+        if extracted_data.get('vendor_gstin'):
+            response_data['suggested_vendor'] = {
+                'name': vendor_name,
+                'gstin': extracted_data.get('vendor_gstin'),
+                'address': extracted_data.get('vendor_address')
+            }
+
+    return response_data
+
+@ocr_bp.route('/upload-invoice', methods=['POST'])
+def upload_invoice():
+    """Upload an invoice and extract data using OCR and NLP."""
+    if 'invoice' not in request.files:
+        return standardize_response(message='No invoice file provided', success=False, status_code=400)
+    file = request.files['invoice']
+    if not file or not file.filename:
+        return standardize_response(message='No file selected', success=False, status_code=400)
+
+    use_nlp_form = request.form.get('use_nlp', 'false').lower() == 'true'
+    use_nlp_query = request.args.get('useNLP', 'false').lower() == 'true'
+    use_nlp = use_nlp_form or use_nlp_query
+
+    try:
+        response_data = process_invoice_file(file, use_nlp, g.tenant_id)
+        return standardize_response(data=response_data, success=True, status_code=200)
+    except ValueError as ve:
+        return standardize_response(message=str(ve), success=False, status_code=400)
+    except Exception as e:
+        logger.error(f"Error in OCR processing: {str(e)}")
+        return standardize_response(data={'invoice_file': file_path if 'file_path' in locals() else None},
+                                    message=f'File uploaded successfully, but automatic data extraction failed: {str(e)}',
+                                    success=False, status_code=200)
+
+@ocr_bp.route('/extract-invoice-details', methods=['POST'])
+def extract_invoice_details():
+    """Extract invoice details using OCR and match vendor against tenant's database."""
+    if 'invoice' not in request.files:
+        return standardize_response(message='No invoice file provided', success=False, status_code=400)
+    file = request.files['invoice']
+    if not file or not file.filename:
+        return standardize_response(message='No file selected', success=False, status_code=400)
+
+    use_nlp = request.args.get('useNLP', 'false').lower() == 'true'
+
+    try:
+        response_data = process_invoice_file(file, use_nlp, g.tenant_id)
+        response_data['matching_vendors'] = response_data['potential_vendors'] if response_data['potential_vendors'] else ([response_data['vendor_details']] if response_data['vendor_exists'] else [])
+        return standardize_response(data=response_data, success=True)
+    except ValueError as ve:
+        return standardize_response(message=str(ve), success=False, status_code=400)
+    except Exception as e:
+        logger.error(f"Error extracting invoice details: {str(e)}")
+        return standardize_response(data={
+            'extracted_data': {
+                'vendor_name': '',
+                'invoice_number': '',
+                'total_amount': 0,
+                'line_items': []
+            },
+            'vendor_exists': False,
+            'matching_vendors': [],
+            'matching_vendors_length': 0
+        }, message=f'Failed to extract invoice details: {str(e)}', success=False, status_code=500)

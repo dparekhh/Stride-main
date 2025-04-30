@@ -1,0 +1,50 @@
+Create a reusable SearchableDropdown component with the following specifications:
+
+1. Create a new file at frontend/src/components/common/SearchableDropdown.jsx
+
+Component Structure:
+- The component should be a controlled component accepting these props:
+  - value: Currently selected value
+  - onChange: Callback when selection changes
+  - options: Array of items to display
+  - placeholder: Placeholder text for the input
+  - searchPlaceholder: Placeholder for search input
+  - disabled: Boolean to disable the dropdown
+  - formatOption: Optional function to format how options are displayed
+  - keyExtractor: Optional function to get unique key for each option
+  - displayKey: The key to use for displaying option text (default: 'name')
+  - valueKey: The key to use for option values (default: 'id')
+  - className: Additional CSS classes
+  - id: HTML id attribute
+
+Features:
+- Implement the exact same UI design as AccountingCategoryFieldNew's Default option dropdown:
+  - A button that shows selected value or placeholder
+  - Chevron icon that rotates when dropdown is open
+  - Search input at top of dropdown with search icon
+  - Clear selection button at bottom
+  - Options list with hover states
+  - Maximum height with scrolling
+  - Click outside to close
+  - Keyboard navigation support
+
+Styling:
+- Use the existing Tailwind classes from AccountingCategoryFieldNew for consistency
+- Keep the same gray color scheme and hover effects
+- Maintain the same padding and spacing
+- Use the same transition animations
+
+Reuse this code pattern from AccountingCategoryFieldNew.jsx:
+- The dropdown ref handling
+- Click outside detection
+- Search filtering logic
+- Animation transitions
+
+Then update these components to use the new SearchableDropdown:
+- EmployeeDropdown.jsx
+- VirtualCardDrawer.jsx's employee selector
+- RestrictionsDrawer.jsx's category dropdowns
+- AccountingFieldsDrawer.jsx's field selectors
+- Any other dropdowns in the application
+
+This will ensure consistent dropdown behavior and appearance across the entire application while making maintenance easier through centralized component updates.

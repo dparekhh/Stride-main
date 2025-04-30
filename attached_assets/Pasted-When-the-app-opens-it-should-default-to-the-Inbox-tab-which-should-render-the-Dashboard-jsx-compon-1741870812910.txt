@@ -1,0 +1,42 @@
+When the app opens, it should default to the Inbox tab, which should render the Dashboard.jsx component (located in frontend/src/pages/Dashboard.jsx). However, there are two problems:
+
+The Inbox tab is incorrectly showing the Bill Pay interface (likely BillsTab.jsx), which should only be shown under the Bill Pay -> Bills tab.
+The Dashboard.jsx view is being shown separately when the app opens, instead of being rendered under the Inbox tab.
+I want to fix this so that:
+
+The app always opens to the Inbox tab by default.
+The Inbox tab renders the Dashboard.jsx component.
+The Bill Pay -> Bills tab renders the BillsTab.jsx component, not the dashboard.
+Let’s address this issue step-by-step to ensure seamless execution. This is the first step in fixing the navigation and default tab behavior.
+
+Step 1: Fix Default Tab and Navigation for Inbox and Bills Tabs
+Task: Update the app’s routing and navigation logic to ensure the correct tabs render the correct components, and the app opens to the Inbox tab by default.
+Set Default Tab to Inbox:
+Modify the app’s routing logic (likely in a top-level component like MainContent.jsx or App.jsx in frontend/src/) to set the default route to the Inbox tab when the app loads.
+If the app uses React Router (e.g., react-router-dom), update the routes to make the root path (/) redirect to the Inbox route (e.g., /inbox), which should render Dashboard.jsx.
+If the app uses a state-based approach (e.g., a selectedTab state in Sidebar.jsx), set the initial state to "inbox" and ensure the Dashboard.jsx component is rendered when the "inbox" tab is selected.
+Fix Inbox Tab Rendering:
+Ensure the Inbox tab in the sidebar correctly renders the Dashboard.jsx component (located in frontend/src/pages/Dashboard.jsx).
+If the sidebar uses a mapping of tabs to components, update the mapping to associate the "inbox" tab with Dashboard.jsx (e.g., { tab: "inbox", component: Dashboard }).
+Fix Bills Tab Rendering:
+Ensure the Bill Pay -> Bills tab renders the BillsTab.jsx component (located in frontend/src/pages/BillsTab.jsx), not the dashboard.
+If using React Router, ensure the route for /bill-pay/bills renders BillsTab.jsx.
+If using a state-based approach, ensure the "bill-pay/bills" tab is mapped to BillsTab.jsx in the sidebar or main content component.
+Remove Separate Dashboard View:
+Investigate why the Dashboard.jsx view is being shown separately when the app opens (e.g., it might be rendered directly in App.jsx or MainContent.jsx outside the tab navigation logic).
+Remove or adjust this separate rendering so that Dashboard.jsx is only shown when the Inbox tab is selected, not as a standalone view.
+Testing:
+Test the app by reloading it (e.g., at http://0.0.0.0:42827) to ensure it opens to the Inbox tab by default and renders the Dashboard.jsx component.
+Click on the Bill Pay -> Bills tab in the sidebar to verify it renders the BillsTab.jsx component (which should show a table with columns like Vendor, Status, Amount, etc.).
+Confirm that the Dashboard.jsx view is no longer shown separately outside the tab navigation.
+Deliverables:
+Share the updated code for the component handling routing or tab navigation (e.g., App.jsx, MainContent.jsx, or Sidebar.jsx).
+Confirm that the app opens to the Inbox tab by default and renders Dashboard.jsx.
+Confirm that the Bill Pay -> Bills tab renders BillsTab.jsx correctly.
+Share a screenshot or description of the app’s behavior after the changes (e.g., the Inbox tab view and the Bills tab view).
+Let me know if any issues arose during the fix (e.g., routing conflicts, missing components).
+Next Steps: Once this step is complete, I’ll provide instructions for the next step, which will focus on enhancing the functionality of the Bills tab (e.g., displaying a table of bills, adding new bills, etc.).
+General Notes
+My goal is to build a robust, functional frontend for my spend management platform in the frontend/ directory using React and Tailwind CSS. Please ensure all changes are made in frontend/ to maintain consistency and scalability.
+If you encounter any issues or need clarification on the sidebar structure, routing setup, or component mapping, let me know, and I can provide more details.
+Please focus on this step and let me know the results once the default tab and navigation issues are fixed. We’ll proceed with enhancing the Bills tab functionality after that.

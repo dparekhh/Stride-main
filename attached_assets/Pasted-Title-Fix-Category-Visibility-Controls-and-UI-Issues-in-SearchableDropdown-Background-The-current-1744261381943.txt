@@ -1,0 +1,62 @@
+Title: Fix Category Visibility Controls and UI Issues in SearchableDropdown
+
+Background:
+The current implementation incorrectly allows visibility toggling directly in the SearchableDropdown component next to the dropdown menu options, which should be restricted to the AccountingCategoryOptionsDrawer. Additionally, there are issues with hidden options display and button styling.
+
+Key Changes Required:
+
+1. Remove Direct Visibility Controls from SearchableDropdown:
+Remove the eye icon and visibility toggle functionality from individual dropdown options
+Visibility changes should only be possible through AccountingCategoryOptionsDrawer
+SearchableDropdown should only display options based on the visibility state passed to it
+The user should be ONLY view visible and hidden options based on the eye icon in the footer
+
+2. Fix Hidden Options Display Logic:
+When "Show hidden options" in the footer is toggled:
+If toggled off: Show only visible options
+If toggled on: Show only hidden options
+Show appropriate "No hidden options" message when there are no hidden options
+Ensure consistent filtering across all instances of the dropdown
+
+3. Update "Add rule" Button Styling:
+Change default state to primary color background
+Use white text color always
+Remove hover state color change
+Maintain the existing positioning and spacing
+
+Technical Requirements:
+
+SearchableDropdown Component Changes:
+Remove visibility toggle button from option rendering
+Update option filtering to respect the visibility state from props
+Remove visibility-related click handlers
+Maintain existing search and selection functionality
+AccountingCategoryOptionsDrawer Integration:
+Ensure proper visibility state management
+Pass correct filtered options to SearchableDropdown
+Handle all visibility toggles at this level
+Styling Updates:
+Update "Add rule" button CSS classes
+Remove hover state changes while maintaining other hover effects
+Implementation Guidelines:
+
+Component Interface:
+SearchableDropdown should only receive and display options
+No visibility toggle functionality in the component
+Visibility filtering should happen before options are passed
+State Management:
+Maintain visibility state in AccountingContext
+Filter options based on visibility before passing to dropdowns
+Update all instances where options are filtered
+User Experience:
+Maintain current dropdown width and spacing
+Ensure smooth transitions between states
+Keep consistent messaging for empty states
+Testing Requirements:
+
+Verify hidden options only show when explicitly enabled
+Confirm visibility can only be changed in AccountingCategoryOptionsDrawer
+Validate "Add rule" button styling is consistent
+Test empty state messages
+Ensure search functionality works with visibility filters
+This change will provide a more intuitive and consistent user experience while maintaining proper separation of concerns between components.

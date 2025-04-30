@@ -1,0 +1,91 @@
+Integrate with Routes
+Assuming you’re using React Router, update your routing logic to pass the correct sourceRoute. Create or update a parent component (e.g., App.jsx or a dedicated workflow component) to handle navigation.
+
+In frontend/src/App.jsx (or wherever your routes are defined):
+import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import VendorReview from "./components/VendorReview";
+
+// Placeholder components
+const NewBill = () => {
+  const navigate = useNavigate();
+  const [formData] = useState({ vendorName: "Existing Vendor", email: "vendor@example.com" }); // Example data
+  const [uploadedInvoice] = useState({ url: "example.pdf" }); // Example invoice
+
+  const handleContinue = () => {
+    navigate("/vendor-review", { state: { formData, uploadedInvoice, sourceRoute: "newBill" } });
+  };
+
+  return (
+    <div>
+      <h1>New Bill</h1>
+      <button onClick={handleContinue}>Continue</button>
+    </div>
+  );
+};
+
+const NewVendor = () => {
+  const navigate = useNavigate();
+  const [formData] = useState({ vendorName: "New Vendor", email: "newvendor@example.com" }); // Example data
+
+  const handleContinue = () => {
+    navigate("/vendor-review", { state: { formData, sourceRoute: "newVendor" } });
+  };
+
+  return (
+    <div>
+      <h1>New Vendor</h1>
+      <button onClick={handleContinue}>Continue</button>
+    </div>
+  );
+};
+
+const VendorReviewWrapper = () => {
+  const navigate = useNavigate();
+  const { state } = useLocation();
+  const { formData, uploadedInvoice, sourceRoute } = state || {};
+
+  const handleBack = () => {
+    navigate(sourceRoute === "newBill" ? "/new-bill" : "/new-vendor");
+  };
+
+  const handleContinue = () => {
+    if (sourceRoute === "newVendor") {
+      // Simulate saving new vendor (call backend API here)
+      console.log("Saving new vendor:", formData);
+    }
+    // Navigate to the next step (define this route later)
+    navigate("/next-step"); // Placeholder
+  };
+
+  return (
+    <VendorReview
+      formData={formData || {}}
+      uploadedInvoice={uploadedInvoice}
+      onBack={handleBack}
+      onContinue={handleContinue}
+      sourceRoute={sourceRoute || "newVendor"}
+      isSubmitting={false} // Add state for submission if needed
+    />
+  );
+};
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/new-bill" element={<NewBill />} />
+        <Route path="/new-vendor" element={<NewVendor />} />
+        <Route path="/vendor-review" element={<VendorReviewWrapper />} />
+        {/* Add more routes as needed */}
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;
+
+Notes:
+
+Install React Router if not already installed: npm install react-router-dom in your Replit terminal.
+Adjust the formData and uploadedInvoice to match your actual data structure.

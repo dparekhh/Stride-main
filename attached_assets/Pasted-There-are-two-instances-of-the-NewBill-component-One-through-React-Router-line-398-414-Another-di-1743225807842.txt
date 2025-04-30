@@ -1,0 +1,58 @@
+There are two instances of the NewBill component
+
+One through React Router (line 398-414)
+Another direct instance (line 776-781)
+
+Based on the logs and code structure, having two instances of the NewBill component could cause issues with state management and component lifecycle. Here's why:
+
+React Router Instance (lines 398-414):
+This is likely the primary intended route for the NewBill component
+Handles navigation and routing correctly through React Router
+Maintains proper component lifecycle
+Direct Instance (lines 776-781):
+Creates a separate instance outside the router context
+May cause conflicting state updates
+Could explain the blank screen issue when navigating
+The console logs show this conflict:
+["NewBill component not rendering because showNewBill is false"]
+["NewBill visibility changed to:", false]
+
+This indicates that the two instances are fighting over visibility control, causing the component to not render properly.
+Recommendation:
+Use only the React Router instance for proper navigation
+Remove the direct instance to prevent state conflicts
+Consolidate the navigation logic through router
+This is a foundational issue that should be addressed through architectural changes rather than quick fixes.
+
+Based on the logs and code structure, here's how to properly structure the NewBill component implementation:
+
+Keep only the React Router instance (lines 398-414) and remove the direct instance (lines 776-781). This ensures:
+Single source of truth for routing
+Proper component lifecycle management
+Clean navigation flow
+Structure the navigation flow:
+/bill-pay/bills -> Main Bills List
+  └─> /new-bill -> New Bill Form
+      └─> /new-vendor -> New Vendor Form (when needed)
+
+Key architectural principles:
+Use React Router for all navigation
+Maintain state in a single location
+Handle component visibility through routes, not boolean flags
+Keep navigation logic in router config, not component state
+Component organization:
+frontend/src/
+  ├── pages/
+  │   ├── BillsList.jsx      (main bills view)
+  │   ├── NewBill.jsx        (new bill form)
+  │   └── NewVendor.jsx      (vendor creation)
+  └── components/
+      └── CreateBillWrapper.jsx  (shared wrapper)
+
+Route configuration should be centralized in App.jsx with proper nesting.
+This will resolve the blank screen issue by:
+
+Eliminating state conflicts
+Ensuring proper component mounting/unmounting
+Maintaining clear navigation paths
+Preventing multiple instances of the same component

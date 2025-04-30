@@ -1,0 +1,29 @@
+Modified Components:
+
+1. WorkflowBuilder.jsx
+- Added disabling of child operations when no main condition exists
+- Made indentation of child operations consistent
+- Ensured "Set conditions" always builds a new main condition
+- Fixed the order of `hasMainCondition` declaration
+
+2. AddButton.jsx
+- Updated to support disabled options styling
+- Added tooltip to explain why buttons are disabled
+- Modified PropTypes to include the 'disabled' property
+
+3. ConditionRow.jsx
+- Implemented multi-selection for value options
+- Added tag-based display for selected options
+- Added remove buttons for individual tags
+
+4. conditionHelpers.js
+- Improved group condition text display
+- Enhanced validation for group conditions
+- Fixed rendering of multiple conditions with AND/OR logic
+
+5. ConditionBlock.jsx
+- Fixed handling of special condition types like required-fields, optional-fields, and approver
+- Added proper formatting for fields and approvers in getConditionText()
+- Updated PropTypes to include fieldsConditionShape and approverConditionShape
+- Made operator and value optional in standardConditionShape
+- Added a fallback return of type for unknown condition types

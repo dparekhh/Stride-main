@@ -1,0 +1,47 @@
+Create a New Reusable Workflow Builder Component
+
+Component Location and Structure:
+Create a new file at frontend/src/components/common/WorkflowBuilder.jsx. This follows our established pattern for reusable components, similar to how we organize CalendarActionButton.
+
+Component Interface:
+The WorkflowBuilder should accept these props:
+
+conditions: Array of workflow conditions
+onConditionAdd: Function to handle new condition
+onConditionDelete: Function to remove condition
+onConditionUpdate: Function to update existing condition
+onLogicOperatorToggle: Function to toggle AND/OR
+customOptions?: Array of custom options for condition types
+className?: String for additional styling
+Extraction Process:
+Extract these specific sections from SubmissionPolicyBuilder.jsx:
+The workflow diagram JSX structure
+The condition handling logic
+The ConfigPopup component
+All relevant state management
+Type definitions and interfaces
+Required Dependencies:
+Only import these from the current implementation:
+React core utilities (useState, useRef, useEffect)
+Lucide icons used in the workflow
+Any utility functions needed for condition management
+Implementation Guidelines:
+Keep all existing functionality intact
+Maintain current styling classes
+Preserve all event handlers and state management patterns
+Keep the same conditional rendering logic
+Migration Strategy:
+Create the new component first
+Replace the implementation in SubmissionPolicyBuilder gradually
+Verify no regressions in existing functionality
+
+Component Usage Example:
+<WorkflowBuilder conditions={conditions} onConditionAdd={handleConditionAdd} onConditionDelete={handleConditionDelete} onConditionUpdate={handleConditionUpdate} onLogicOperatorToggle={handleLogicOperatorToggle} />
+
+Remember:
+
+DO NOT modify any other imports in App.jsx or any other existing files initially
+DO NOT change any other existing imports
+DO NOT alter current UI/UX flows
+Maintain all existing functionality
+Keep the same styling and visual consistency

@@ -1,0 +1,59 @@
+Even after making te changes the drawers are still stacking over each other
+ROOT CAUSE:
+
+While we've implemented drawer tracking and z-index management correctly in DrawerContext.jsx, the actual usage of these features is inconsistent across drawer components.
+
+The main issues are:
+
+Some drawer components are not using the DrawerContext properly
+AccountingFieldsDrawer.jsx and CreateNewFieldDrawer.jsx are implementing their own backdrop management
+Direct DOM manipulation of backdrop blur effects without coordination with DrawerContext
+Multiple components managing their own z-index levels independently
+
+SOLUTION APPROACH:
+We need to standardize how all drawer components use AppDrawer and ensure proper context usage. Here's the detailed solution:
+
+Standardize all drawers to use AppDrawer component
+Implement proper drawer ID generation and tracking
+Ensure consistent z-index hierarchy
+Centralize backdrop management
+Implement proper drawer state cleanup
+
+We need to fix the drawer stacking issues by standardizing drawer implementation across the application. Make the following changes:
+
+1. Update AccountingFieldsDrawer.jsx to:
+- Remove direct backdrop management
+- Use AppDrawer component properly
+- Implement proper drawer IDs for hierarchy tracking
+- Use DrawerContext for state management
+- Clean up drawer state on unmount
+
+2. Update CreateNewFieldDrawer.jsx to:
+- Remove custom backdrop implementation
+- Utilize AppDrawer's built-in backdrop management
+- Implement proper z-index level inheritance
+
+3. Update ExpenseRequirementsDrawer.jsx to:
+- Use consistent drawer pattern
+- Implement proper parent-child drawer relationship
+
+4. In DrawerContext.jsx:
+- Add parent-child relationship tracking
+- Implement proper cleanup for nested drawers
+- Add drawer depth tracking for z-index calculation
+
+5. Update AppDrawer.jsx to:
+- Handle nested drawer scenarios
+- Implement proper backdrop stacking
+- Add parent drawer reference
+
+Implementation requirements:
+- Each drawer should have a unique ID
+- Child drawers should know their parent drawer
+- Z-index levels should increment properly for nested drawers
+- Only the topmost visible drawer should show backdrop
+- Drawer state should clean up properly on close
+- All drawers should use the centralized backdrop management
+- Handle drawer animations without breaking stacking context
+
+The changes should maintain all existing functionality while fixing the stacking and backdrop issues.

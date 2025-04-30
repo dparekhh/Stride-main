@@ -1,0 +1,36 @@
+Please implement the following enhancements to the CreateNewRuleModal component:
+
+1. Chart of Accounts Integration
+Connect the category dropdown in CreateNewRuleModal to use the CHART_OF_ACCOUNTS data from frontend/src/utils/accountingData.js
+Ensure the dropdown uses the existing SearchableDropdown component that's already working in the main transactions table
+The dropdown should display the full category name from the Chart of Accounts
+
+2. Default Category Selection
+When a user clicks "Create rule" from the category column in Accounting_StrideCardPage, pass the selected category through the handleOpenRuleModal function
+Modify the ruleModalData state in Accounting_StrideCardPage to include the selected category
+Ensure this category is passed as the selectedCategory prop to CreateNewRuleModal
+The CreateNewRuleModal should initialize its category state with this selectedCategory prop
+
+3. Modal Layout Adjustments
+Increase the modal's height to accommodate the  SearchableDropdown component
+Ensure the dropdown menu has sufficient space to expand without being cut off
+Adjust the dropdown to open upwards if required
+The modal content should scroll if needed while keeping the header and footer fixed
+Add proper z-indexing to ensure the dropdown appears above other modal content
+
+4. SearchableDropdown Behavior
+Implement the same keyboard navigation as in the main table's category dropdowns
+Include the same category search functionality
+Maintain consistent styling with other dropdowns in the application
+
+Technical Details:
+Reference the CHART_OF_ACCOUNTS constant from accountingData.js
+Use the existing Z_INDEX_LEVELS from DrawerContext for proper layering
+Maintain the showHiddenAccounts toggle functionality
+Preserve the existing rule creation workflow while adding these enhancements
+
+Expected Behavior:
+When a user clicks 'Create rule' in a category dropdown, the modal should open with that category pre-selected
+The SearchableDropdown should be fully functional and match the behavior of the main table dropdowns
+The modal should be properly sized and the dropdown should be visible when expanded and not overflow the CreateNewModal
+This implementation should leverage existing components and maintain consistency with the current UI patterns while improving the user experience of rule creation.

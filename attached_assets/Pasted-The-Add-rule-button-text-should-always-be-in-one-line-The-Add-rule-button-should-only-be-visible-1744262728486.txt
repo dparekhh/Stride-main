@@ -1,0 +1,20 @@
+The "Add rule" button text should always be in one line
+The "Add rule" button should only be visible when the user hovers of the dropdown option in the Category Column dropdown in the Accounting_StrideCardPage
+Change "Add rule" to "Create rule"
+
+Add a new Card Name column to the table of Accounting_StrideCardPage. Dont hard code define it in Accounting_StrideCardPage, define it in frontend/src/utils/AccountingStrideCardPage_StrideCardData.js along with other placeholder transaction data
+
+When the user clicks on the "Create rule" button a CreateNewRule modal should open at the very center of the page (as seen in image_1744262095872.png), dont define this modal withing the SearchableDropdown component, or the Accouting_StrideCardPage, make it into its own resuable component that is imported into wherever it is needed. 
+
+DONT HARD CODE THE CONTENT FROM THE IMAGE. 
+"Uber" does not have to be hardcoded {Merchantname} of the transaction for which the user is setting the category should be inplace of Uber 
+Dont hard code "44 unsynced transaction" as well that should also be dynamic based on the unsyned transaction for that merchant. 
+"Taxi and rideshare" should not be hard coded {MCC} of the transaction for which the user is setting the category should be inplace of Taxi and rideshare.
+Dont hard code "52 unsynced transaction" as well that should also be dynamic based on the unsyned transaction for that MCC. 
+"Client consulting trip to New York" should not be hard coded {CardName} of the transaction for which the user is setting the category should be inplace of Client consulting trip to New York
+Dont hard code "9 unsynced transaction" as well that should also be dynamic based on the unsyned transaction for that Card Name. 
+
+Change QuickBooks to Tally as placeholder for AccountingSoftware used by the client
+Tally Category should be the Category the user is setting the rule for. It should be dropdown with all the Chart of Accounts category names (dont hard code, import it from frontend/src/utils/accountingData.js)
+When the Rule is created, the Create rule button for that category becomes "Edit rule" 
+The Create rule button should be primary orange color. 

@@ -1,0 +1,61 @@
+PROMPT: Transaction Selection Banner Enhancement
+
+Objective: Modify the transaction selection banner implementation to meet new requirements for visibility, styling, and functionality.
+
+Key Requirements:
+
+Banner Placement & Styling:
+Move banner out of sidebar and restrict to main content area
+Change background color to light orange
+Banner should stay fixed at bottom of main content
+Do not overlap with other content
+Banner Visibility Rules:
+Only show in "Overview" and "Needs Review" subtabs
+Hide in all other subtabs including "Ready to sync" and "Waiting for cardholder"
+Transaction Flow Logic:
+When "Mark ready" button is clicked:
+Move selected transactions to "Ready to sync" subtab
+Clear selection checkboxes
+Update transaction status to "Ready to sync"
+Show success notification
+Refresh transaction list to reflect changes
+Action Column Behavior:
+Checkbox in Action column indicates "Ready" status
+When checked:
+Move transaction to "Ready to sync" subtab
+Update transaction status
+Remove from current subtab
+Ready to Sync Tab Data:
+Only show transactions explicitly marked as ready
+Remove any placeholder/test data
+Transaction must have category assigned and be marked ready to appear here
+UI Cleanup:
+Remove Reset Auth button from interface
+Ensure banner transitions smoothly when showing/hiding
+Implementation Location:
+
+Primary changes in TransactionSelectionBanner.jsx component
+Supporting changes in Accounting_StrideCardPage.jsx for subtab logic
+Transaction state management in AccountingStrideCardPage_StrideCardData.js
+The changes should leverage existing context providers and state management patterns established in the codebase.
+
+Data Flow:
+
+User selects transactions (via checkboxes)
+Banner appears if in correct subtab
+User clicks "Mark ready" or action checkbox
+Transaction status updates
+Transaction moves to Ready to sync tab
+Selection clears
+Banner hides
+Error Handling:
+
+Validate all transactions have categories before allowing "Mark ready"
+Show appropriate error messages if requirements not met
+Handle edge cases for partial selections
+Key Files to Consider:
+
+frontend/src/components/TransactionSelectionBanner.jsx
+frontend/src/pages/Accounting_StrideCardPage.jsx
+frontend/src/utils/AccountingStrideCardPage_StrideCardData.js
+This implementation should maintain consistency with existing UI patterns and state management approaches while adding the new functionality.

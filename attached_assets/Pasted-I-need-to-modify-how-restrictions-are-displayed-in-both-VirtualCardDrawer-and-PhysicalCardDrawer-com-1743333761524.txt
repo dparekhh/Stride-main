@@ -1,0 +1,50 @@
+I need to modify how restrictions are displayed in both VirtualCardDrawer and PhysicalCardDrawer components, specifically focusing on how categories and merchant restrictions are shown. Here are the detailed requirements:
+1. Category Display Changes:
+- Remove the "Allowed categories" or ""Allowed categories" title transfer
+- only when no specfic category is allowed or blocked should the title transfer in case of both categories and merchants
+- Instead, show the actual selected categories (e.g., food, travel) that were allowed or blocked
+- Each category should be displayed as a tag
+- Tags should be inline (same line) where possible
+- If tags overflow, they should wrap to new lines
+
+2. Restrictions Display Format:
+- Convert the current separate-line display to an inline tag-based display
+- All restrictions (both merchants and categories) should be shown as tags in the same line
+- Tags should be horizontally aligned with proper spacing
+- Implement wrapping behavior if tags exceed container width
+
+3. Visual Indicators for Restriction Types:
+- Add status icons to differentiate between allowed and blocked items:
+  * Allowed items: Green checkmark icon in a circle
+  * Blocked items: Red X icon in a circle
+  Tag background should be light green if allowed and light red when blocked
+- Each tag should have the appropriate icon based on the restriction type
+- Icons should be consistently sized and aligned
+
+4. UI/UX Requirements:
+- Tags should have a consistent design with rounded corners
+- Proper spacing between tags
+- Clear visual hierarchy
+- Maintain existing hover and interaction states
+- Ensure accessibility standards are met
+5. Components to Modify:
+- VirtualCardDrawer.jsx
+- PhysicalCardDrawer.jsx
+- Any shared components used for displaying restrictions
+6. Implementation Details:
+- Use the existing restrictions state structure
+- Maintain all current functionality while updating the display
+- Ensure the changes work with the RestrictionsDrawer component
+- Keep the current "Add restrictions" button and helper text
+7. Style Guidelines:
+- Use existing color schemes for consistency
+- Follow the established UI patterns
+- Maintain responsive behavior
+- Use Tailwind classes for styling
+8. Technical Considerations:
+- Ensure proper state management
+- Maintain existing event handlers
+- Keep the current data flow between components
+- Handle edge cases (empty states, long text, etc.)
+The changes should focus on improving the visual representation while maintaining all existing functionality. The goal is to make the restrictions more compact and easier to understand at a glance through the use of inline tags and clear visual indicators.
+Please update the relevant components following these specifications while maintaining the current codebase patterns and functionality.

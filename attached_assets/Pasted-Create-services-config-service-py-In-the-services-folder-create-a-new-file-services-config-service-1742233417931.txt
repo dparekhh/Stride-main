@@ -1,0 +1,103 @@
+Create services/config_service.py
+In the services folder, create a new file services/config_service.py with the following content:
+"""Business logic for general configuration settings management."""
+import logging
+from typing import Dict, Any
+from marshmallow import Schema, fields, ValidationError
+
+logger = logging.getLogger(__name__)
+
+class ImportSettingsSchema(Schema):
+    tally_enabled = fields.Boolean(required=True)
+    po_enabled = fields.Boolean(required=True)
+
+class AccountingConfigSchema(Schema):
+    default_expense_account = fields.Str(allow_none=True)
+    default_ap_account = fields.Str(allow_none=True)
+    default_tax_rate = fields.Str(allow_none=True)
+    auto_tax = fields.Boolean(allow_none=True)
+    integrations = fields.Dict(allow_none=True)
+
+class ApprovalSettingsSchema(Schema):
+    single_approver = fields.Boolean(allow_none=True)
+    amount_based = fields.Boolean(allow_none=True)
+    department_based = fields.Boolean(allow_none=True)
+    tiers = fields.List(fields.Dict(), allow_none=True)
+
+class ConfigService:
+    """Service class for general configuration settings management operations."""
+    def __init__(self, tenant_id: int):
+        self.tenant_id = tenant_id
+
+    def get_settings(self) -> Dict[str, Any]:
+        """Retrieve general settings for the tenant (placeholder for database-backed implementation)."""
+        # TODO: Replace with database-backed implementation
+        return {
+            "categories": ["Office Supplies", "Utilities", "Rent", "Software", "Hardware"],
+            "approval_thresholds": {
+                "low": 10000,
+                "medium": 50000,
+                "high": 100000
+            },
+            "import_settings": {
+                "tally_enabled": True,
+                "po_enabled": True
+            },
+            "accounting": {
+                "default_expense_account": "5000 - General Expenses",
+                "default_ap_account": "2000 - Accounts Payable",
+                "default_tax_rate": "18% - GST",
+                "auto_tax": True,
+                "integrations": {
+                    "quickbooks": True,
+                    "tally": False,
+                    "zoho": False
+                }
+            },
+            "approvals": {
+                "single_approver": True,
+                "amount_based": False,
+                "department_based": False,
+                "tiers": [
+                    {"range": "₹0 - ₹10,000", "approvers": 1},
+                    {"range": "₹10,001 - ₹50,000", "approvers": 2},
+                    {"range": "₹50,001+", "approvers": 3}
+                ]
+            }
+        }
+
+    def update_import_settings(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        """Update import settings (placeholder for database-backed implementation)."""
+        try:
+            validated_data = ImportSettingsSchema().load(data)
+        except ValidationError as err:
+            raise ValueError(str(err.messages))
+
+        # TODO: Save to database
+        logger.info(f"Import settings updated for tenant {self.tenant_id}: {validated_data}")
+        return {
+            "tally_enabled": validated_data['tally_enabled'],
+            "po_enabled": validated_data['po_enabled']
+        }
+
+    def update_accounting_config(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        """Update accounting configuration (placeholder for database-backed implementation)."""
+        try:
+            validated_data = AccountingConfigSchema().load(data)
+        except ValidationError as err:
+            raise ValueError(str(err.messages))
+
+        # TODO: Save to database
+        logger.info(f"Accounting config updated for tenant {self.tenant_id}: {validated_data}")
+        return validated_data
+
+    def update_approval_settings(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        """Update approval settings (placeholder for database-backed implementation)."""
+        try:
+            validated_data = ApprovalSettingsSchema().load(data)
+        except ValidationError as err:
+            raise ValueError(str(err.messages))
+
+        # TODO: Save to database
+        logger.info(f"Approval settings updated for tenant {self.tenant_id}: {validated_data}")
+        return validated_data

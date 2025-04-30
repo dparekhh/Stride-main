@@ -1,0 +1,62 @@
+Title: Implement ApproverBox Step in WorkflowBuilder for Submission Policy
+
+Context:
+The WorkflowBuilder.jsx component already handles the Set Conditions box functionality. After analyzing the SubmissionPolicyBuilder.jsx code, there are no blockers preventing the implementation of the ApproverBox step.
+
+Requirements:
+
+UI/UX Flow:
+After user completes condition setup in Set Conditions box
+When "Next Step: Add Approvers" button is clicked
+Transition to ApproverBox with same positioning and styling as Set Conditions box
+ApproverBox Component Specifications:
+Width: Match Set Conditions box (600px)
+Position: Same layout structure as Set Conditions box
+Background: White with border and shadow consistent with Set Conditions
+Maintain consistent padding and spacing
+ApproverBox UI Elements:
+Left dropdown labeled "Require" with options like "Any", "All"
+Right dropdown for selecting approvers
+Cancel button (left aligned)
+Save & Close button (right aligned, green background)
+Support for removing selected approvers (x button)
+State Management:
+Track selected approvers
+Maintain approval requirement type (Any/All)
+Handle approver selection and removal
+Preserve previous condition data
+Integration Points:
+Connect with existing WorkflowBuilder state management
+Utilize useWorkflowState hook for consistency
+Maintain smooth transition between steps
+Technical Requirements:
+
+Component Structure:
+Create ApproverBox as a subcomponent within WorkflowBuilder
+Use consistent styling approach with Set Conditions box
+Implement proper TypeScript/PropTypes validation
+State Handling:
+Track step progression (conditions -> approvers)
+Maintain selected approvers state
+Handle approval type selection
+UX Considerations:
+Smooth transition between steps
+Consistent dropdown behavior
+Clear validation feedback
+Proper button states and loading indicators
+Integration:
+Utilize existing dropdown components
+Maintain consistent portal usage for dropdowns
+Follow established pattern for action handling
+The WorkflowBuilder already supports multiple steps through its internal state management. The ApproverBox should be implemented as a natural extension of this flow, maintaining consistency with the existing UI patterns and state management approach.
+
+Note: The implementation should leverage existing components like PortalDropdown, SearchableDropdown, and follow the established patterns in the WorkflowBuilder component while adding the new ApproverBox functionality.
+
+Testing Considerations:
+
+Verify step transition
+Test approver selection/deselection
+Validate approval type changes
+Ensure state preservation
+Check responsive behavior
+Verify dropdown positioning

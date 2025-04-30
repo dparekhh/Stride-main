@@ -1,0 +1,46 @@
+I need to modify the Cards page interface in my spend management platform. Here are the specific changes needed:
+1. In frontend/src/pages/CardsPage.jsx:
+- Rename the "Issue Spend" button to "Issue Card"
+- Remove the current click handler for the Issue Spend button
+- Add a new drawer component for Issue Card that slides in from the right covering 50% of screen
+- Add blur effect to background when drawer is open
+- Implement the Issue Card drawer UI as shown in image_1743305582818.png with:
+- New request section with Virtual card, Product/service, and Physical card options
+- Spend programs section with categories for business expenses as shown in image_1743305911566.png
+- Each item should have an icon, title, description and arrow
+
+2. Create a new component frontend/src/components/PhysicalCardDrawer.jsx:
+- Should open when Physical card option is clicked in Issue Card drawer. This new component should have the same UI design as 1743306090096.png, image_1743306189987.png and image_1743306268412.png.
+- Include form fields:
+  - Who is it for? (required, dropdown)
+  - What is it for? (required, text input for card nickname)
+  - Amount (required)
+  - Currency dropdown (default to INR)
+  - Frequency dropdown (default to Monthly)
+  - Submission policy dropdown
+  - Mailing address section with radio options:
+    - Ask cardholder (dynamic text "Ask {cardholderName}")
+    - Send to address (address form fields)
+  - Remove USA/International option boxes
+  - Empty address fields by default
+  - Advanced section with expandable:
+    - Sharing
+    - Spending controls and restrictions  
+    - Additional reviews
+    - Payment options
+  - Confirm address button in primary color
+
+3. Update shared styles to handle:
+- Drawer animations
+- Backdrop blur effects
+- Form field layouts
+- Primary button styles
+The implementation should follow the existing React patterns and styling conventions used in the codebase, using Tailwind CSS for styling.
+Make sure to handle:
+- Proper state management for drawer open/close
+- Form validation
+- Dynamic text interpolation for cardholder name
+- Smooth transitions and animations
+- Mobile responsiveness
+- Proper error handling
+- Accessibility standards

@@ -1,0 +1,47 @@
+I need to modify the RestrictionsDrawer component to implement specific UI changes for the merchant restrictions section and add a tooltip. Here are the detailed requirements:
+
+1. Merchant Control Type Dropdown Update:
+- Remove "None" from the merchant control type options array
+- The dropdown should only show two options:
+  * "Allowed merchants" with helper text: "Allow transactions only from selected merchants."
+  * "Blocked merchants" with helper text: "Block transactions from selected merchants."
+
+2. Add Tooltip Component:
+- Add a tooltip next to the "Save changes" button with trigger text "What can this card spend on?"
+- The tooltip should show a summary of the card's spending permissions
+- Styling:
+  * Light grey background
+  * Should appear on hover
+  * Should contain text that summarizes:
+    - Selected merchant restrictions (if any)
+    - Selected category restrictions (if any)
+    - Default text if no restrictions: "This card has no spending restrictions"
+
+Implementation Details:
+
+1. File to Modify: frontend/src/components/RestrictionsDrawer.jsx
+
+2. Reference Files for Context:
+- frontend/src/components/VirtualCardDrawer.jsx
+- frontend/src/components/PhysicalCardDrawer.jsx
+
+3. Key Changes Required:
+- Update the merchantControlOptions array to remove "None"
+- Add a tooltip component next to the footer's save button
+- Implement a function to generate the tooltip content based on current restrictions
+- Maintain existing drawer functionality and state management
+
+4. Tooltip Content Logic:
+- Should check both merchant and category restrictions
+- Display appropriate messages based on:
+  * Selected merchant control type and merchants
+  * Selected category control type and categories
+  * Combine both if both types of restrictions exist
+
+5. UI/UX Requirements:
+- Tooltip should be unobtrusive but easily visible
+- Text should be concise and clear
+- Maintain consistent styling with the rest of the application
+- Follow existing component patterns and state management
+
+Please update the RestrictionsDrawer component following these specifications while maintaining the current codebase patterns and functionality.

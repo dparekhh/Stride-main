@@ -1,0 +1,29 @@
+ I've analyzed the data formatting inconsistency issue in the StrideCardTable component. The problem lies in how currency amounts are being formatted and displayed between the amount and cardLimit columns.
+
+Root Cause Analysis
+Inconsistent Data Source Format:
+
+In AccountingStrideCardPage_StrideCardData.js, the transaction data is being converted from Expenses_CardTransactionPageData.js using the convertExpensesToStrideCardFormat function.
+During this conversion, the amount field is being formatted as a string with currency symbol (e.g., "₹1,500.00") using formatCurrency().
+However, in the table component (StrideCardTable.jsx), the same formatting function is applied again to the already-formatted string.
+Double Formatting Issue:
+
+Looking at the StrideCardTable.jsx file, both the amount and cardLimit columns use the tableUtils.formatCurrency() function:
+// For amount column
+{tableUtils.formatCurrency(transaction.amount, transaction.currency)}
+// For cardLimit column
+{tableUtils.formatCurrency(transaction.cardLimit, transaction.currency)}
+The issue is that transaction.amount is already a formatted string from the data source, while transaction.cardLimit might be a numeric value.
+tableUtils Formatting Implementation:
+
+The tableUtils.formatCurrency() function likely isn't handling pre-formatted currency strings correctly.
+It's either attempting to parse an already formatted string (which could result in NaN) or applying a second layer of formatting.
+Recommended Solution Approach
+To resolve this issue without modifying code, we need to ensure:
+
+Either the data source provides consistent data types (both numeric or both pre-formatted strings) for amount and cardLimit
+Or the table component's formatting logic handles both pre-formatted strings and numeric values properly
+In the current implementation, we should either:
+
+Modify convertExpensesToStrideCardFormat to return numeric values for both fields
+Enhance tableUtils.formatCurrency to check if the input is already a formatted string and handle it appropriately

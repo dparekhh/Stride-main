@@ -1,0 +1,53 @@
+Please implement a new ConnectHRISDrawer component for the HRIS integration feature with the following specifications:
+1. Create a new file 'ConnectHRISDrawer.jsx' in the frontend/src/components directory that follows the same architectural pattern as BulkInviteDrawer, using the AppDrawer base component from components/common/AppDrawer.jsx.
+2. Component Structure:
+- Use AppDrawer as the base wrapper component
+- Implement a fixed header section with back/close buttons
+- Add a scrollable content area for HRIS providers
+- Follow the existing drawer width pattern (md:w-1/2)
+3. Header Section Requirements:
+- Title: "Connect your HRIS"
+- Subtitle: "Sync your employee data effortlessly—auto-update team members, roles, and access permissions in real time."
+- Back button on the left using ArrowLeft icon from lucide-react
+- Close (X) button on the right
+- Subtle gray border separator (border-b border-gray-200)
+- Header should be fixed and not scroll
+4. Content Section Requirements:
+- Create a grid layout with two columns
+- Column headers: "Name of HRIS" (left) and "Sync" (right)
+- Each HRIS provider row should contain:
+  * Left: Circle container with HRIS logo + Provider name
+  * Right: "Sync" button with gray border and subtle shadow
+- Make content area scrollable while keeping header fixed
+5. Button:
+Have a container in the bottom of the drawer that is fixed and alwasys visible with a "Done" button on the bottom right corner of the drawer. The button should be grayed out and non clickable until a HRIS is connected. Once it is connected it should be primary color and clickable. 
+6. List of HRIS system to display right now:
+    1. Darwinbox
+    2. Keka HR
+    3. Zoho People
+    4. GreyHR
+    5. Zing HR
+    6. Razorpay
+    7. Freshteam
+    8. ADP
+
+7. Integration Requirements:
+- The drawer should open when "Sync HRIS" is clicked in InvitePeopleDrawer
+- Add isOpen and onClose props for drawer state management
+- Add onBack prop to handle navigation back to InvitePeopleDrawer
+8. Styling Requirements:
+- Use Tailwind CSS classes consistent with existing components
+- HRIS logo circle: h-8 w-8 rounded-full
+- Sync button: border border-gray-200 shadow-sm hover:shadow
+- Maintain consistent spacing with other drawers (p-6)
+- Use existing color scheme from the app
+
+Please ensure the component follows the existing drawer patterns in the codebase, especially the layout structure seen in BulkInviteDrawer and other similar components. The implementation should use the AppDrawer component as the foundation and maintain consistent styling with the rest of the application.
+
+Additional technical notes:
+- Use React hooks (useState) for managing drawer state
+- Import Lucide icons consistent with other components
+- Maintain proper TypeScript types if applicable
+- Follow the existing error handling patterns
+- Implement proper cleanup in useEffect if needed
+- Use the existing NotificationContext for any success/error messages

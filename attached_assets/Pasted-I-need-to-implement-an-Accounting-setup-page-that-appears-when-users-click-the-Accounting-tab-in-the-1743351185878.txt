@@ -1,0 +1,38 @@
+I need to implement an Accounting setup page that appears when users click the Accounting tab in the sidebar before setting up accounting integration. Here are the detailed requirements:
+
+1. Create a new component called `AccountingSetup.jsx` in the frontend/src/pages directory that will serve as the initial setup page for the Accounting section.
+
+2. The page should have the following layout elements:
+- A header section with "Accounting" title and a "Take a tour" button in the top-right corner
+- A centered content section containing:
+  * A book icon (use the Book icon from lucide-react)
+  * A main heading "Sync your transactions to your accounting provider"
+  * A subheading "Set up in minutes and say goodbye to manual coding"
+  * Action buttons:
+    - Primary "Get started now" button using the application's primary color
+    - Text "or" separator
+    - "Select someone to set it up" link in gray
+  * A small note at the bottom: "No stress, Stride never syncs data without your approval"
+
+3. The styling should follow these specifications:
+- Use Tailwind CSS for styling
+- Center all content vertically and horizontally
+- Use appropriate spacing between elements
+- Ensure the book icon is properly sized and centered
+- Style the "Get started now" button with the primary color from the theme
+- Make the secondary link gray and underlined on hover
+
+4. Update the routing in App.jsx to:
+- Add a route for "/accounting" that renders this component
+- Handle the "Get started now" button click to navigate to the appropriate setup flow
+- Handle the "Select someone to set it up" link click
+
+5. Ensure the page is responsive and maintains proper layout on different screen sizes.
+
+Please implement this while maintaining consistency with the existing codebase structure and styling patterns. The design should match the provided reference image with "Stride" branding instead of "Ramp".
+
+Note: The component should be integrated with the existing codebase, considering:
+- Use of existing color schemes and styling variables
+- Consistent routing patterns
+- Proper TypeScript/PropTypes if used in the project
+- Integration with any existing state management

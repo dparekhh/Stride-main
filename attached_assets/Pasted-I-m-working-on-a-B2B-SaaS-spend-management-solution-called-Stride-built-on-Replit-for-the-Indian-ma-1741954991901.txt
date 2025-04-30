@@ -1,0 +1,22 @@
+I’m working on a B2B SaaS spend management solution called Stride, built on Replit for the Indian market. The app uses React.js with Vite for the frontend and Python with Flask for the backend. The backend leverages Flask-SQLAlchemy for database ORM, Flask-CORS for cross-origin resource sharing, and PostgreSQL as the database. My current task is to fully complete the Google Cloud Vision API integration for OCR processing, which is partially implemented in utils/ocr_vision.py. I’ll provide the current progress and then ask you to guide me through baby steps to finish it. Please provide detailed, text-only instructions for each step—no code snippets, just clear explanations. Break it down into small, manageable tasks so I can execute them one by one in Replit.
+
+Current Progress on Google Cloud Vision API:
+A dedicated OCR utility module exists in utils/ocr_vision.py.
+The module supports text extraction from images using the Google Cloud Vision API.
+Credential management is implemented with two options:
+File-based credentials via the GOOGLE_APPLICATION_CREDENTIALS environment variable.
+JSON-based credentials via the GOOGLE_APPLICATION_CREDENTIALS_JSON environment variable.
+Temporary file handling is set up for credentials when using JSON.
+Comprehensive logging and robust error handling are in place.
+The system can process images and extract text, with structured output for invoice field extraction (e.g., vendor name, amount, date).
+Goal:
+I need to:
+
+Finalize the OCR functionality by adding specific invoice field parsing logic.
+Integrate it into the Flask backend with an API endpoint.
+Connect it to the React frontend for file uploads and result display.
+Test the entire flow and handle edge cases.
+Here are the baby steps I’d like you to guide me through:
+
+Step 1: Enhance Invoice Field Parsing in utils/ocr_vision.py
+Start by improving the existing OCR utility to extract specific invoice fields more accurately. The current implementation extracts text and structures it, but I need it to identify and label key fields like "Invoice Number," "Total Amount," "Date," and "Vendor Name" based on common patterns in Indian invoices. For now, assume invoices follow a simple format where these fields are prefixed with labels like "Invoice No:" or "Total:". Update the logic to search for these keywords and extract the values that follow them. Ensure the output is a JSON-like dictionary with these fields as keys. Keep the existing error handling and logging intact.

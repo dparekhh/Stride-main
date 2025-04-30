@@ -1,0 +1,73 @@
+When the Bills subtab of the Bill Pay tab there are five views the user can navigate between. 
+Overview, Draft, For Approval, For Payment and Histroy. The data within the tables is not user genereated, but users might have some control to edit it. 
+The Overview tab has these columns:
+Checkbox
+Vendor (Text)
+Amount (Currency - INR - Rupee Icon)
+Invoice Date (Date)
+Invoice # (Number)
+Invoice (File) - the actual invoice file the user the click on to view the invoice pdf copy
+Department (Text)
+Due Date (Date)
+Action (Button to either Review, Reject or Approve. The bill can only be in Review when it is in Draft foramt. And it can only be Rejected or Approved by Specfic indiviauls. ) 
+Status (Text)
+Payment Status (Dropdown - Pending, initiated, scheduled)
+Payment Date (Date)
+Approval Status (ENUM or VARCHAR (with constraints))
+Category (Text)
+PO# (number)
+
+The Draft Tab has these columns:
+Checkbox
+Vendor (Text)
+Amount (Currency - INR - Rupee Icon)
+Invoice Date (Date)
+Invoice # (Number)
+Invoice (File) - the actual invoice file the user the click on to view the invoice pdf copy
+Department (Text)
+Due Date (Date)
+Action (Button to Review (opens draft bill on clicking)) 
+Status (Text)
+Payment Status (Dropdown - Pending, initiated, scheduled)
+Payment Date (Date)
+Approval Status (ENUM or VARCHAR (with constraints))
+Category (Text)
+PO# (number)
+
+The For Approval Tab has these columns:
+Checkbox
+Vendor (Text)
+Amount (Currency - INR - Rupee Icon)
+Invoice Date (Date)
+Invoice # (Number)
+Invoice (File) - the actual invoice file the user the click on to view the invoice pdf copy
+Department (Text)
+Due Date (Date)
+Action (Button to Approve (approves bill on clicking by approved indiviuals within the organization) 
+Status (Text)
+Payment Status (Dropdown - Pending, initiated, scheduled)
+Payment Date (Date)
+Approval Status (ENUM or VARCHAR (with constraints))
+Category (Text)
+PO# (number)
+
+The For Payment Tab has these columns:
+Checkbox
+Vendor (Text)
+Amount (Currency - INR - Rupee Icon)
+Invoice Date (Date)
+Invoice # (Number)
+Invoice (File) - the actual invoice file the user the click on to view the invoice pdf copy
+Department (Text)
+Due Date (Date)
+Action (Text - Approved) 
+Status (Text)
+Payment Status (Dropdown - initiated, scheduled)
+Payment Date (Date)
+Approval Status (ENUM or VARCHAR (with constraints))
+Category (Text)
+PO# (number)
+
+Histroy will ahve similar columns and all transctions that have been paid will live here. 
+
+All the transaction flows between these columns. All transction live in the overvew. All draft bills live in the draft subtab. All will sumbitted but yet to be approved live in For Approval, all bills approved but yet to be paid live in For Payment and all bill paid live in History. The UI of the subtabs should be as seen in the image attached

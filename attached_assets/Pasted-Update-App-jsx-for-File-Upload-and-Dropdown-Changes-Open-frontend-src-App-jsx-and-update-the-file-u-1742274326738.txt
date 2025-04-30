@@ -1,0 +1,230 @@
+Update App.jsx for File Upload and Dropdown Changes
+Open frontend/src/App.jsx and update the file upload event handler and dropdown options:
+
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes, useNavigate } from "react-router-dom";
+import Sidebar from "./components/Sidebar.jsx";
+import MainContent from "./components/MainContent.jsx";
+import SettingsModal from "./components/SettingsModal.jsx";
+import InvoicePreview from "./components/InvoicePreview.jsx";
+import NewBill from "./components/NewBill.jsx";
+import NewVendor from "./components/NewVendor.jsx";
+import NotificationContainer from "./components/NotificationContainer.jsx";
+import { NotificationProvider, useNotification } from "./contexts/NotificationContext.jsx";
+import { useAppState } from "./hooks/useAppState.js";
+import { useFileUpload } from "./hooks/useFileUpload.js";
+
+const AppContent = () => {
+  const {
+    sidebarCollapsed, setSidebarCollapsed,
+    showFilter, setShowFilter,
+    showNewBillMenu, setShowNewBillMenu,
+    showMoreOptionsMenu, setShowMoreOptionsMenu,
+    showSettings, setShowSettings,
+    activeSettingsTab, setActiveSettingsTab,
+    showInvoicePreview, setShowInvoicePreview,
+    showNewBill, setShowNewBill,
+    showNewVendor, setShowNewVendor,
+    uploadedInvoice, setUploadedInvoice,
+    importTallyEnabled, setImportTallyEnabled,
+    importPOEnabled, setImportPOEnabled,
+    sampleBillsData, sampleAPClerks,
+    newBillMenuRef, moreOptionsMenuRef, settingsModalRef, fileInputRef
+  } = useAppState();
+
+  const navigate = useNavigate();
+  const notificationContext = useNotification();
+  const { handleFileUpload } = useFileUpload(setUploadedInvoice, setShowNewBill, notificationContext);
+
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (newBillMenuRef.current && !newBillMenuRef.current.contains(event.target)) {
+        setShowNewBillMenu(false);
+      }
+      if (moreOptionsMenuRef.current && !moreOptionsMenuRef.current.contains(event.target)) {
+        setShowMoreOptionsMenu(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    window.addEventListener("openSettings", handleOpenSettings);
+    window.addEventListener("fileUploaded", handleFileUploaded);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("openSettings", handleOpenSettings);
+      window.removeEventListener("fileUploaded", handleFileUploaded);
+    };
+  }, [showSettings]);
+
+  // Handle custom openSettings event
+  function handleOpenSettings(event) {
+    const { tab } = event.detail || { tab: 'permissions' };
+    setShowSettings(true);
+    setActiveSettingsTab(tab);
+  }
+
+  // Handle file uploaded event from BillsTab/BillManager
+  function handleFileUploaded(event) {
+    const file = event.detail.file;
+    handleFileUpload(file);
+  }
+
+  // Handle new bill options
+  const handleNewBillOption = (option) => {
+    console.log(`Selected option: ${option}`);
+    if (option === "upload") {
+      fileInputRef.current.click();
+      setShowNewBillMenu(false);
+    } else if (option === "manual") {
+      notificationContext.showInfo("Opening manual bill creation form...");
+      setShowNewBill(true);
+      setShowNewBillMenu(false);
+    } else if (option === "spreadsheet") {
+      notificationContext.showInfo("Spreadsheet upload option selected");
+      setShowNewBillMenu(false);
+    } else {
+      setShowNewBillMenu(false);
+    }
+  };
+
+  // Handle more options
+  const handleMoreOption = (option) => {
+    console.log(`Selected more option: ${option}`);
+    setShowMoreOptionsMenu(false);
+    if (option === "settings") {
+      setShowSettings(true);
+      setActiveSettingsTab("permissions");
+    }
+  };
+
+  const handleCreateNewVendor = () => {
+    setShowNewBill(false);
+    setShowNewVendor(true);
+  };
+
+  const handleVendorCreated = () => {
+    setShowNewVendor(false);
+    notificationContext.showSuccess("Created new vendor successfully");
+    setTimeout(() => {
+      setShowNewBill(true);
+    }, 300);
+  };
+
+  return (
+    <div className="flex h-screen relative">
+      <Sidebar
+        sidebarCollapsed={sidebarCollapsed}
+        toggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)}
+        setActiveView={(view) => navigate(`/${view}`)}
+      />
+      <Routes>
+        <Route
+          path="/bill-pay/bills"
+          element={
+            <MainContent
+              showFilter={showFilter}
+              setShowFilter={setShowFilter}
+              showNewBillMenu={showNewBillMenu}
+              setShowNewBillMenu={setShowNewBillMenu}
+              showMoreOptionsMenu={showMoreOptionsMenu}
+              setShowMoreOptionsMenu={setShowMoreOptionsMenu}
+              showSettings={showSettings}
+              newBillMenuRef={newBillMenuRef}
+              moreOptionsMenuRef={moreOptionsMenuRef}
+              handleNewBillOption={handleNewBillOption}
+              handleMoreOption={handleMoreOption}
+              sampleBillsData={sampleBillsData}
+              fileInputRef={fileInputRef}
+              handleFileUpload={handleFileUpload}
+            />
+          }
+        />
+        <Route path="/bill-pay/purchase-order" element={<div>Purchase Order - Placeholder</div>} />
+        <Route path="/bill-pay/vendors" element={<div>Vendors - Placeholder</div>} />
+        <Route path="/inbox" element={<div>Inbox - Placeholder</div>} />
+        <Route path="/insights" element={<div>Insights - Placeholder</div>} />
+        <Route path="/expense/card-transactions" element={<div>Card Transactions - Placeholder</div>} />
+        <Route path="/expense/reimbursements" element={<div>Reimbursements (Expense) - Placeholder</div>} />
+        <Route path="/accounting/stride-card" element={<div>Stride Card - Placeholder</div>} />
+        <Route path="/accounting/reimbursements" element={<div>Reimbursements (Accounting) - Placeholder</div>} />
+        <Route path="/accounting/bill-payment" element={<div>Bill Payment - Placeholder</div>} />
+        <Route path="/card" element={<div>Card - Placeholder</div>} />
+        <Route path="/policy" element={<div>Policy - Placeholder</div>} />
+        <Route path="/people" element={<div>People - Placeholder</div>} />
+        <Route path="*" element={<div>404 - Not Found</div>} />
+      </Routes>
+      <SettingsModal
+        showSettings={showSettings}
+        setShowSettings={setShowSettings}
+        activeSettingsTab={activeSettingsTab}
+        setActiveSettingsTab={setActiveSettingsTab}
+        sampleAPClerks={sampleAPClerks}
+        importTallyEnabled={importTallyEnabled}
+        setImportTallyEnabled={setImportTallyEnabled}
+        importPOEnabled={importPOEnabled}
+        setImportPOEnabled={setImportPOEnabled}
+        settingsModalRef={settingsModalRef}
+      />
+      <InvoicePreview
+        showInvoicePreview={showInvoicePreview}
+        setShowInvoicePreview={setShowInvoicePreview}
+        uploadedInvoice={uploadedInvoice}
+        setUploadedInvoice={setUploadedInvoice}
+      />
+      <NewBill
+        showNewBill={showNewBill}
+        setShowNewBill={setShowNewBill}
+        uploadedInvoice={uploadedInvoice}
+        setUploadedInvoice={setUploadedInvoice}
+        onCreateNewVendor={handleCreateNewVendor}
+      />
+      <NewVendor
+        uploadedInvoice={uploadedInvoice}
+        showNewVendor={showNewVendor}
+        notification={notificationContext}
+        onClose={() => {
+          console.log("Closing vendor form and returning to bill form");
+          setShowNewVendor(false);
+          setTimeout(() => {
+            setShowNewBill(true);
+          }, 300);
+        }}
+        onVendorCreated={handleVendorCreated}
+      />
+      <NotificationContainer
+        notifications={notificationContext.notifications}
+        removeNotification={notificationContext.removeNotification}
+      />
+    </div>
+  );
+};
+
+// Main App component with NotificationProvider and Router
+const App = () => {
+  return (
+    <NotificationProvider>
+      <Router>
+        <AppContent />
+      </Router>
+    </NotificationProvider>
+  );
+};
+
+export default App;
+
+
+Updated handleFileUploaded to use the new handleFileUpload logic from useFileUpload.js.
+Simplified handleNewBillOption to support only upload, manual, and spreadsheet options.
+Updated routes to reflect the full platform structure:
+Bill Pay section: /bill-pay/bills, /bill-pay/purchase-order, /bill-pay/vendors.
+Other sections: /inbox, /insights, /expense/card-transactions, etc.
+Preserved all UI elements and functionalities:
+Collapsible sidebar.
+Toast notifications.
+Settings modal.
+New bill form.
+New vendor form.
+File upload (now with configurable extraction).
+Dropdown menus (updated options).

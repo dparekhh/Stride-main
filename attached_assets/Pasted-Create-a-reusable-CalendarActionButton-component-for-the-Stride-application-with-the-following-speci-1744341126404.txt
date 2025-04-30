@@ -1,0 +1,53 @@
+Create a reusable CalendarActionButton component for the Stride application with the following specifications:
+
+Component Structure:
+Create new file at frontend/src/components/common/action-buttons/CalendarActionButton.jsx
+The component should follow our established patterns for reusable components
+Must support all current calendar functionality from Accounting_StrideCardPage.jsx
+Component Features:
+Button displays Calendar icon and handles click events
+Dropdown menu with date range options (Today, Yesterday, This month, Last month, Custom range)
+Custom date range picker with start/end date inputs
+Support for applying and resetting date filters
+Tooltip support for better UX
+Consistent styling with our design system
+Props Interface:
+onDateRangeChange: Callback for when date range changes
+initialDateRange: Default selected date range
+position: Dropdown menu position (top/bottom)
+customDateFormat: Optional date format override
+tooltipText: Optional custom tooltip text
+className: Optional custom CSS classes
+disabled: Optional disabled state
+Integration Requirements:
+Must work with existing date filtering logic
+Should maintain current date format consistency (DD/MM/YYYY)
+Must handle outside clicks properly
+Should support keyboard navigation
+Must maintain current accessibility standards
+State Management:
+Local state for dropdown visibility
+Local state for custom date range inputs
+Local state for current selection
+Usage Example:
+Show how it would be used in Accounting_StrideCardPage.jsx after refactoring
+
+Styling:
+
+Match existing Tailwind CSS classes
+Maintain current visual design
+Support hover, focus, and active states
+Support light/dark mode if applicable
+Error Handling:
+Validate date inputs
+Handle invalid date ranges
+Provide user feedback for invalid selections
+Performance Considerations:
+Memoize callbacks where appropriate
+Optimize re-renders
+Handle large date ranges efficiently
+Testing Considerations:
+Component should be easily testable
+Key user interactions should be verified
+Date calculations should be validated
+After creating this component, we'll need to refactor Accounting_StrideCardPage.jsx to use this new component while maintaining all existing functionality.

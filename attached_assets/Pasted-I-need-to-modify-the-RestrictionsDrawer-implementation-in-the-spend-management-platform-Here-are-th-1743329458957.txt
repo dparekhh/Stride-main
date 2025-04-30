@@ -1,0 +1,39 @@
+I need to modify the RestrictionsDrawer implementation in the spend management platform. Here are the specific requirements:
+
+1. Integration Points:
+- The RestrictionsDrawer should open when the "Add restrictions" button is clicked in either VirtualCardDrawer or PhysicalCardDrawer
+- Remove any current direct RestrictionsDrawer rendering from these components
+
+2. RestrictionsDrawer UI Requirements:
+- Match exactly the design shown in image_1743329301327.png
+- Header should show "Restrictions" with subtext "Restrict spending to specific categories and merchants"
+- Include a back button and close (X) button in header
+
+3. Content Structure:
+- Two main sections: "Category restrictions" and "Merchant restrictions"
+- Each section should have a "Control type" dropdown
+- For Category restrictions: Single dropdown with "None" as default option
+- For Merchant restrictions:
+  * First dropdown: "Control type" with "Allowed merchants" as an option
+  * Second dropdown: For merchant selection (should NOT be pre-filled)
+  * Include helper text: "Block all other merchants. Disable category restrictions."
+
+4. Footer:
+- Include "Cancel" and "Save changes" buttons
+- Add a help link/icon with tooltip "What can this card spend on?"
+
+5. Component Behavior:
+- Drawer should slide in from the right
+- Form should maintain state but not persist until "Save changes" is clicked
+- Cancel should reset form and close drawer
+
+6. Integration Requirements:
+- Modify VirtualCardDrawer and PhysicalCardDrawer to properly trigger the RestrictionsDrawer
+- Ensure proper state management between parent drawers and RestrictionsDrawer
+
+Please implement these changes while maintaining the existing codebase structure and patterns. The RestrictionsDrawer should be a standalone component that can be triggered from multiple places.
+
+Reference Files:
+- frontend/src/components/RestrictionsDrawer.jsx
+- frontend/src/components/VirtualCardDrawer.jsx 
+- frontend/src/components/PhysicalCardDrawer.jsx

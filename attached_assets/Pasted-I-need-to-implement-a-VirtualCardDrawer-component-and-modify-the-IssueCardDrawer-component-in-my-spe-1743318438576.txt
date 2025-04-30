@@ -1,0 +1,43 @@
+I need to implement a VirtualCardDrawer component and modify the IssueCardDrawer component in my spend management platform to handle virtual card issuance. Here are the specific requirements:
+
+Navigation Flow:
+When 'Virtual Card' is selected in IssueCardDrawer, navigate user to VirtualCardDrawer
+VirtualCardDrawer should inherit layout and styling patterns from PhysicalCardDrawer for consistency
+VirtualCardDrawer Component Creation:
+Create a new component at frontend/src/components/VirtualCardDrawer.jsx
+Mirror the PhysicalCardDrawer layout structure but implement the UI as shown in the reference image
+Include these sections:
+Card owner selection dropdown (Who will be the owner?)
+What is it for? (optional) field
+Amount (required) with Currency and Frequency dropdowns
+Submission policy dropdown
+Advanced section with collapsible dropdowns:
+Sharing
+Spending controls and restrictions
+Additional reviews (including new 'Payment details' option)
+Employee Selection Logic:
+Remove David Fox as prefilled value
+Implement dropdown showing all employees
+Add 'Has virtual card' tag next to employees who already have virtual cards
+Keep tagged employees selectable (unlike PhysicalCardDrawer) since multiple virtual cards are allowed
+Use existing employee data structure but modify the display logic
+Form Fields:
+Currency: Default to USD
+Frequency: Default to Monthly
+Amount: Required field with validation
+Submission policy: Show existing policy options
+Advanced section should maintain the same collapsible behavior as PhysicalCardDrawer
+Integration Points:
+Connect to existing card management state/context
+Maintain consistent styling with PhysicalCardDrawer
+Use the same form validation patterns
+Integrate with existing employee data source
+Please maintain the existing codebase patterns, including:
+
+Error handling
+Form validation
+State management
+Component structure
+Styling conventions (Tailwind classes)
+Drawer behavior (open/close animations)
+The goal is to create a seamless virtual card issuance flow while maintaining UI/UX consistency with the existing physical card implementation.

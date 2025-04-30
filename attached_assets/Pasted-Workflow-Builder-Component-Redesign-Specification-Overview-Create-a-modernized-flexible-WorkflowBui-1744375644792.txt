@@ -1,0 +1,62 @@
+Workflow Builder Component Redesign Specification
+Overview
+Create a modernized, flexible WorkflowBuilder component that maintains visual flow while allowing easy customization of trigger points, actions, and endpoints.
+Core Architecture Requirements
+Component Structure
+Base the implementation on the existing WorkflowBuilder.jsx component
+Ensure the component accepts customizable props for all text elements
+Maintain separation between visual structure and business logic
+
+Visual Flow Elements
+
+Starting Point ("When Submitting Expenses") (left aligned)
+Connection Line (vertical line connecting elements) (left aligned)
+Action Button ("+ Add" button) (left aligned)
+Ending Point ("Approve Expenses")
+Required Props Interface
+
+{
+  triggerText: string;          // e.g. "When"
+  triggerHighlight: string;     // e.g. "Submitting Expenses"
+  endPointText: string;         // e.g. "Approve"
+  endPointHighlight: string;    // e.g. "Expenses"
+  onAddClick: () => void;       // Handler for the add button
+  className?: string;           // Optional additional styling
+  children?: ReactNode;         // Optional custom content
+}
+
+Visual Design Specifications
+Starting Point
+Text: "When [Highlighted Text]"
+Highlight Style: Light green background (#E5F7ED)
+Text Color: Dark green (#166534)
+Font: Regular weight for "When", Medium weight for highlighted text
+Padding: 4px 8px for highlighted text
+Border Radius: 4px for highlighted text
+
+Connection Lines
+Color: Light gray (#E5E7EB)
+Width: 2px
+Height: Dynamic based on content
+Centered alignment
+
+Add Button
+ractangle shape white fill rounded cornder, black text button
+left aligne between start and end points
+
+End Point
+Text: "Approve [Highlighted Text]"
+Same highlight styling as starting point
+Consistent alignment with starting point
+
+Implementation Focus Areas
+Reusability
+Component should be generic enough for different workflow types
+All text elements should be customizable via props
+Maintain consistent styling system
+State Management
+Use internal state for UI interactions
+Accept external state management when needed
+Clear prop interface for parent components
+Accessibility
+Proper

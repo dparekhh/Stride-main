@@ -1,0 +1,52 @@
+I need to implement a sophisticated accounting software connection page with the following specific requirements:
+1. Navigation:
+- When clicking "Get Started now" in AccountingDashboard, navigate to /accounting/connect
+- Create a new dedicated page component for this view
+2. Layout Structure:
+- Split screen design with two equal halves
+- Left half: List of accounting software providers
+- Right half: Animated Stride logo visualization
+3. Left Side Content:
+Title: "Connect your Accounting software/ERP"
+Subtitle: "Integrations connect Stride with a Third-Party Service. By clicking an option below, you agree to the Integration Terms"
+Provider list in order of popularity:
+- TallyPrime (with logo)
+- Netsuite (with logo)
+- Quickbooks (with logo)
+- SAP (with logo)
+- Microsoft Dynamics 365 (with logo)
+- Odoo (with logo)
+- Xero (with logo)
+- Zoho Books (with logo)
+Each provider item should have:
+- Provider logo on the left
+- Provider name
+- Chevron right arrow
+- Hover state with subtle background change
+- Click handler to initiate connection flow
+4. Right Side Animation:
+Create a sophisticated animation featuring the Stride logo that should:
+- Start with the logo emerging from a subtle glow
+- Have a continuous floating/pulsing effect
+- Show a constellation of small accounting software logos orbiting around it
+- Use the brand orange color (#FF5A1F) for the glow effect
+- Implement using Framer Motion for smooth animations
+
+5. Styling Guidelines:
+- Use Tailwind CSS for layout and styling
+- Maintain consistent spacing and typography with rest of app
+- Ensure responsive design works across screen sizes
+- Use subtle shadows and transitions for interactive elements
+- Implement dark mode compatibility
+6. Technical Implementation Details:
+- Create new route in React Router setup
+- Use existing AccountingContext for state management
+- Implement proper loading and error states
+
+9. Performance Considerations:
+- Lazy load provider logos
+- Optimize animation performance
+- Handle slow network conditions gracefully
+- Implement proper loading states
+
+Please implement this page while maintaining our existing code patterns and component structure. Reference the existing AccountingContext connector implementations for consistency.

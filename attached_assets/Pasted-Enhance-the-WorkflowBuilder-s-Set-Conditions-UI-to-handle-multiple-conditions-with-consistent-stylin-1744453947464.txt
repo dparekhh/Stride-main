@@ -1,0 +1,54 @@
+Enhance the WorkflowBuilder's Set Conditions UI to handle multiple conditions with consistent styling:
+
+When clicking the '+ Add' button in the conditions box, implement an additional condition row that should:
+Appear directly below the existing condition
+Maintain consistent 'space-x-3' spacing between elements
+Follow the same flex layout as the primary condition
+
+Each new condition row should contain:
+A primary condition dropdown using PortalDropdown component:
+Match exact styling of existing primary dropdown
+Use same inputOptions/getOptionsForCondition logic
+Maintain identical hover/focus states
+Keep same width and z-index handling
+
+When a condition is selected:
+Dynamically render operator dropdown (match width of dropdown to the container)
+Show value selection based on condition type using valueSelectionConfig
+Match exact styling/behavior of first condition:
+Same border styling (border-gray-300)
+Identical padding (px-3 py-2)
+Consistent rounded corners (rounded-md)
+Equal height alignment
+
+Value selection should:
+Support both dropdown and input types
+Use same CurrencyInput component for amount inputs (the amount input box should not have the orange boder)
+Maintain identical multi-select behavior for dropdowns
+Show tags for selected values
+Keep consistent placeholder text
+
+Each condition row should have:
+Delete button (X icon) aligned right
+Proper spacing between rows (mb-4)
+Smooth entrance animation
+Proper z-index handling for overlapping dropdowns
+
+State Management:
+Track multiple conditions in an array
+Handle condition type/operator/value updates independently
+Maintain validation state per condition
+Support reordering if needed
+
+Use existing components:
+PortalDropdown for consistent dropdown behavior
+CurrencyInput for amount inputs
+SearchableDropdown for large option lists
+
+Follow existing patterns for:
+Dropdown positioning
+Error handling
+Accessibility
+Mobile responsiveness
+
+The goal is to maintain perfect visual consistency with the existing condition UI while supporting multiple conditions.

@@ -1,0 +1,68 @@
+Create services/accounting_service.py
+In the services folder, create a new file services/accounting_service.py with the following content:
+"""Business logic for accounting settings management."""
+import logging
+from typing import Dict, Any
+from datetime import datetime
+from marshmallow import Schema, fields, ValidationError
+from models import AccountingSettings, db
+from utils.settings_utils import format_datetime
+from utils.bill_utils import format_date
+
+logger = logging.getLogger(__name__)
+
+class AccountingSettingsSchema(Schema):
+    fiscal_year_start = fields.Date(allow_none=True)
+    chart_of_accounts = fields.Dict(allow_none=True)
+    tax_settings = fields.Dict(allow_none=True)
+    default_approval_threshold = fields.Float(allow_none=True)
+
+class AccountingService:
+    """Service class for accounting settings management operations."""
+    def __init__(self, tenant_id: int):
+        self.tenant_id = tenant_id
+
+    def get_accounting_settings(self) -> Dict[str, Any]:
+        """Retrieve accounting settings for the tenant."""
+        settings = AccountingSettings.query.filter_by(tenant_id=self.tenant_id).first()
+        if not settings:
+            return {
+                'fiscal_year_start': None,
+                'chart_of_accounts': {},
+                'tax_settings': {},
+                'default_approval_threshold': 0
+            }
+        return {
+            'id': settings.id,
+            'fiscal_year_start': format_date(settings.fiscal_year_start),
+            'chart_of_accounts': settings.chart_of_accounts,
+            'tax_settings': settings.tax_settings,
+            'default_approval_threshold': settings.default_approval_threshold,
+            'created_at': format_datetime(settings.created_at),
+            'updated_at': format_datetime(settings.updated_at)
+        }
+
+    def update_accounting_settings(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        """Create or update accounting settings."""
+        try:
+            validated_data = AccountingSettingsSchema().load(data)
+        except ValidationError as err:
+            raise ValueError(str(err.messages))
+
+        settings = AccountingSettings.query.filter_by(tenant_id=self.tenant_id).first()
+        if not settings:
+            settings = AccountingSettings(tenant_id=self.tenant_id)
+            db.session.add(settings)
+
+        if 'fiscal_year_start' in validated_data:
+            settings.fiscal_year_start = validated_data['fiscal_year_start']
+        if 'chart_of_accounts' in validated_data:
+            settings.chart_of_accounts = validated_data['chart_of_accounts']
+        if 'tax_settings' in validated_data:
+            settings.tax_settings = validated_data['tax_settings']
+        if 'default_approval_threshold' in validated_data:
+            settings.default_approval_threshold = validated_data['default_approval_threshold']
+        settings.updated_at = datetime.utcnow()
+        db.session.commit()
+        logger.info(f"Accounting settings updated for tenant {self.tenant_id}")
+        return {'id': settings.id}

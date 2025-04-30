@@ -1,0 +1,88 @@
+Create routes/integrations_routes.py
+In the routes folder, create a new file routes/integrations_routes.py with the following content:
+"""Integration settings routes for the Stride platform."""
+from flask import Blueprint, request
+import logging
+from utils.response_utils import standardize_response
+from services.integration_service import IntegrationService
+
+logger = logging.getLogger(__name__)
+integrations_bp = Blueprint('integrations', __name__, url_prefix='/api/integrations')
+
+@integrations_bp.route('/whatsapp', methods=['GET'])
+def get_whatsapp_settings():
+    """Get WhatsApp integration settings for the tenant."""
+    try:
+        integration_service = IntegrationService(g.tenant_id)
+        result = integration_service.get_whatsapp_settings()
+        return standardize_response(data=result)
+    except Exception as e:
+        logger.error(f"Error retrieving WhatsApp settings: {str(e)}")
+        raise
+
+@integrations_bp.route('/whatsapp', methods=['POST', 'PUT'])
+def update_whatsapp_settings():
+    """Create or update WhatsApp integration settings."""
+    try:
+        integration_service = IntegrationService(g.tenant_id)
+        result = integration_service.update_whatsapp_settings(request.json)
+        return standardize_response(data=result, message='WhatsApp settings updated successfully')
+    except ValueError as e:
+        raise
+    except Exception as e:
+        logger.error(f"Error updating WhatsApp settings: {str(e)}")
+        db.session.rollback()
+        raise
+
+@integrations_bp.route('/erp', methods=['GET'])
+def get_erp_integrations():
+    """Get all ERP integrations for the tenant."""
+    try:
+        integration_service = IntegrationService(g.tenant_id)
+        result = integration_service.get_erp_integrations()
+        return standardize_response(data={'integrations': result})
+    except Exception as e:
+        logger.error(f"Error retrieving ERP integrations: {str(e)}")
+        raise
+
+@integrations_bp.route('/erp', methods=['POST'])
+def create_erp_integration():
+    """Create a new ERP integration."""
+    try:
+        integration_service = IntegrationService(g.tenant_id)
+        result = integration_service.create_erp_integration(request.json)
+        return standardize_response(data=result, message='ERP integration created successfully', status_code=201)
+    except ValueError as e:
+        raise
+    except Exception as e:
+        logger.error(f"Error creating ERP integration: {str(e)}")
+        db.session.rollback()
+        raise
+
+@integrations_bp.route('/erp/<int:integration_id>', methods=['PUT'])
+def update_erp_integration(integration_id):
+    """Update an existing ERP integration."""
+    try:
+        integration_service = IntegrationService(g.tenant_id)
+        result = integration_service.update_erp_integration(integration_id, request.json)
+        return standardize_response(data=result, message='ERP integration updated successfully')
+    except ValueError as e:
+        raise
+    except Exception as e:
+        logger.error(f"Error updating ERP integration {integration_id}: {str(e)}")
+        db.session.rollback()
+        raise
+
+@integrations_bp.route('/erp/<int:integration_id>', methods=['DELETE'])
+def delete_erp_integration(integration_id):
+    """Delete an ERP integration."""
+    try:
+        integration_service = IntegrationService(g.tenant_id)
+        integration_service.delete_erp_integration(integration_id)
+        return standardize_response(message='ERP integration deleted successfully')
+    except ValueError as e:
+        raise
+    except Exception as e:
+        logger.error(f"Error deleting ERP integration {integration_id}: {str(e)}")
+        db.session.rollback()
+        raise

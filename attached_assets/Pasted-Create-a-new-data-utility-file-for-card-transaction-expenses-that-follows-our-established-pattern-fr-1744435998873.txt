@@ -1,0 +1,53 @@
+Create a new data utility file for card transaction expenses that follows our established pattern from AccountingStrideCardPage_StrideCardData.js while being adapted for the specific columns and structure used in the CardTransactionsExpenses page.
+
+Key Implementation Points:
+
+Create a new file at: frontend/src/utils/Expenses_CardTransactionPageData.js
+
+Structure:
+
+Follow the same documentation pattern used in AccountingStrideCardPage_StrideCardData.js
+Import people and department data from PeoplePage_PlaceholderPeople.js (as seen in other data files)
+Maintain consistency with Indian context in all mock data
+Data Structure Requirements:
+Create mock transactions array with these fields matching our table columns:
+merchant (including logo and merchantDescription)
+date (in format consistent with our system)
+cardholder (reference from PeoplePage_PlaceholderPeople.js)
+card (type of card)
+flagged (boolean)
+department (reference from PeoplePage_PlaceholderPeople departments)
+category
+location (reference from PeoplePage_PlaceholderPeople locations)
+amount (in INR format)
+spentFrom (budget allocation)
+reviewStatus ('Needs review', 'Reviewed')
+approvalStatus ('Pending', 'Approved', 'Declined')
+receiptAttached (boolean)
+memo (transaction notes)
+approverName (reference from PeoplePage_PlaceholderPeople.js)
+approvedDate (when applicable)
+submissionDate
+Helper Functions:
+Include utility functions for:
+Filtering transactions
+Formatting currency
+Getting cardholder names
+Getting departments
+Getting locations
+Transaction status checks
+Integration:
+Remove hardcoded transaction data from CardTransactionsExpenses.jsx
+Import and use the new data file
+Maintain all existing filtering and search functionality
+Ensure Data Consistency:
+Use realistic Indian company context
+Maintain consistent date formats
+Use proper INR currency formatting
+Reference actual department and location data
+Testing Considerations:
+
+Verify all existing filters work with new data structure
+Ensure search functionality works across all fields
+Validate currency formatting
+Check date formatting consistency

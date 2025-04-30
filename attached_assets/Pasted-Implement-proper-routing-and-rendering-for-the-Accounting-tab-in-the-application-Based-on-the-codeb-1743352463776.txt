@@ -1,0 +1,52 @@
+Implement proper routing and rendering for the Accounting tab in the application. Based on the codebase, we need to:
+
+1. Update routing in frontend/src/App.jsx:
+- Add a route for "/accounting" path that renders the AccountingSetup component
+- Ensure this route is accessible when no accounting integration exists
+- Follow the same pattern as other top-level routes in the application
+
+2. Update the sidebar component to ensure proper navigation:
+- Follow existing pattern for sidebar items like Bills, Cards, etc.
+- Use React Router's Link component to navigate to "/accounting"
+- Maintain consistent styling with other sidebar items
+- Keep the orange/indigo accent color for selected state
+
+3. Verify AccountingSetup component implementation:
+The component should be rendered with:
+- A centered layout following the existing design system
+- "Accounting" as the main title
+- Book icon from lucide-react
+- "Take a tour" button 
+- "Get started now" button
+- "Select someone to set it up" link
+- Note about syncing
+- Use existing Tailwind classes for consistency
+
+4. Fix the integration check logic:
+- Add proper checks for when to show AccountingSetup vs integrated view
+- Handle loading states appropriately
+- Maintain proper routing based on integration status
+
+Key files to modify:
+- frontend/src/App.jsx
+- frontend/src/components/Sidebar.jsx
+- frontend/src/pages/AccountingSetup.jsx
+
+Maintain consistency with:
+- Existing routing patterns where routes are defined in App.jsx
+- Navigation handling similar to other sections
+- Error boundary handling
+- Loading state management
+- Component hierarchy where pages are in src/pages
+
+The AccountingSetup component should be shown when:
+1. User clicks Accounting in the sidebar
+2. User navigates directly to /accounting 
+3. No accounting integration is configured
+
+Use the existing design system elements and follow the established patterns in the codebase for:
+- Layout structure
+- Error handling
+- Loading states
+- Navigation
+- Component organization

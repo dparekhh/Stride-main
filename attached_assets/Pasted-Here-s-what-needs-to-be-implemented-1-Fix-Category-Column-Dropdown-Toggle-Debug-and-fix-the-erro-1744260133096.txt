@@ -1,0 +1,55 @@
+Here's what needs to be implemented:
+
+1. Fix Category Column Dropdown Toggle:
+Debug and fix the error when clicking the eye icon toggle in the Category column dropdown
+Ensure proper filtering of hidden/visible options
+Match functionality with Default option dropdown in AccountingCategoryFieldNew drawer
+
+2. Add "Add Rule" Button:
+Add hover-triggered "Add rule" button on the right side of each option (in the Category dropdwon in the Accounting_StrideCardPage, not in the Default option dropdown in AccountingCategoryFieldNew)
+Style specifications:
+Default state: White background, black text
+Hover state: Primary orange background (#FF5C35), white text
+Position: Right aligned with consistent spacing
+Show only on option hover
+Adjust dropdown width to accommodate new button
+
+3. Fix Option Count Navigation:
+Update click handlers for option counts to navigate to correct tabs:
+"Category options shown in Stride" count -> Visible tab
+"Hidden options" count -> Hidden tab
+Ensure proper state management for drawer tabs
+
+Key Components to Modify:
+
+Add hover states for options 
+Implement "Add rule" button for Category dropdwon in the Accounting_StrideCardPage
+Fix visibility toggle logic
+Update dropdown width handling
+
+Update option count click handlers
+Option counts are clickable but they are both being navigated to the All subtab of the AccountingCategoryOptionsDrawer. Clicking on option count of hidden options should take the user to Hidden subtab of the AccountingCategoryOptionsDrawer and clicking on option count of "Category options shown in Stride" should take the user to the Visible subtab of the AccountingCategoryOptionsDrawer
+
+AccountingCategoryOptionsDrawer Component (frontend/src/components/AccountingCategoryOptionsDrawer.jsx):
+Ensure proper tab state management
+Verify tab switching functionality
+
+Technical Considerations:
+
+State Management:
+Use AccountingContext for visibility state
+Maintain consistent state between components
+Handle tab selection properly
+UI/UX Improvements:
+Smooth transitions for hover states
+Consistent spacing and alignment
+Proper z-index management for overlays
+Accessible button states
+Performance:
+Optimize rendering of hover states
+Minimize unnecessary re-renders
+Handle large option lists efficiently
+Error Handling:
+Proper error boundaries
+Graceful fallbacks
+Clear error messaging

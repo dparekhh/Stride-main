@@ -1,0 +1,56 @@
+Create a new data utility file for card transaction expenses that follows our established pattern from AccountingStrideCardPage_StrideCardData.js while being adapted for the specific columns and structure used in the CardTransactionsExpenses page.
+
+Key Implementation Points:
+
+1. Create a new file at: frontend/src/utils/Expenses_CardTransactionPageData.js
+2. Structure:
+
+Follow the same documentation pattern used in AccountingStrideCardPage_StrideCardData.js
+Import people and department data from PeoplePage_PlaceholderPeople.js (as seen in other data files)
+Maintain consistency with Indian context in all mock data
+
+3. Data Structure Requirements:
+Create mock transactions array with these fields matching our table columns (Expenses_CardTransactionPageData.js should have the same data as AccountingStrideCardPage_StrideCardData.js, unless that data point does not exist in  AccountingStrideCardPage_StrideCardData.js, in that case create new data for Indian Context, dont import the data from AccountingStrideCardPage_StrideCardData.js rather copy it):
+merchant (including logo and merchantDescription)
+date (in format consistent with our system)
+cardholder (reference name from PeoplePage_PlaceholderPeople.js)
+card (same as Cardname in AccountingStrideCardPage_StrideCardData)
+flagged (boolean)
+department (reference from PeoplePage_PlaceholderPeople departments)
+category (same as mccCategoryi n AccountingStrideCardPage_StrideCardData)
+location (reference from PeoplePage_PlaceholderPeople locations)
+amount (same as amount n AccountingStrideCardPage_StrideCardData)
+spentFrom (same as spentFrom in AccountingStrideCardPage_StrideCardData)
+reviewStatus ('Needs review', 'Reviewed')
+approvalStatus ('Pending', 'Approved', 'Declined')
+receiptAttached (boolean)
+memo (card holder's note on the reason of transaction)
+approverName (reference from PeoplePage_PlaceholderPeople.js)
+approvedDate (when applicable)
+submissionDate
+
+4. Helper Functions:
+Include utility functions for:
+Filtering transactions
+Formatting currency
+Getting cardholder names
+Getting departments
+Getting locations
+Transaction status checks
+
+I5. ntegration:
+Remove hardcoded transaction data from CardTransactionsExpenses.jsx
+Import and use the new data file
+Maintain all existing filtering and search functionality
+
+6. Ensure Data Consistency:
+Use realistic Indian company context
+Maintain consistent date formats
+Use proper INR currency formatting
+Reference actual department and location data
+
+7.Testing Considerations:
+Verify all existing filters work with new data structure
+Ensure search functionality works across all fields
+Validate currency formatting
+Check date formatting consistency

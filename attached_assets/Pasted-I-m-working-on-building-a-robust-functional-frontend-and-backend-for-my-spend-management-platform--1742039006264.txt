@@ -1,0 +1,21 @@
+I’m working on building a robust, functional frontend and backend for my spend management platform, Stride, a B2B SaaS platform for the Indian market, similar to Ramp and Brex. The backend is built with Python, Flask, Flask-SQLAlchemy, and PostgreSQL, served with Gunicorn, and the frontend uses React with Vite. The app is running on Replit, and the sidebar includes tabs like Inbox, Insights, Expense, Accounting, Bill Pay (Bills, Purchase Order, Vendors), Card, Policy, and People. I’ve enabled the Google Document AI API under a single service account for "My First Project," with assigned roles: Document AI API User and Document AI Viewer. I’ve provided the service account JSON credentials to Replit as GOOGLE_APPLICATION_CREDENTIALS_JSON. The utils/ocr_vision.py file (previously shared) implements Document AI OCR and NLP processing for invoices, receipts, purchase orders (POs), goods receipt notes (GRNs), and expense policies, with cost optimization, multi-tenancy support (tenant_id), and usage tracking.
+
+I’m currently on the "New Bill" page, which users access after uploading an invoice via Bill Pay -> Bills -> New Bill -> Select invoice to upload -> Upload invoice. The page is split into two sections: the left side shows the "Invoice Preview" (which is correct and displays the uploaded invoice), and the right side has a "Who's it for?" section where users assign the vendor. Currently, the "Who's it for?" section is hardcoded to show a message: "We couldn't find an existing vendor that matches this bill. Create a new vendor if this is your first time paying them, or select another vendor if one already exists," followed by a hardcoded vendor name ("SV Sassy SAAS Vendor, Inc.") and a "Create new vendor" button. This is incorrect. Instead, the app should:
+
+Use OCR (via utils/ocr_vision.py) to extract the vendor name from the uploaded invoice.
+Check if the vendor exists in the database for the current tenant (user/company).
+If the vendor exists, display the vendor name with a small edit icon next to it, allowing the user to change the vendor if needed.
+If the vendor does not exist, show the message "We couldn't find an existing vendor that matches this bill. Create a new vendor if this is your first time paying them, or select another vendor if one already exists," followed by the extracted vendor name (not hardcoded) under "Create new vendor from invoice" with a "Create new vendor" button.
+I’ve attached a screenshot of the current "New Bill" page, where the left side (Invoice Preview) is correct, but the right side ("Who's it for?") needs to be fixed as described. Since I’m not a coder, please break this task into small, manageable baby steps for Replit to execute seamlessly. Let’s build this functionality step by step.
+
+Step 1: Set Up the Backend to Extract Vendor Name Using OCR
+Task: Update the backend to extract the vendor name from the uploaded invoice using the existing utils/ocr_vision.py functionality.
+
+Instruct Replit to locate the Flask route that handles the "New Bill" page after an invoice is uploaded (likely in app/routes/bill_routes.py or a similar file).
+Guide Replit to use the process_document_image function from utils/ocr_vision.py to process the uploaded invoice and extract structured data, specifically the vendor_name field from the invoice (as seen in extract_invoice_fields on Page 17-19 of the utils/ocr_vision.py document).
+Direct Replit to:
+Pass the uploaded invoice file (binary content) to process_document_image with document_type="invoice" and the current tenant_id (retrieved from the logged-in user session).
+Extract the vendor_name from the returned data (e.g., result["extracted_data"]["vendor_name"]).
+Store the extracted vendor_name in the session or a temporary variable to pass to the frontend.
+Ensure Replit logs the OCR process and handles errors (e.g., if OCR fails, set vendor_name to None and log the error).
+Deliverables: Share the updated Flask route with the OCR integration and confirm the vendor_name is extracted (e.g., for the invoice in the screenshot, it should extract "Ace Mobile Manufacturer Pvt Ltd").

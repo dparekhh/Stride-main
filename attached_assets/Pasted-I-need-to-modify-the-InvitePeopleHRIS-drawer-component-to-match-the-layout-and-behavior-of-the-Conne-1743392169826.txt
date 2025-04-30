@@ -1,0 +1,38 @@
+I need to modify the InvitePeopleHRIS drawer component to match the layout and behavior of the ConnectHRISDrawer component in my spend management platform. Here are the specific requirements:
+1. Layout Requirements:
+- The drawer should overlay exactly 50% of the screen width from the right side
+- Should have a slide-in animation from the right when opening
+- Must create a semi-transparent overlay (backdrop) with blur effect on the remaining content
+- The drawer should have a fixed position and full height
+2. Component Integration:
+- The drawer is triggered from ConnectHRISDrawer when clicking the Invite People button
+- Navigation between ConnectHRISDrawer and InvitePeopleHRIS should be smooth
+- Both drawers should not be visible simultaneously
+- The backdrop blur effect should persist during drawer transitions
+
+3. Styling Specifications:
+- Use the existing AppDrawer component as the base (like ConnectHRISDrawer)
+- Maintain consistent styling with ConnectHRISDrawer including:
+  - White background
+  - Shadow effect
+  - Z-index handling for proper layering
+  - Proper header and content padding
+4. Animation Requirements:
+- Implement smooth enter/exit animations
+- Match the animation timing and easing with ConnectHRISDrawer
+- Handle backdrop fade in/out animations
+5. Key Files to Modify:
+- frontend/src/components/InvitePeopleHRIS.jsx
+- Ensure proper integration with ConnectHRISDrawer.jsx
+- Utilize the AppDrawer component from frontend/src/components/common/AppDrawer
+6. State Management:
+- Properly handle the isOpen prop
+- Manage the drawer visibility state
+- Handle backdrop click for closing
+- Implement proper back button functionality
+7. Accessibility:
+- Maintain keyboard navigation
+- Proper focus management
+- Screen reader compatibility
+Please reference the existing ConnectHRISDrawer implementation at 'frontend/src/components/ConnectHRISDrawer.jsx' for consistent styling and behavior patterns.
+The implementation should maintain the existing functionality while improving the visual presentation and user experience to match the ConnectHRISDrawer component.

@@ -1,0 +1,46 @@
+Enhance the WorkflowBuilder component to display multiple conditions in a natural language format following this pattern:
+"If [condition1] [operator1] [value1] AND/OR [condition2] [operator2] [value2]
+
+Specifications:
+1. Location: frontend/src/components/common/action-buttons/Workflow builder/WorkflowBuilder.jsx
+
+2. Visual Requirements:
+- Display conditions in a single unified box instead of separate rows
+- Show logic operators (AND/OR) between conditions inline
+- Maintain edit/delete actions for entire condition
+- both the conditons together should be treated as the main condition. 
+- Use consistent styling with the current design system
+
+3. Component Structure Changes:
+- Replace the current vertical stacking of conditions with an inline display
+- Transform the condition rows into a flowing sentence structure
+- Update the condition block rendering to concatenate conditions with logical operators
+- Add proper spacing and styling between condition parts
+
+4. Interaction Requirements:
+- Entire condition part should be clickable for editing together
+- Maintain all existing delete functionality
+
+5. Styling Requirements:
+- Use a unified container for all mainconditions
+- Maintain the existing color scheme
+- Keep edit/delete icons accessible but unobtrusive
+
+6. State Management:
+- Update the condition rendering logic in the conditionRows state
+- Maintain the same data structure but change the display logic
+- Keep all existing validation and error handling
+
+7. Accessibility:
+- Ensure proper ARIA labels for the new structure
+- Maintain keyboard navigation
+- Keep all interactive elements accessible
+
+The goal is to transform the current vertical stack of conditions into a more natural, sentence-like format while maintaining all existing functionality and visual consistency with the rest of the application.
+
+Use the existing styling patterns from the codebase:
+- Border colors: border-gray-200
+- Background colors: bg-white
+- Text styles: text-sm, font-medium
+- Hover states: hover:bg-gray-50
+- Spacing: px-4 py-2

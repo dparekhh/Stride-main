@@ -1,0 +1,43 @@
+"I need to implement the spending controls and restrictions UI section in both the VirtualCardDrawer and PhysicalCardDrawer components. The implementation should follow the exact design shown in image_1743320386262.png. Here are the specific requirements:
+
+Inside the existing 'Spending controls and restrictions' expandable section in both drawers, implement the following fields:
+
+a. Restrict categories & merchants section:
+
+Show text "Restrict categories & merchants (None)"
+Add an "Add restrictions" button aligned to the right
+Include helper text: "Restrict spending to specific merchant categories or merchants. (optional)"
+b. Start date section:
+
+Show text "Start date (None)"
+Add a calendar icon button aligned to the right
+Include helper text: "Only allow spend that happens on or after a certain date (optional)"
+c. Lock on a certain date section:
+
+Show text "Lock on a certain date (None)"
+Add a calendar icon button aligned to the right
+Include helper text: "Do not allow spend on or after a certain date (optional)"
+d. Max expense amount section:
+
+Show text "Max expense amount (None)"
+Add an input field for the amount
+Styling specifications:
+
+Use consistent gray text (#6B7280) for helper text
+Use the existing border and padding patterns from the drawer
+Maintain consistent spacing between sections
+Use Calendar icon from lucide-react for date fields
+Ensure the "Add restrictions" button matches the existing secondary button style
+The implementation should:
+
+Be consistent between both VirtualCardDrawer and PhysicalCardDrawer
+Maintain the existing expandable section behavior
+Follow the established React patterns in the codebase
+Reuse existing styling classes where applicable
+Be responsive and maintain mobile compatibility
+Location of changes:
+
+Update frontend/src/components/VirtualCardDrawer.jsx
+Update frontend/src/components/PhysicalCardDrawer.jsx
+Focus on the expandedSections.controls section of both components
+Please implement this UI keeping the existing functionality intact while adding these new elements to match the provided design.

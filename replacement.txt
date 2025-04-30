@@ -1,0 +1,10 @@
+      {showReviewPage ? (
+        <EmployeeReview
+          selectedEmployees={getActiveTabData().filter(employee => selectedEmployees.includes(employee.id))}
+          initialEmployeeDetails={employeeDetails}
+          onClose={onClose}
+          onBack={() => setShowReviewPage(false)}
+          onSendInvites={handleSendInviteClick}
+          filterOptions={filterOptions}
+        />
+

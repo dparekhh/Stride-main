@@ -1,0 +1,15 @@
+I’m working on building a robust, functional frontend for my spend management platform, Stride, a B2B SaaS platform for the Indian market, similar to Ramp and Brex. The app is running on Replit, with the frontend built using React with Vite and the backend using Flask, where Flask serves the Vite-built frontend files as a modern React.js. I’m currently addressing a UI issue on the "New Vendor" page, which has a two-column layout: the left side shows the "Invoice Preview," and the right side contains a form with sections like "Vendor owner," "Vendor contact," "Payment details," and "Tax Details."
+
+The issue is that the "Tax Details" dropdown, located at the bottom of the form, is being cut off by the screen when opened, as shown in the attached image. The dropdown menu is not fully visible, likely due to the form container’s height constraints or overflow settings. The goal is to ensure the "Tax Details" dropdown menu is completely visible when opened ensuring the form container accommodates the menu, while maintaining the overall layout and styling as shown in the attached image. Since I’m focusing on frontend design, no backend logic is needed—the fix should be purely UI-related.
+
+Verify the "Tax Details" Section and Dropdown
+Task: Confirm the "Tax Details" section and its dropdown are correctly implemented in the form.
+
+Instruct Replit to open the React component for the "New Vendor" page (e.g., frontend/src/pages/NewVendor.jsx).
+Guide Replit to:
+Verify that the "Tax Details" section exists below the "Payment details" section with a bold, dark label "Tax Details" aligned to the left.
+Confirm the dropdown labeled "Add tax details" has options like "Request from the vendor" and "Enter manually," and "Skip for now" styled with a thin gray border, rounded corners, a light gray background, and a downward arrow, matching the "Payment details" dropdown.
+Direct Replit to:
+Use Tailwind CSS to style the section (e.g., mt-4 for margin-top, text-gray-800 font-bold for the label) and the dropdown (e.g., border-gray-300, rounded-md, px-3 py-2, bg-white, text-gray-400, w-full).
+Ensure the dropdown is implemented using a React component (that renders a menu when clicked.
+Deliverables: Share the updated component code, a screenshot of the form with the "Tax Details" section and dropdown (closed), and confirm the setup matches the attached image.

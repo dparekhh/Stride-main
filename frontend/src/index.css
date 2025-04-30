@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .text-xxs {
+    font-size: 0.625rem; /* 10px */
+    line-height: 0.75rem; /* 12px */
+  }
+}
+
+/* Add blur effect when drawer is open */
+body.drawer-open .app-container,
+body.drawer-open .main-content,
+body.drawer-open .sidebar,
+body.drawer-open main,
+body.drawer-open header {
+  filter: blur(4px);
+  transition: filter 0.3s ease;
+}
+
+/* Prevent content from being clickable when drawer is open */
+body.drawer-open .app-container,
+body.drawer-open .main-content,
+body.drawer-open .sidebar,
+body.drawer-open main,
+body.drawer-open header {
+  pointer-events: none;
+}
+
+/* Keep the drawer itself clickable */
+body.drawer-open .drawer-content {
+  pointer-events: auto;
+}
+
+/* Improved drawer stacking and backdrop styles */
+.drawer-container {
+  isolation: isolate;
+}
+
+.drawer-backdrop {
+  /* Only apply blur to the backdrop */
+  backdrop-filter: blur(4px);
+  transition: backdrop-filter 0.3s ease, opacity 0.3s ease;
+}
+
+.drawer-content {
+  /* Ensure drawer content stays on top of backdrop */
+  z-index: 1;
+}

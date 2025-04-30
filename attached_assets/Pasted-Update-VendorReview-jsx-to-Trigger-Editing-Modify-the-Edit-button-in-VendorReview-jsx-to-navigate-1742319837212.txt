@@ -1,0 +1,76 @@
+Update VendorReview.jsx to Trigger Editing
+Modify the "Edit" button in VendorReview.jsx to navigate to the "Vendor Information" page with the current vendor data.
+
+In frontend/src/components/VendorReview.jsx, update the "Edit" button logic:
+// src/components/VendorReview.jsx (only showing relevant changes)
+import React from "react";
+import { ArrowLeft, Check, User, Mail, Phone, MapPin, Building2, FileText, Edit2 } from "lucide-react";
+import SharedInvoicePreview from "./SharedInvoicePreview";
+import { useNavigate } from "react-router-dom"; // Add this import
+
+const VendorReview = ({ 
+  formData,
+  uploadedInvoice,
+  onBack,
+  onContinue,
+  isSubmitting,
+  sourceRoute = "newVendor"
+}) => {
+  const navigate = useNavigate(); // Add this for navigation
+
+  const buttonLabel = sourceRoute === "newBill" ? "Continue" : "Create vendor";
+  const isExistingVendor = sourceRoute === "newBill";
+
+  // Handle edit button click
+  const handleEdit = () => {
+    if (isExistingVendor) {
+      navigate("/vendor-information", { state: { formData, uploadedInvoice, sourceRoute } });
+    } else {
+      onBack(); // For new vendor, go back to NewVendor page
+    }
+  };
+
+  // ... (rest of the component remains the same until the footer)
+
+  return (
+    <div className="fixed inset-0 z-50 flex bg-white">
+      {/* ... (previous sections unchanged) */}
+      
+      {/* Footer with buttons */}
+      <div className="p-4 border-t border-gray-200 flex justify-between items-center">
+        <button
+          className="flex items-center px-3 py-1.5 text-sm text-gray-700 bg-white border border-gray-300 rounded hover:bg-gray-50"
+          onClick={handleEdit} // Updated to handleEdit
+        >
+          <Edit2 size={16} className="mr-1.5" />
+          Edit
+        </button>
+        
+        <button 
+          className={`px-4 py-2 ${isSubmitting ? "bg-orange-500" : "bg-orange-500 hover:bg-orange-600"} text-white font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400 flex items-center`}
+          onClick={onContinue}
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? (
+            <>
+              <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Processing...
+            </>
+          ) : (
+            buttonLabel
+          )}
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default VendorReview;
+
+hanges:
+
+Added useNavigate to redirect to /vendor-information when editing an existing vendor.
+Passed formData, uploadedInvoice, and sourceRoute via route state.

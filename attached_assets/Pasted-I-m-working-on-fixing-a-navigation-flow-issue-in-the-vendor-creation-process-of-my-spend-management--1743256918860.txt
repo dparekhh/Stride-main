@@ -1,0 +1,47 @@
+I'm working on fixing a navigation flow issue in the vendor creation process of my spend management platform. The current implementation skips a crucial vendor review step. Here's the specific context:
+
+Current Navigation Flow:
+New Bill page -> Create new vendor button -> New Vendor page -> Continue button -> Create Bill page
+
+Desired Navigation Flow:
+New Bill page -> Create new vendor button -> New Vendor page -> Continue button -> Vendor Review page -> Create vendor button -> Create Bill page
+
+Key files involved:
+1. frontend/src/pages/BillsPage.jsx: Contains the initial New Bill page logic
+2. frontend/src/components/VendorReviewWrapper.jsx: Contains vendor review logic
+3. frontend/src/App.jsx: Contains navigation state management
+4. frontend/src/pages/NewVendor.jsx: Contains the vendor creation form
+
+The core issue appears to be in the navigation handling in NewVendor.jsx where it's directly navigating to the create-bill page instead of going through the vendor review flow. The navigation state management in App.jsx needs to be modified to support this intermediate review step.
+
+Specific areas that need attention:
+
+1. In NewVendor.jsx:
+- The form submission handler is directly navigating to "/create-bill"
+- It needs to navigate to "/vendor-review" instead
+- The vendor data state management needs to persist through this flow
+
+2. In VendorReviewWrapper.jsx:
+- Ensure it properly handles the vendor review state
+- Add proper navigation to create-bill page after vendor creation confirmation
+- Maintain the uploaded invoice data through the flow
+
+3. In App.jsx:
+- Update the routing logic to handle the additional vendor review step
+- Ensure proper state management between routes
+- Handle the back button behavior appropriately
+
+4. State Management:
+- Review how vendorData and invoiceData are being passed between components
+- Ensure consistent state preservation through the navigation flow
+- Verify session storage usage for state persistence
+
+Please analyze these components and propose the necessary changes to implement the correct navigation flow while maintaining all existing functionality and data persistence.
+
+The goal is to ensure that:
+1. Users must review vendor details before creation
+2. All form data persists through the entire flow
+3. Users can navigate back without losing data
+4. The upload invoice context is maintained throughout the process
+
+Reference the existing codebase patterns in the provided files while making any modifications.

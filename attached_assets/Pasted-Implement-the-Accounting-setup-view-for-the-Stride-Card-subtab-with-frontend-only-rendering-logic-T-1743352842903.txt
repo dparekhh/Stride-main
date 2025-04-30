@@ -1,0 +1,82 @@
+Implement the Accounting setup view for the Stride Card subtab with frontend-only rendering logic. The changes needed are:
+
+1. In frontend/src/pages/AccountingSetup.jsx:
+- Remove the backend integration status check
+- Make the component render unconditionally when accessed via the Accounting tab
+- Keep the UI components from the existing implementation but remove API calls
+- Add static content for the setup view including:
+  * Centered layout with Stride branding
+  * "Set up Accounting" as main heading
+  * Book icon from lucide-react
+  * Description text about connecting accounting software
+  * "Get started now" primary button
+  * "Take a tour" secondary button
+  * Note about automatic syncing
+
+2. In frontend/src/App.jsx:
+- Update the routing logic to properly handle /accounting/stride-card path
+- Remove any conditional routing based on integration status
+- Ensure AccountingSetup component renders when accessed from Accounting tab
+
+3. Update navigation handling:
+- When Accounting tab is clicked in sidebar, navigate to /accounting/stride-card
+- Render AccountingSetup component without checking backend state
+- Handle navigation between setup view and integrated view purely based on route
+
+Key implementation details:
+
+1. The AccountingSetup component should:
+- Not make any API calls during initial render
+- Use static content and local state only
+- Follow existing design patterns from the codebase
+- Match the styling of other setup pages
+- Use Tailwind classes consistent with the app
+
+2. The routing should:
+- Support direct navigation to /accounting/stride-card
+- Not depend on any backend checks
+- Maintain the existing route structure
+- Handle sub-navigation within accounting section
+
+3. Component hierarchy:
+- AccountingSetup should be a standalone page component
+- Keep existing imports and basic structure
+- Remove useEffect and API integration checks
+- Maintain consistent prop types and interfaces
+
+4. Navigation flow:
+- Clicking Accounting tab -> /accounting/stride-card
+- Clicking "Get started" -> Navigate to setup flow
+- Clicking "Take tour" -> Show tour overlay
+
+5. Error handling:
+- Remove try/catch blocks related to API calls
+- Keep basic error boundaries
+- Handle navigation errors gracefully
+
+6. State management:
+- Remove integration status state
+- Keep local UI state only
+- Handle navigation state via React Router
+
+Maintain consistency with:
+- Existing routing patterns in App.jsx
+- Component organization in pages/
+- Error boundary implementation
+- Loading state patterns
+- Navigation handling in Sidebar.jsx
+
+The AccountingSetup component should appear when:
+1. User clicks Accounting in sidebar
+2. User navigates directly to /accounting/stride-card
+3. No integration status check required
+
+Use existing design system elements:
+- Typography styles
+- Button variants
+- Layout containers
+- Icon usage
+- Color schemes
+- Spacing utilities
+
+This implementation should work independently of backend services while maintaining the ability to add backend integration later.

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill Pay</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .header {
+            margin-bottom: 20px;
+        }
+        .title {
+            font-size: 16px;
+            font-weight: normal;
+            color: #333;
+            margin: 0 0 5px 0;
+        }
+        .bills-title {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 0 0 20px 0;
+        }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .more-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+        }
+        .recurring-btn {
+            background-color: white;
+            border: 1px solid #333;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .new-bill-btn {
+            background-color: #ff5733;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .tab.active {
+            border-bottom: 3px solid #333;
+            font-weight: bold;
+        }
+        .search-bar-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .search-bar {
+            width: 100%;
+            padding: 10px 40px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+        .filter-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .filter-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .add-filter-btn {
+            background-color: #f2f2f2;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .action-icons {
+            display: flex;
+            gap: 15px;
+        }
+        .action-icon {
+            font-size: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="title">Bill Pay</h1>
+        <h2 class="bills-title">Bills</h2>
+    </div>
+    
+    <div class="top-bar">
+        <div></div> <!-- Empty div for spacing -->
+        <div class="action-buttons">
+            <button class="more-btn">⋮</button>
+            <button class="recurring-btn">Recurring Bills</button>
+            <button class="new-bill-btn">New Bill</button>
+        </div>
+    </div>
+    
+    <div class="tabs">
+        <div class="tab active">Overview</div>
+        <div class="tab">Draft</div>
+        <div class="tab">For Approval</div>
+        <div class="tab">For Payment</div>
+        <div class="tab">History</div>
+    </div>
+    
+    <div class="search-and-filter">
+        <div class="search-bar-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-bar" placeholder="Search">
+        </div>
+        
+        <div class="filter-container">
+            <button class="add-filter-btn">+ Add Filter</button>
+            <div class="action-icons">
+                <span class="action-icon">⋁</span>
+                <span class="action-icon">📅</span>
+                <span class="action-icon">◧</span>
+                <span class="action-icon">⤓</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

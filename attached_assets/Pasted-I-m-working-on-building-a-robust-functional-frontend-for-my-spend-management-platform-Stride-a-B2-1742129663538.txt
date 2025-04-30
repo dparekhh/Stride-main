@@ -1,0 +1,21 @@
+I’m working on building a robust, functional frontend for my spend management platform, Stride, a B2B SaaS platform for the Indian market, similar to Ramp and Brex. The app is running on Replit, with the frontend built using React with Vite. The platform includes various sections, and I’m currently focusing on redesigning the "New Vendor" page, which appears after clicking "Create new vendor" on the "New Bill" page. The current UI has deviated from the intended design, and I want to completely rebuild it to match the attached reference image exactly, including its styling, layout, and UI elements.
+
+The "New Vendor" page should have a two-column layout:
+
+The left side (50% width) should dynamically display the actual preview of the uploaded document (e.g., a PDF or image), without hardcoding any invoice content from the reference image.
+The right side (50% width) should contain a dynamic form with sections like "Basic info," "Vendor contact," and "Payment details," "Tax Details" using placeholders for all input fields and avoiding any hardcoded values (e.g., no specific vendor names, accounting software names, or pre-filled data).
+The UI should mirror the reference image’s design, including the header, tabs, notification box, form fields, and buttons, without hardcoding any part of the screen. Since I’m focusing on frontend design only, no backend logic or file upload functionality should be implemented at this stage—the document preview and form fields will be static UI elements with placeholders or a sample document for testing.
+
+Set Up the "New Vendor" Page Structure
+Task: Create the basic two-column layout for the "New Vendor" page, matching the reference image.
+
+Instruct Replit to create a new React component for the "New Vendor" page (e.g., frontend/src/pages/NewVendor.jsx) or modify the existing one.
+Guide Replit to:
+Set up a two-column layout using a flexbox container:
+The left column should take 50% of the width and be reserved for the "Invoice Preview" section.
+The right column should take 50% of the width and contain the form.
+Ensure the page has a white background with a slight padding around the edges to match the reference image’s clean look.
+Direct Replit to:
+Use Tailwind CSS to style the layout (e.g., flex, w-1/2 for each column, bg-white, p-4 for padding, h-screen for full height).
+Avoid hardcoding any specific data in the layout (e.g., no vendor names or invoice details).
+Deliverables: Share the initial component code for the "New Vendor" page, a screenshot of the basic two-column layout with the header, and confirm the structure matches the reference image.

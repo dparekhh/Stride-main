@@ -1,0 +1,33 @@
+Enhance the WorkflowBuilder component to dynamically render conditions and approvers with proper visual hierarchy and indentation.
+
+Key Requirements:
+
+Condition Block Alignment:
+The condition block should be aligned with the start point ("When Submitting expenses") and end point
+Use consistent spacing and left margin (pl-6) as seen in the WorkflowBuilder component
+Maintain the existing conditional statement format: "If [Type] is [Value]" and "and [Field] is [Operator] [Value]" and [Field] is [Operator] [Value] and [Field] is [Operator] [Value]" etc.
+
+Approver Indentation:
+Approver items should be indented under their parent condition
+Each approver should be displayed in a tag-like box similar to the Receipt example (As seen in blue box in image_1744523061775.png)
+Use the existing selected approvers from the ApproverBox component
+Include the "Require" prefix before approver names
+Maintain consistent spacing between condition and approver items
+
+Add Button Placement:
+Position the "+ Add" button below the entire condition block
+Maintain the same styling as the existing add button
+Enable the button to trigger the requirements dropdown for adding more conditions/fields
+
+Visual Hierarchy:
+Use proper indentation to show relationship between conditions and approvers
+Add appropriate connector lines to illustrate the workflow hierarchy
+Ensure consistent vertical spacing between elements
+
+State Management:
+Use the existing workflowState hook to manage conditions and approvers
+Properly update the workflow state when conditions and approvers are saved
+Maintain the logical grouping of conditions with their associated approvers
+The implementation should leverage the existing components and styles in the WorkflowBuilder.jsx file, particularly the condition display logic and the flex layout system already in place.
+
+IMPLEMENT THIS CAREFULLY AND SYSTEMATICALLY. MAKE SURE THAT NO OTHER UI OR FUNCTIONAITY GETS FUCKED UP. REBUILD THE FRONTEND AFTER MAKING THE CHANGES.

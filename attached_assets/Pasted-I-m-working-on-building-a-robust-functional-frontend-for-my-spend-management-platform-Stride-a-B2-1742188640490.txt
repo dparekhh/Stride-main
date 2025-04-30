@@ -1,0 +1,25 @@
+I’m working on building a robust, functional frontend for my spend management platform, Stride, a B2B SaaS platform for the Indian market, similar to Ramp and Brex. The app is running on Replit, with the frontend built using React with Vite and the backend using Flask, where Flask serves the Vite-built frontend files as a modern React.js web application. I’m addressing an issue on the "Bills" page, where uploading a document via “Upload invoice over the page or click to select” triggers three intrusive notifications:
+
+“✅ File ‘credit-terms-invoice1.jpg’ uploaded successfully” (requires “OK”).
+“✅ File processed successfully!” (requires “OK”).
+“✅ File ‘credit-terms-invoice1.jpg’ uploaded successfully” (requires “OK”). These notifications are interrupting the flow, and clicking “OK” auto-completes actions (e.g., creating a bill or vendor), which is wrong. The notification system should only inform the user of the success of their previous action (e.g., file upload) without advancing the workflow automatically. And the user should not be required to compelled to click a button. The current design doesn’t match the intended style (as shown in image 1, where the design and stypling is sleak and the message and color is based on the contnet), and notifications appear even when the action isn’t fully complete
+The goal is to:
+
+Show only one notification per major action (e.g., “File uploaded successfully” “Vendor created successfully" "Create new bill”).
+Position the notification in the top-right corner, auto-dismiss after 2-3 seconds, and remove the “OK” button
+Ensure the notification doesn’t trigger the next step (e.g., creating a vendor or bill) automatically or complete the auto complete the flow —user control should remain (e.g., manual “Create new vendor” click).
+Match the design in Image 1: light gray background, checkmark, concise message, “View” option, and close “X,” without blocking the main content.
+Limit notifications to major actions (e.g., file upload or vendor creation), not intermediate steps.
+Since I’m focusing on frontend design, the fix should be UI-related, but it may involve checking the frontend-backend integration for upload actions. 
+
+Identify Notification Triggers
+Task: Determine why multiple notifications are triggered during the upload process.
+
+Instruct Replit to open the React component for the "Bills" page (e.g., frontend/src/pages/Bills.jsx) and the upload logic (e.g., frontend/src/components/UploadInvoice.jsx or a related hook).
+Guide Replit to:
+Search for the notification logic, likely using a library or a custom component.
+Identify all points where notifications are triggered during the upload process (e.g., after file selection, upload success, file processing).
+Check if the backend API calls (e.g., POST to /api/upload-invoice) return multiple responses that trigger notifications, or if the frontend has duplicate event listeners.
+Direct Replit to:
+Document the code locations and conditions triggering each notification.
+Deliverables: Share the relevant code snippets, confirm the number of triggers (e.g., three notifications), and identify the source of each (e.g., API response, frontend logic).

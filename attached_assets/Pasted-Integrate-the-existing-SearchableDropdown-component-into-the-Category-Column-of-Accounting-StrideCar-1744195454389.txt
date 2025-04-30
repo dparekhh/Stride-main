@@ -1,0 +1,46 @@
+Integrate the existing SearchableDropdown component into the Category Column of Accounting_StrideCardPage with the following specifications:
+
+Component Integration:
+Replace the current select element in the Category Column with SearchableDropdown
+Use Chart of Accounts data from accountingData.js as the options source
+Maintain existing category assignment functionality
+Position dropdown menu intelligently based on available space
+Keep current category validation and error handling
+Key Features to Implement:
+Dropdown position auto-adjustment based on viewport space
+Searchable functionality for Chart of Accounts
+Maintain existing category assignment callback
+Keep current loading states and error handling
+Preserve category validation logic
+Required Props:
+value: transaction.accountingCategory
+onChange: existing category assignment handler
+options: chartOfAccounts array
+placeholder: 'Choose one (required)'
+disabled: isLoadingAccounts
+formatOption: Format category names consistently
+className: Maintain existing styling classes
+Required Data:
+Use CHART_OF_ACCOUNTS from accountingData.js
+Maintain existing category assignment logic
+Keep current loading and error states
+Styling Requirements:
+Match existing UI design language
+Use current color scheme for active/hover states
+Maintain consistent padding and margins
+Keep accessibility features
+Use existing fonts and text sizes
+Key Integration Points:
+Locate Category Column in the transactions table
+Keep current category assignment event handlers
+Maintain existing validation workflow
+Preserve error handling mechanisms
+Keep current loading states
+Error Handling:
+Maintain current validation messages
+Keep loading state indicators
+Preserve error notifications
+Handle network errors gracefully
+Replace specifically: The select element in the Category Column of Accounting_StrideCardPage.jsx with the SearchableDropdown component, using all the above specifications, while ensuring position awareness and Chart of Accounts integration.
+
+The component should maintain all existing functionality while providing enhanced usability through search capabilities and intelligent positioning.

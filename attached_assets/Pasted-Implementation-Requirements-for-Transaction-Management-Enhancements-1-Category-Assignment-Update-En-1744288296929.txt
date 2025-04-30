@@ -1,0 +1,63 @@
+Implementation Requirements for Transaction Management Enhancements
+1. Category Assignment Update
+Enhance the category assignment flow in TransactionSelectionBanner_EditCategory to:
+- Update the category column in the transaction table immediately after selection
+- Maintain visual consistency with existing UI patterns
+- Handle both single and bulk category updates efficiently
+- Add success notifaction "Category updated" using the app's notification system
+
+Technical Requirements:
+- Leverage existing AccountingContext for category updates
+- Use the existing CHART_OF_ACCOUNTS data structure
+- Follow current state management patterns
+- Ensure proper error handling and loading states
+
+2. Three Dots Menu Enhancement
+Add a new three dots menu to TransactionSelectionBanner with:
+Visual Specifications:
+- White circular background
+- Positioned left of "View details" button
+- Consistent with existing button styling
+- Upward-opening dropdown menu
+- Match the provided design (image_1744287572316.png)
+Menu Items:
+- Edit Accounting Date
+- Edit Accounting Department
+- Edit Accounting Vendor
+Add hover state
+
+3. Department Selection Modal
+Create a new modal component following TransactionSelectionBanner_EditCategory pattern:
+Modal Requirements:
+- Mirror existing category selection modal structure
+- List departments instead of Chart of Accounts
+- Maintain consistent header format: "Editing {N} transactions"
+- Include search functionality
+- Follow existing modal transition animations
+
+UI/UX Requirements:
+- Match existing font styles and sizes
+- Use consistent spacing and padding
+- Maintain current hover and focus states
+- Follow existing responsive design patterns
+State Management:
+- Track selected departments
+- Handle bulk department updates
+- Maintain selected transaction state
+- Update UI immediately after selection
+Error Handling:
+- Handle empty department lists
+- Manage failed updates gracefully
+- Show appropriate loading states
+- Display user-friendly error messages
+The implementation should maintain our existing code patterns and component architecture while adding these new features seamlessly.
+Reference Existing Components:
+- TransactionSelectionBanner.jsx
+- TransactionSelectionBanner_EditCategory.jsx
+- AccountingContext.jsx
+- CreateNewRuleModal.jsx
+Follow our established patterns for:
+- Modal implementations
+- State management
+- Error handling
+- UI consistency

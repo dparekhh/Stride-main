@@ -1,0 +1,51 @@
+Implement UI Enhancements for Transaction Management
+We need to enhance the transaction management UI in our Stride Card page. Please implement the following changes using our existing design system and code patterns:
+
+1. Action Column Tooltip
+- Add a tooltip above the checkbox in the Action column when hoverable/clickable
+- Tooltip should have white background, black text, and read "Ready to sync"
+- Follow existing tooltip styling from our design system
+- Only show when the checkbox is clickable (i.e., when a category is selected)
+
+2. Subtab Count Indicators
+- Add transaction count badges to each subtab
+- Use circle shape with transparent fill and colored outline
+- Color should match the subtab's state (active/inactive):
+  * Active: orange-500 color for outline and text
+  * Inactive: gray-500 color for outline and text
+- Position badge to right of subtab text
+- Use small text size for count
+- Fetch counts from filtered transactions based on each subtab's criteria
+
+3. Selected Checkbox Styling
+- When checkboxes in the main checkbox column are selected:
+  * Change fill color to green
+  * Maintain existing checkbox dimensions and positioning
+  * Ensure smooth transition animation
+
+4. Transaction Selection Edit Modal
+Create new TransactionSelectionBanner_EditCategory.jsx component:
+- Modal header text should read "Editing {N} transactions" in gray text
+- Implement search bar below header
+- Populate categories list from CHART_OF_ACCOUNTS in accountingData.js
+- Display categories in alphabetical order
+- For each category item show:
+  * Category name
+  * Category ID in lighter gray
+- Handle category selection with proper state management
+- Ensure modal properly handles large numbers of categories with scrolling
+- Maintain consistent spacing and alignment with design system
+
+Technical Requirements:
+- Leverage existing SearchableDropdown component patterns
+- Use existing modal/drawer system for consistency
+- Maintain proper state management through AccountingContext
+- Ensure responsive behavior matches existing components
+- Follow established component composition patterns
+- Use Tailwind classes consistent with current codebase
+Reference Files:
+- frontend/src/pages/Accounting_StrideCardPage.jsx
+- frontend/src/components/TransactionSelectionBanner.jsx
+- frontend/src/utils/accountingData.js
+- frontend/src/components/common/SearchableDropdown.jsx
+The implementation should maintain our existing code patterns and component architecture while adding these new features seamlessly.

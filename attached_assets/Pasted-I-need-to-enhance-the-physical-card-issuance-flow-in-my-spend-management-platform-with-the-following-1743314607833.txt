@@ -1,0 +1,31 @@
+I need to enhance the physical card issuance flow in my spend management platform with the following specific changes:
+
+Create a new ConfirmAddressDrawer component that matches the design from PhysicalCardDrawer. THE UI DESIGN of the ConfirmAddressDrawer should be like image_1743313286604.png :
+Use AppDrawer as the base component
+Display cardholder's name and selected address
+Include warning text about unit/office numbers 
+Add an "Issue" button in primary color with loading state
+Implement proper back navigation
+
+Modify PhysicalCardDrawer's mailing address section:
+Remove green background when "Send to address" is selected
+Change radio button selected state color to green
+Update address field placeholders for Indian context (e.g., "Flat/Office No." instead of "Floor/Suite", Banglore instead of New York City)
+Add a separate "Use my office address" button below address fields
+Create a demo Indian office address (e.g., "123 Tech Park, Whitefield, Bangalore 560066")
+THe "Use my office address" is essentially to say the card should be deliverd to the office, so to test this funtionaloty out, create a placeholder/demo Indian office address and when the "Use my office address" is clicked fill the feidls of the Address box with that address.
+
+Update the "Who is it for?" dropdown:
+Style according to provided UI design in image_1743314040641.png with rounded avatars
+Include consistent employee names used across the app
+Show employee role and location
+Add indicator for employees who already have cards
+Include search functionality
+
+4.Navigation flow:
+When "Confirm Address" is clicked in PhysicalCardDrawer, open ConfirmAddressDrawer
+Pass selected cardholder name and address details
+Implement loading state on "Issue" button click
+Handle back navigation to return to PhysicalCardDrawer
+
+Please use the existing AppDrawer component and maintain consistent styling with the current UI. The implementation should leverage the existing codebase structure and follow the established patterns.

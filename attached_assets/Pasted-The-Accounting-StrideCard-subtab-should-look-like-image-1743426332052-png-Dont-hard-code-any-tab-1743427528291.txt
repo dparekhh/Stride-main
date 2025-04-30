@@ -1,0 +1,37 @@
+The Accounting -> StrideCard subtab should look like image_1743426332052.png
+
+Dont hard code any table data from the pitcture. Rather build own placeholder data in Indian context.
+The UI design of the table should be the same as the UI design of the table in the Bills Interface.
+Replace Ramp Card with Stride Card
+The postion of the heading "Stride Card" should be same as the positioning of the Bills heading in BillsPage
+The padding across the StrideCardPage should be same as the padding across the BillsPage
+The header compoent includes "Stride Card" heading "Accounting" text about the heading. Setting and Sync All buttons. They should not be in the scrollable area component.
+The columns of the table are (arrange the columns based on relevance) (The :
+Accounting Date – When the expense is recorded in the books.
+Transaction Date – When the transaction actually occurred.
+Cleared Date – When the transaction was settled with the bank.
+Amount
+Cardholder
+Accounting Book Category – The general ledger category (e.g., Travel, SaaS, Meals, Office Supplies).
+Receipt
+Card Limit
+Action – Indicates if the transaction is ready to be synced to the accounting system. (this columns should be frozen on the right end of the screen other part of the table should be scrollable sideways)
+Transaction ID
+Merchant
+Spent Form (budget that was allocated)
+Approval Status
+Policy Compliance – Whether the transaction follows company policy (Compliant / Non-Compliant).
+Notes
+Reconciled Status
+
+THere should be 4 subtabs/views:
+Overview
+Needs review
+Ready to sync
+Waiting for cardholder
+
+Add icons on the left of the subtab text. When selected the text should be in priamry color along with the underline in that color.
+
+Make sure this page is structure the same way the other pages like BillsPage, VendorsPage are structured
+
+Act like my CTO and write a detailed plan/path to implement this. Dont edit the code. I will copy paste the execution plan you provide and copy/paste it to Replit agent to implment it

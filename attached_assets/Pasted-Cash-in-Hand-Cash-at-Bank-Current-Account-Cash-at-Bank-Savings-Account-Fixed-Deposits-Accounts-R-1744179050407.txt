@@ -1,0 +1,102 @@
+Cash in Hand
+Cash at Bank - Current Account
+Cash at Bank - Savings Account
+Fixed Deposits
+Accounts Receivable/Debtors
+Allowance for Doubtful Accounts
+Loans to Employees
+Advances to Suppliers
+Raw Materials
+Work-in-Progress
+Finished Goods
+Land
+Buildings
+Plant and Machinery
+Furniture and Fixtures
+Office Equipment
+Vehicles
+Accumulated Depreciation
+Goodwill
+Patents and Trademarks
+TDS Receivable
+GST Input Credit
+Accounts Payable/Creditors
+Bills Payable
+Short-term Loans
+GST Payable
+TDS Payable
+Salary Payable
+Provident Fund Payable
+ESI Payable
+Term Loans
+Owner's Capital/Share Capital
+Retained Earnings
+General Reserve
+Sales - Domestic
+Sales - Export
+Service Income
+Commission Income
+Interest Income
+Rental Income
+Dividend Income
+Raw Material Consumed
+Direct Labor
+Manufacturing Overheads
+Purchase of Trading Goods
+Salaries and Wages
+Bonus and Incentives
+Staff Welfare Expenses
+Provident Fund Contribution
+ESI Contribution
+Gratuity Expenses
+Employee Training and Development
+Staff Uniform Expenses
+Employee Medical Insurance
+Leave Encashment Expenses
+Rent
+Electricity and Water
+Printing and Stationery
+Telephone and Internet
+Traveling and Conveyance
+Legal and Professional Fees
+Audit Fees
+Insurance
+Repairs and Maintenance
+Security Services
+Cleaning and Housekeeping
+Office Supplies
+Postage and Courier
+Directors' Sitting Fees
+Annual General Meeting Expenses
+Business Promotion
+Corporate Social Responsibility Expenses
+Donations
+Subscriptions and Memberships
+Books and Periodicals
+ISO Certification Expenses
+Property Tax
+Advertisement and Promotion
+Sales Commission
+Freight Outward
+Packing Expenses
+Marketing Expenses
+Trade Fair and Exhibition Expenses
+Sales Incentives
+Product Sampling Expenses
+Market Research Expenses
+E-commerce Platform Fees
+Digital Marketing Expenses
+Sales Team Travel
+Customer Entertainment
+Product Warranty Expenses
+Interest on Loans
+Bank Charges
+Foreign Exchange Loss
+Credit Card Processing Fees
+Loan Processing Charges
+Depreciation on Tangible Assets
+Amortization of Intangible Assets
+Income Tax Expense
+Late Filing Fees and Penalties
+GST Late Payment Interest
+TDS Late Payment Interest

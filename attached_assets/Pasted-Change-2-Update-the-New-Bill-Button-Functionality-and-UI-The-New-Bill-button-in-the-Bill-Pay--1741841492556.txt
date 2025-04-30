@@ -1,0 +1,45 @@
+Change 2: Update the "New Bill" Button Functionality and UI
+The "New Bill" button in the Bill Pay -> Bills tab should be updated to match the functionality and design shown in the attached image, with some additional requirements for interactivity and feedback. Here’s the breakdown:
+
+UI Changes:
+Button Options Layout:
+The "New Bill" button should open a dropdown or modal with the following options, styled similarly to the attached image:
+"Automatic bill creation" (with an envelope icon, black border, no fill).
+"Select invoice to upload" (with a plus icon, black border, no fill).
+"Add invoice manually" (with a pencil icon, black border, no fill).
+"Upload spreadsheet" (with a spreadsheet/table icon, black border, no fill).
+Ensure all icons are black with a border and no fill, matching the style in the image.
+The text should be aligned to the right of each icon with a small padding (e.g., 8px) for readability.
+"Select Invoice to Upload" Section:
+Below the "Select invoice to upload" option, include an interactive section with the text "Upload invoice over the page or click to select" (as shown in the image).
+This section should have a bordered rectangular area with a subtle background (e.g., light gray) and an upload icon (up arrow) centered above the text.
+Below this text, add a smaller line of text: "Upload your PDF, PNG, or JPG files." (as shown in the image).
+Functionality Changes:
+File Upload:
+The "Upload invoice over the page or click to select" section should be interactive:
+Users should be able to click the section to open a file picker dialog.
+Users should also be able to drag and drop files into this section.
+Only allow uploads of PDF, PNG, and JPG files. If a user tries to upload an unsupported file type, display an error message (e.g., "Unsupported file type. Please upload a PDF, PNG, or JPG file.").
+Once a file is selected or dropped, the UI should update to show the file name (e.g., "invoice.pdf") inside the upload section.
+Remove Uploaded File:
+Add an "X" button (small, black, no fill, with a border) to the right of the file name once a file is uploaded.
+Clicking the "X" should remove the uploaded file and reset the section to its original state ("Upload invoice over the page or click to select").
+File Processing:
+After a file is uploaded, automatically process the file (you can simulate this with a 2-second delay for now, as a placeholder for actual processing logic).
+On successful processing, display a success message below the upload section (e.g., "File processed successfully!" in green text).
+On failure (e.g., simulate a failure if the file name contains "error" for testing purposes), display an error message (e.g., "Failed to process file. Please try again." in red text).
+Ensure the success/error message disappears after 5 seconds or when the user uploads a new file.
+Accessibility and Responsiveness:
+Ensure the upload section is accessible:
+Add appropriate ARIA labels (e.g., aria-label="Upload invoice file").
+Support keyboard navigation (e.g., users should be able to tab to the upload section and press Enter to open the file picker).
+Announce success/error messages to screen readers.
+The UI should be fully responsive:
+On smaller screens, the dropdown/modal should adjust to fit the screen width.
+Ensure text and icons remain legible on all screen sizes.
+General Notes:
+Use the existing design system of the application (e.g., colors, typography, icon styles) to ensure consistency.
+If you need to use a specific library for file uploads (e.g., a drag-and-drop library like react-dropzone), feel free to include it, but ensure it’s lightweight and doesn’t conflict with existing dependencies.
+Test the changes thoroughly to ensure there are no regressions in the existing functionality of the Bill Pay -> Bills tab.
+If you encounter any ambiguity or need clarification on the design system or existing codebase, let me know, and I can provide more details.
+Please implement these changes and provide the updated code along with a brief explanation of your approach. Let me know if you need any additional information to proceed!

@@ -1,0 +1,286 @@
+// src/pages/CreateBill.jsx
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { X, ArrowLeft, Save, FileText, Plus, CheckCircle, Info, AlertCircle } from "lucide-react";
+import SharedInvoicePreview from "./components/SharedInvoicePreview.jsx";
+import BillFormSection from "./components/BillFormSection.jsx";
+import DocumentUploadSection from "./components/DocumentUploadSection.jsx";
+import { useNotification } from "./contexts/NotificationContext";
+
+/**
+ * Unified CreateBill component for bill creation with modular structure
+ * Combines invoice upload, form entry, line items, and PO/GRN matching
+ */
+const CreateBill = ({
+  showCreateBill = true,
+  setShowCreateBill = () => {},
+  uploadedInvoice,
+  vendorData,
+  onBack,
+  onSave,
+}) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { showSuccess, showError } = useNotification();
+
+  // State definitions
+  const [invoice, setInvoice] = useState(null);
+  const [attachments, setAttachments] = useState([]);
+  const [vendor, setVendor] = useState(null);
+  const [billFormData, setBillFormData] = useState({
+    billNumber: "",
+    billDate: "",
+    dueDate: "",
+    billAmount: "",
+    taxAmount: "",
+    description: "",
+    currency: "INR",
+    paymentMethod: "Bank Transfer",
+    assignedTo: "",
+    matchingPO: "PO-2025-001",
+    matchingGRN: "GRN-2025-001",
+  });
+  const [lineItems, setLineItems] = useState([{ id: 1, description: "", quantity: 1, unitPrice: 0, amount: 0, category: "" }]);
+  const [formValid, setFormValid] = useState(false);
+  const [formErrors, setFormErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [finalInvoiceData, setFinalInvoiceData] = useState(null);
+  const [finalVendorData, setFinalVendorData] = useState(null);
+
+  // Static data
+  const categories = ["Office Supplies", "Utilities", "Rent", "Software", "Hardware", "Travel", "Meals", "Professional Services", "Advertising", "Other"];
+  const teamMembers = [
+    { id: 1, name: "Raj Sharma", role: "Finance Manager" },
+    { id: 2, name: "Priya Singh", role: "Accounts Payable" },
+    { id: 3, name: "Vikram Patel", role: "CFO" },
+  ];
+
+  // Load data from all sources
+  useEffect(() => {
+    console.log("=== CREATE BILL COMPONENT MOUNTED ===");
+    try {
+      const sessionVendorData = sessionStorage.getItem("pendingVendorData");
+      const sessionInvoiceData = sessionStorage.getItem("pendingInvoiceData");
+      const vendorFromSession = sessionVendorData ? JSON.parse(sessionVendorData) : null;
+      const invoiceFromSession = sessionInvoiceData ? JSON.parse(sessionInvoiceData) : null;
+      if (vendorFromSession) sessionStorage.removeItem("pendingVendorData");
+      if (invoiceFromSession) sessionStorage.removeItem("pendingInvoiceData");
+
+      const vendorToUse = vendorData || vendorFromSession || location.state?.vendorData;
+      const invoiceToUse = uploadedInvoice || invoiceFromSession || location.state?.uploadedInvoice;
+
+      setFinalVendorData(vendorToUse);
+      setFinalInvoiceData(invoiceToUse);
+
+      if (vendorToUse) setVendor(vendorToUse);
+      if (invoiceToUse) {
+        const invoiceForUploader = {
+          preview: invoiceToUse.preview || invoiceToUse.fileUrl || invoiceToUse.image,
+          name: invoiceToUse.fileName || invoiceToUse.name || "Invoice Document",
+          type: invoiceToUse.type || "application/pdf",
+          size: invoiceToUse.size || 0,
+          uploadedAt: new Date().toISOString(),
+          file: invoiceToUse.file || null,
+        };
+        setInvoice(invoiceForUploader);
+
+        const extractedData = invoiceToUse.extractedData || invoiceToUse;
+        setBillFormData((prev) => ({
+          ...prev,
+          billNumber: extractedData.invoice_number || extractedData.invoiceNumber || "",
+          billDate: formatDateString(extractedData.invoice_date || extractedData.invoiceDate),
+          dueDate: formatDateString(extractedData.due_date || extractedData.dueDate),
+          billAmount: extractedData.total_amount || extractedData.totalAmount || "",
+          taxAmount: extractedData.tax_amount || extractedData.taxAmount || "",
+          description: extractedData.description || extractedData.notes || "",
+        }));
+      }
+    } catch (error) {
+      console.error("Error loading data:", error);
+    }
+  }, [location.state, vendorData, uploadedInvoice]);
+
+  // Helper functions
+  const formatDateString = (dateStr) => {
+    if (!dateStr) return "";
+    const date = new Date(dateStr);
+    if (isNaN(date.getTime())) return "";
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+  };
+
+  const calculateLineItemTotal = (item) => (parseFloat(item.quantity) || 0) * (parseFloat(item.unitPrice) || 0);
+  const calculateSubtotal = () => lineItems.reduce((total, item) => total + calculateLineItemTotal(item), 0);
+  const calculateTax = () => calculateSubtotal() * 0.18; // 18% GST
+  const calculateTotal = () => calculateSubtotal() + calculateTax();
+
+  // Event handlers
+  const handleInvoiceUpload = (invoiceData) => setInvoice(invoiceData);
+  const handleAttachmentsChange = (newAttachments) => setAttachments(newAttachments);
+  const handleFormChange = ({ formData, isValid, errors }) => {
+    setBillFormData(formData);
+    setFormValid(isValid);
+    setFormErrors(errors);
+  };
+
+  const handleLineItemChange = (id, field, value) => {
+    setLineItems((prev) =>
+      prev.map((item) =>
+        item.id === id
+          ? { ...item, [field]: value, amount: field === "quantity" || field === "unitPrice" ? calculateLineItemTotal({ ...item, [field]: value }) : item.amount }
+          : item
+      )
+    );
+  };
+
+  const addLineItem = () => {
+    const newId = Math.max(...lineItems.map((item) => item.id), 0) + 1;
+    setLineItems([...lineItems, { id: newId, description: "", quantity: 1, unitPrice: 0, amount: 0, category: "" }]);
+  };
+
+  const removeLineItem = (id) => {
+    if (lineItems.length > 1) setLineItems(lineItems.filter((item) => item.id !== id));
+    else showError("At least one line item is required");
+  };
+
+  const handleBack = () => {
+    if (onBack) onBack();
+    else navigate("/vendor-review", { state: { uploadedInvoice: finalInvoiceData } });
+  };
+
+  const handleSaveDraft = () => {
+    showSuccess("Bill saved as draft");
+    setTimeout(() => {
+      setShowCreateBill(false);
+      navigate("/bill-pay/bills?tab=drafts");
+    }, 800);
+  };
+
+  const handleSaveAndCreate = () => {
+    if (!invoice) return showError("Please upload an invoice document");
+    if (!formValid) return showError("Please fill all required fields correctly");
+    setIsSubmitting(true);
+
+    const finalBillData = {
+      ...billFormData,
+      vendor: finalVendorData,
+      invoice,
+      attachments,
+      lineItems,
+      subtotal: calculateSubtotal(),
+      tax: calculateTax(),
+      total: calculateTotal(),
+      status: "pending",
+      createdAt: new Date().toISOString(),
+    };
+
+    if (onSave) onSave(finalBillData);
+    else {
+      setTimeout(() => {
+        showSuccess("Bill created successfully");
+        setTimeout(() => {
+          setIsSubmitting(false);
+          setShowCreateBill(false);
+          navigate("/bill-pay/bills");
+        }, 800);
+      }, 1000);
+    }
+  };
+
+  if (!showCreateBill) return null;
+
+  return (
+    <div className="fixed inset-0 bg-white z-50 overflow-auto">
+      <div className="flex h-screen">
+        {/* Left side - Invoice Preview */}
+        <SharedInvoicePreview uploadedInvoice={finalInvoiceData} />
+
+        {/* Right side - Bill Creation Form */}
+        <div className="w-1/2 flex flex-col">
+          <div className="p-4 border-b border-gray-200 flex items-center justify-between bg-white">
+            <h2 className="text-xl font-semibold text-gray-800">Create Bill</h2>
+            <button onClick={handleBack} className="p-1 rounded-full hover:bg-gray-100" disabled={isSubmitting}>
+              <X size={20} />
+            </button>
+          </div>
+
+          <div className="flex-grow overflow-y-auto p-6 bg-gray-50">
+            <div className="mb-4 p-3 border border-gray-200 bg-white rounded-md flex items-center">
+              <Info size={16} className="mr-2 text-blue-500" />
+              <p className="text-sm text-gray-600">Stride has retrieved data from this invoice and prefilled this bill</p>
+            </div>
+
+            <BillFormSection
+              initialData={billFormData}
+              vendorData={finalVendorData}
+              onFormChange={handleFormChange}
+              lineItems={lineItems}
+              categories={categories}
+              teamMembers={teamMembers}
+              onLineItemChange={handleLineItemChange}
+              onAddLineItem={addLineItem}
+              onRemoveLineItem={removeLineItem}
+            />
+
+            <DocumentUploadSection
+              onInvoiceUpload={handleInvoiceUpload}
+              onAttachmentUpload={handleAttachmentsChange}
+              initialInvoice={invoice}
+              initialAttachments={attachments}
+            />
+
+            {formValid && Object.keys(formErrors).length > 0 && (
+              <div className="mb-4 p-3 border border-amber-200 bg-amber-50 rounded-md flex items-center">
+                <AlertCircle size={16} className="mr-2 text-amber-500" />
+                <div>
+                  <p className="text-sm font-medium text-amber-800">Please fix the following issues:</p>
+                  <ul className="text-sm text-amber-700 mt-1 list-disc list-inside">
+                    {Object.values(formErrors).map((error, index) => error && <li key={index}>{error}</li>)}
+                  </ul>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="p-4 border-t border-gray-200 bg-white flex justify-between">
+            <button
+              onClick={handleSaveDraft}
+              className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium"
+              disabled={isSubmitting}
+            >
+              Save as Draft
+            </button>
+            <div className="flex space-x-2">
+              <button
+                onClick={handleBack}
+                className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium"
+                disabled={isSubmitting}
+              >
+                <ArrowLeft size={16} className="inline mr-1" />
+                Back
+              </button>
+              <button
+                onClick={handleSaveAndCreate}
+                className={`px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
+                  formValid ? "bg-blue-600 hover:bg-blue-700" : "bg-blue-400"
+                }`}
+                disabled={!formValid || isSubmitting}
+              >
+                {isSubmitting ? (
+                  <span>
+                    <span className="inline-block animate-spin mr-1">O</span> Processing...
+                  </span>
+                ) : (
+                  <span>
+                    <Save size={16} className="inline mr-1" /> Create Bill
+                  </span>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CreateBill;

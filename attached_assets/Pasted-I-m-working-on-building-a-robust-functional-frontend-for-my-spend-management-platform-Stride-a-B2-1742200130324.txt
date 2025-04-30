@@ -1,0 +1,23 @@
+I’m working on building a robust, functional frontend for my spend management platform, Stride, a B2B SaaS platform for the Indian market, similar to Ramp and Brex. The app is running on Replit, with the frontend built using React with Vite and the backend using Flask, where Flask serves the Vite-built frontend files as a modern React.js web application. I’m enhancing the "New Vendor" page workflow, which currently has a two-column layout: the left side shows an "Invoice Preview," and the right side contains a form with four sections: "Basic info," "Vendor contact," "Payment details," and "Tax details."
+The task is to implement the next step in the flow when the user clicks the "Continue" button on the "New Vendor" page. This should trigger a review page that displays all the content the user has filled in across the four sections dynamically, without hardcoding any data from the attached reference image (image_1742200093882.png). The review page should resemble the attached image’s layout and styling (e.g., two-column design, light gray background, section headers, orange "Create vendor" button) but should populate with the user’s actual input from the "New Vendor" page. The review page should include:
+
+A left-side "Invoice Preview" section showing the uploaded document preview (dynamically rendered).
+A right-side summary with sections for "Vendor owner," "Vendor contact," "Payment details," and "Tax details," each displaying the user’s input.
+A "Create vendor" button at the bottom right to finalize the action.
+
+Capture User Input from the "New Vendor" Page
+Task: Set up state management to store user input from the four sections.
+
+Instruct Replit to open the React component for the "New Vendor" page (e.g., frontend/src/pages/NewVendor.jsx).
+Guide Replit to:
+Implement state management to capture user input from the four sections:
+"Basic info": Fields like "{Accounting Software} Vendor," "Country," "State, "Address", "Vendor owner" etc.
+"Vendor contact": Fields like "First name," "Last name," "Email," "Country code," and "Phone number" (e.g., using text inputs and dropdowns).
+"Payment details": Field like "Add payment details" (e.g., dropdown selection and if selected "Enter Manually" then Payment details as well).
+"Tax details": Field like "Add tax details" (e.g., dropdown selection and if selected "Enter Manually" then Vendor tax details as well).
+Use the useState hook or a form library (e.g., React Hook Form) to manage the form data, updating state as the user interacts with each field.
+Ensure the "Invoice Preview" section’s uploaded documen is also stored in state.
+Direct Replit to:
+Create a single state object (e.g., formData) to hold all input values, with nested properties for each section (e.g., formData.basicInfo, formData.vendorContact).
+Use event handlers (e.g., onChange) to update the state dynamically.
+Deliverables: Share the updated NewVendor.jsx code with state management, a screenshot of the "New Vendor" page with sample input (e.g., placeholders like "[placeholder: Vendor Name]"), and confirm the state captures all fields.

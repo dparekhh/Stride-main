@@ -1,0 +1,132 @@
+"""Business logic for user management."""
+import logging
+from typing import Dict, Any, List
+from datetime import datetime
+from marshmallow import Schema, fields, ValidationError
+from models import User, UserRole, db
+from utils.settings_utils import check_duplicate, format_datetime
+
+logger = logging.getLogger(__name__)
+
+class UserSchema(Schema):
+    username = fields.Str(required=True)
+    email = fields.Email(required=True)
+    role = fields.Str(required=True, validate=lambda x: x in [role.value for role in UserRole])
+    phone = fields.Str(allow_none=True)
+    password = fields.Str(required=True)
+
+class UpdateUserSchema(UserSchema):
+    username = fields.Str(required=False)
+    email = fields.Email(required=False)
+    role = fields.Str(required=False, validate=lambda x: x in [role.value for role in UserRole] if x else True)
+    phone = fields.Str(allow_none=True)
+    password = fields.Str(required=False)
+
+class UserService:
+    """Service class for user management operations."""
+    def __init__(self, tenant_id: int):
+        self.tenant_id = tenant_id
+
+    def get_all_users(self) -> List[Dict[str, Any]]:
+        """Retrieve all users for the tenant."""
+        users = User.query.filter_by(tenant_id=self.tenant_id).all()
+        return [
+            {
+                'id': user.id,
+                'username': user.username,
+                'email': user.email,
+                'role': user.role.value,
+                'phone': user.phone,
+                'created_at': format_datetime(user.created_at)
+            } for user in users
+        ]
+
+    def create_user(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        """Create a new user with the provided data."""
+        try:
+            validated_data = UserSchema().load(data)
+        except ValidationError as err:
+            raise ValueError(str(err.messages))
+
+        # Check for duplicates
+        if check_duplicate(User, 'username', validated_data['username'], self.tenant_id):
+            raise ValueError("Username already exists")
+        if check_duplicate(User, 'email', validated_data['email'], self.tenant_id):
+            raise ValueError("Email already exists")
+
+        new_user = User(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            role=UserRole(validated_data['role']),
+            phone=validated_data.get('phone'),
+            tenant_id=self.tenant_id
+        )
+        new_user.set_password(validated_data['password'])
+        db.session.add(new_user)
+        db.session.commit()
+        logger.info(f"User created: ID {new_user.id} for tenant {self.tenant_id}")
+        return {'id': new_user.id}
+
+    def update_user(self, user_id: int, data: Dict[str, Any]) -> Dict[str, Any]:
+        """Update an existing user with the provided data."""
+        user = User.query.filter_by(id=user_id, tenant_id=self.tenant_id).first()
+        if not user:
+            raise ValueError(f"User with ID {user_id} not found")
+
+        try:
+            validated_data = UpdateUserSchema().load(data)
+        except ValidationError as err:
+            raise ValueError(str(err.messages))
+
+        # Check for duplicates
+        if 'username' in validated_data and validated_data['username'] != user.username:
+            if check_duplicate(User, 'username', validated_data['username'], self.tenant_id, user.id):
+                raise ValueError("Username already exists")
+        if 'email' in validated_data and validated_data['email'] != user.email:
+            if check_duplicate(User, 'email', validated_data['email'], self.tenant_id, user.id):
+                raise ValueError("Email already exists")
+
+        # Update fields
+        if 'username' in validated_data:
+            user.username = validated_data['username']
+        if 'email' in validated_data:
+            user.email = validated_data['email']
+        if 'role' in validated_data:
+            user.role = UserRole(validated_data['role'])
+        if 'phone' in validated_data:
+            user.phone = validated_data['phone']
+        if 'password' in validated_data:
+            user.set_password(validated_data['password'])
+        user.updated_at = datetime.utcnow()
+        db.session.commit()
+        logger.info(f"User updated: ID {user.id} for tenant {self.tenant_id}")
+        return {'id': user.id}
+
+    def delete_user(self, user_id: int) -> None:
+        """Delete a user by ID."""
+        user = User.query.filter_by(id=user_id, tenant_id=self.tenant_id).first()
+        if not user:
+            raise ValueError(f"User with ID {user_id} not found")
+        db.session.delete(user)
+        db.session.commit()
+        logger.info(f"User deleted: ID {user_id} for tenant {self.tenant_id}")
+
+    def get_clerks(self) -> List[Dict[str, Any]]:
+        """Retrieve all AP clerks and their permissions."""
+        clerks = User.query.filter(
+            User.tenant_id == self.tenant_id,
+            User.role.in_([UserRole.ADMIN, UserRole.AP_CLERK, UserRole.APPROVER])
+        ).all()
+        return [
+            {
+                'id': user.id,
+                'name': user.username,
+                'role': user.role.value,
+                'permissions': {
+                    'canView': True,
+                    'canCreate': user.role in [UserRole.ADMIN, UserRole.AP_CLERK],
+                    'canApprove': user.role in [UserRole.ADMIN, UserRole.APPROVER],
+                    'canPay': user.role == UserRole.ADMIN
+                }
+            } for user in clerks
+        ]

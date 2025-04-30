@@ -1,0 +1,48 @@
+
+Chats
+Archived
+Code Component Extraction Workflow Builder Analysis
+36 minutes ago
+Code Component Extraction Workflow Builder Analysis
+42 minutes ago
+Code Component Extraction Workflow Builder Analysis
+52 minutes ago
+Workflow Builder Component Extraction Strategy
+1 hour ago
+Untitled
+1 hour ago
+workflow builder design for expense requirements
+2 hours ago
+Untitled
+2 hours ago
+Workflow Builder Component Status Review
+3 hours ago
+react component refactoring troubleshooting test page issue
+4 hours ago
+workflow builder extraction from submission policy builder
+4 hours ago
+Refactor Workflow Builder into Separate Reusable Component
+6 hours ago
+cto code refactor download button component structure
+7 hours ago
+cto code refactor download button component structure
+8 hours ago
+cto guidance on column action button component refactor
+8 hours ago
+Testing Documentation Component Example Files
+9 hours ago
+cto guidance move calendar action button to common component
+9 hours ago
+cto guidance for accounting stride card page ui improvements
+1 day ago
+notification design component overview
+1 day ago
+cto prompt for accounting transaction selection banner
+1 day ago
+Act as my CTO and write me a detailed prompt leveraging the knowledge of codebase you have to implement this. I dont want the assistant to edit any code, It should just write the prompt.
+
+Complete redo the current UI of the Workflow builder:
+The wokflow builder should have a starting put, add button and ending point.
+Build the worflow builder in such a way that the starting point and ending and funtion of the ad button inbetween can be changed based on where the workflow builder is being imported in the app.
+Right now i want to build the workflow builder for Expense requiremnts.
+The start points should be "When Submiting Expesnes" (submiting expenses should be in tag UI light green color background and green text), the ending points should be "Approve Expenses"(Expenses should be in tag UI light green color background and green text) and in between both should be the "Add button. Add the three should be connected as a workflow.

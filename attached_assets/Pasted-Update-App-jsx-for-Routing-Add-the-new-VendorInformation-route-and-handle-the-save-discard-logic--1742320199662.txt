@@ -1,0 +1,116 @@
+Update App.jsx for Routing
+Add the new VendorInformation route and handle the save/discard logic.
+
+In frontend/src/App.jsx:
+import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import VendorReview from "./components/VendorReview";
+import VendorInformation from "./components/VendorInformation";
+
+// Placeholder components
+const NewBill = () => {
+  const navigate = useNavigate();
+  const [formData] = useState({ vendorName: "Existing Vendor", email: "vendor@example.com" });
+  const [uploadedInvoice] = useState({ url: "example.pdf" });
+
+  const handleContinue = () => {
+    navigate("/vendor-review", { state: { formData, uploadedInvoice, sourceRoute: "newBill" } });
+  };
+
+  return (
+    <div>
+      <h1>New Bill</h1>
+      <button onClick={handleContinue}>Continue</button>
+    </div>
+  );
+};
+
+const NewVendor = () => {
+  const navigate = useNavigate();
+  const [formData] = useState({ vendorName: "New Vendor", email: "newvendor@example.com" });
+
+  const handleContinue = () => {
+    navigate("/vendor-review", { state: { formData, sourceRoute: "newVendor" } });
+  };
+
+  return (
+    <div>
+      <h1>New Vendor</h1>
+      <button onClick={handleContinue}>Continue</button>
+    </div>
+  );
+};
+
+const VendorReviewWrapper = () => {
+  const navigate = useNavigate();
+  const { state } = useLocation();
+  const { formData: initialFormData, uploadedInvoice, sourceRoute } = state || {};
+  const [formData, setFormData] = useState(initialFormData || {});
+
+  const handleBack = () => {
+    navigate(sourceRoute === "newBill" ? "/new-bill" : "/new-vendor");
+  };
+
+  const handleContinue = () => {
+    if (sourceRoute === "newVendor") {
+      console.log("Saving new vendor:", formData);
+    }
+    navigate("/next-step");
+  };
+
+  return (
+    <VendorReview
+      formData={formData}
+      uploadedInvoice={uploadedInvoice}
+      onBack={handleBack}
+      onContinue={handleContinue}
+      sourceRoute={sourceRoute || "newVendor"}
+      isSubmitting={false}
+    />
+  );
+};
+
+const VendorInformationWrapper = () => {
+  const navigate = useNavigate();
+  const { state } = useLocation();
+  const { formData, uploadedInvoice, sourceRoute } = state || {};
+
+  const handleSaveChanges = (updatedFormData) => {
+    // In real app, update backend here
+    console.log("Saving changes:", updatedFormData);
+    navigate("/vendor-review", { state: { formData: updatedFormData, uploadedInvoice, sourceRoute } });
+  };
+
+  const handleDiscardChanges = () => {
+    navigate("/vendor-review", { state: { formData, uploadedInvoice, sourceRoute } });
+  };
+
+  return (
+    <VendorInformation
+      initialData={formData}
+      uploadedInvoice={uploadedInvoice}
+      onSaveChanges={handleSaveChanges}
+      onDiscardChanges={handleDiscardChanges}
+    />
+  );
+};
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/new-bill" element={<NewBill />} />
+        <Route path="/new-vendor" element={<NewVendor />} />
+        <Route path="/vendor-review" element={<VendorReviewWrapper />} />
+        <Route path="/vendor-information" element={<VendorInformationWrapper />} />
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;
+
+Changes:
+
+Added VendorInformationWrapper to handle navigation and pass updated/original data back to VendorReview.
+Used state in VendorReviewWrapper to update formData when changes are saved.

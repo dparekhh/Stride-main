@@ -1,0 +1,127 @@
+We need to redesign our current workflow builder's conditional block UI to match the reference design (image_1744533729642.png) while maintaining our existing functionality. The new design should feature a cleaner, more compact layout with improved visual hierarchy and consistent styling.
+
+Key Design Elements to Implement
+
+Layout & Structure
+
+Maintain the vertical flow structure with a clear starting point ("When") and ending point
+
+Implement thin vertical connector lines (light gray, approximately 1-2px width) connecting each step
+
+Add small circular nodes/dots where the connector lines intersect with condition blocks
+
+Keep the "+ Add" button for adding new conditions, but style it more subtly as in the reference
+
+Preserve the final "Approve Expense" action at the bottom with the ending point
+
+Conditional Blocks
+
+Redesign condition blocks to use a more compact, single-line format
+
+Position condition labels ("If", "and") to the left of their respective blocks, aligned vertically
+
+Remove borders around condition blocks, using only subtle background differentiation if needed
+
+Implement proper indentation for nested conditions to show hierarchy
+
+Add small "x" delete buttons that appear only on hover for removing conditions
+
+Typography & Colors
+
+Use lighter, more subtle text for labels ("If", "When", etc.)
+
+Apply a consistent, clean sans-serif font throughout
+
+Use green highlight pills only for action types (like "Submitting policy" and "Expense")
+
+For condition content, use a clean black text on white/light gray background
+
+Ensure adequate spacing between elements while maintaining a compact design
+
+Icons & Interactive Elements
+
+Add loader icon from lucide react before "When" and "Approver"
+
+Use a workflow icon from lucide react on the straight line that connects the entire workflow before every conditinal block statement. 
+
+Add subtle circular radio buttons before condition options (for "Require" selections)
+
+Implement small "x" close icons for removable items
+
+Use consistent padding and margins throughout
+
+Add hover states for all interactive elements with subtle color changes
+
+Ensure proper vertical alignment of all elements within a row
+
+Responsive Behavior
+
+Design should scale appropriately on different screen sizes
+
+Maintain readability and touch targets on mobile devices
+
+Preserve vertical flow structure regardless of viewport
+
+Implementation Details
+
+First, refactor the CSS to create a more minimal, clean aesthetic:
+
+Reduce border usage and box shadows
+
+Implement a more consistent spacing system
+
+Create a cohesive color palette based on the reference
+
+Rebuild the condition block components:
+
+Create a standardized condition row component
+
+Implement proper alignment for labels and content
+
+Add appropriate spacing between related elements
+
+Update the connector system:
+
+Implement the thin vertical line connectors
+
+Add the small circular nodes at intersection points
+
+Ensure proper alignment with condition blocks
+
+Maintain the workflow ending point:
+
+Keep the final approval step with appropriate styling
+
+Ensure the connector line terminates properly
+
+Enhance the interaction design:
+
+Implement subtle hover states for interactive elements
+
+Add appropriate focus states for accessibility
+
+Maintain clear affordances for add/remove functionality
+
+Technical Considerations
+
+Use CSS Grid for layout to ensure proper alignment
+
+Implement proper z-indexing to manage overlapping elements
+
+Ensure accessibility is maintained with proper ARIA attributes
+
+Use SVG for icons and connectors to ensure sharpness at all scales
+
+Maintain a component-based approach for consistency and maintainability
+
+Design Deliverables
+
+The development team should receive:
+
+Updated component specifications
+
+CSS variables for colors, spacing, and typography
+
+Interactive prototypes demonstrating the new behavior
+
+Responsive breakpoint specifications

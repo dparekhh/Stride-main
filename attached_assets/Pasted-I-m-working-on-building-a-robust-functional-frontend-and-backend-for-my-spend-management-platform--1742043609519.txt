@@ -1,0 +1,21 @@
+I’m working on building a robust, functional frontend and backend for my spend management platform, Stride, a B2B SaaS platform for the Indian market, similar to Ramp and Brex. The backend is built with Python, Flask, Flask-SQLAlchemy, and PostgreSQL, served with Gunicorn, and the frontend uses React with Vite. The app is running on Replit, and the sidebar includes tabs like Inbox, Insights, Expense, Accounting, Bill Pay (Bills, Purchase Order, Vendors), Card, Policy, and People. I’ve enabled the Google Document AI API under a single service account for "My First Project," with assigned roles: Document AI API User and Document AI Viewer. I’ve provided the service account JSON credentials to Replit as GOOGLE_APPLICATION_CREDENTIALS_JSON. The utils/ocr_vision.py file (previously shared) implements Document AI OCR and NLP processing for invoices, receipts, purchase orders (POs), goods receipt notes (GRNs), and expense policies, with cost optimization, multi-tenancy support (tenant_id), and usage tracking.
+
+I’m currently on the "New Bill" page, which users access after uploading an invoice via Bill Pay -> Bills -> New Bill -> Select invoice to upload -> Upload invoice. The page is split into two sections: the left side shows the "Invoice Preview" (which is correct and displays the uploaded invoice), and the right side has a "Who's it for?" section where users assign the vendor. Currently, the "Who's it for?" section is hardcoded to show a message: "We couldn't find an existing vendor that matches this bill. Create a new vendor if this is your first time paying them, or select another vendor if one already exists," followed by a hardcoded vendor name ("SV Sassy SAAS Vendor, Inc.") and a "Create new vendor" button. This is incorrect. Instead, the app should:
+
+Use OCR (via utils/ocr_vision.py) to extract the vendor name from the uploaded invoice.
+Check if the vendor exists in the database for the current tenant (user/company).
+If the vendor exists, display the vendor name with a small edit icon next to it, allowing the user to change the vendor if needed.
+If the vendor does not exist, show the message "We couldn't find an existing vendor that matches this bill. Create a new vendor if this is your first time paying them, or select another vendor if one already exists," followed by the extracted vendor name (not hardcoded) under "Create new vendor from invoice" with a "Create new vendor" button.
+I’ve attached a screenshot of the current "New Bill" page, where the left side (Invoice Preview) is correct, but the right side ("Who's it for?") needs to be fixed as described. Since I’m not a coder, please break this task into small, manageable baby steps for Replit to execute seamlessly. Let’s build this functionality step by step.
+
+Add backend and frontend logic to handle the "Create new vendor" button when the vendor is not found.
+
+Backend: Instruct Replit to create a new Flask route (e.g., /vendors/create_from_invoice) that:
+Accepts a POST request with the vendor_name and tenant_id.
+Creates a new Vendor record in the database with the provided vendor_name, tenant_id, and any additional fields extracted from the invoice (e.g., gstin, address from extract_invoice_fields in utils/ocr_vision.py).
+Redirects back to the "New Bill" page with the newly created vendor_id in the session or query parameter.
+Frontend: Guide Replit to update the React component to:
+Add an onClick handler to the "Create new vendor" button that sends a POST request to the new Flask route with the vendor_name and tenant_id.
+On success, refresh the page to re-render the "Who's it for?" section (now showing the vendor name with the edit icon since the vendor exists).
+Ensure Replit logs the vendor creation process and handles errors (e.g., if the vendor creation fails, show an error message to the user).
+Deliverables: Share the new Flask route, the updated React component with the button handler, and confirm a new vendor can be created (e.g., "Ace Mobile Manufacturer Pvt Ltd" is added to the database).

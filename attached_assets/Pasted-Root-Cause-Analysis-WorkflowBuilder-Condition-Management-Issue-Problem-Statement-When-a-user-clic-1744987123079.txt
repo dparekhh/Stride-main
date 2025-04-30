@@ -1,0 +1,108 @@
+Root Cause Analysis: WorkflowBuilder Condition Management Issue
+Problem Statement
+When a user clicks on "Set condition" in the add dropdown, the new condition(s) are being added to an existing main condition instead of creating a new, separate main condition.
+
+Investigation
+After analyzing the WorkflowBuilder component and related code, I've identified several key points that contribute to this issue:
+
+1. Root Cause: Editing Block ID Not Reset
+The primary root cause appears to be in the handleRequirementsClick function in WorkflowBuilder.jsx. When a user clicks "Set conditions", the editing state from a previous condition may not be properly reset:
+
+if (action === 'set-conditions') {
+  // Always reset any existing editing state when adding new conditions
+  // This ensures that each "Set conditions" click creates a new main condition
+  if (useInternalState && workflowState.setEditingBlockId) {
+    workflowState.setEditingBlockId(null);
+  }
+  
+  try {
+    // Clear any saved condition data to ensure we're creating a fresh condition
+    sessionStorage.removeItem('pendingFirstCondition');
+    sessionStorage.removeItem('pendingAdditionalConditions');
+    sessionStorage.removeItem('isEditingCondition');
+  } catch (e) {
+    console.warn('Failed to clear session storage', e);
+  }
+  
+  // Show the new Set conditions box UI
+  setSelectedAction(action);
+  setInputBoxTitle(title);
+  setInputOptions(options);
+  setShowInputBox(true);
+  setSelectedCondition(''); // Initialize as empty to show placeholder
+  setSelectedFields([]);
+  
+  // Reset condition rows to initial state for a fresh start
+  setConditionRows([
+    {
+      id: 0,
+      condition: '',
+      operator: 'equals',
+      value: '', 
+      logicOperator: 'AND',
+      showLogicDropdown: false
+    }
+  ]);
+}
+While this code attempts to reset the editing state, the issue may be that this reset doesn't always effectively communicate with the useWorkflowState hook.
+
+2. State Management Issues in useWorkflowState Hook
+The useWorkflowState hook maintains a separate state for editing:
+
+// Track which block ID is currently being edited
+const [editingBlockId, setEditingBlockId] = useState(null);
+If this state isn't properly reset, the subsequent condition will be treated as an edit to an existing condition rather than a new one.
+
+3. Session Storage Persistence
+The code uses sessionStorage to track condition state, which may persist between operations:
+
+try {
+  sessionStorage.removeItem('pendingFirstCondition');
+  sessionStorage.removeItem('pendingAdditionalConditions');
+  sessionStorage.removeItem('isEditingCondition');
+} catch (e) {
+  console.warn('Failed to clear session storage', e);
+}
+If there are race conditions in how these values are accessed and cleared, it could lead to confusion about whether a condition is being edited or created.
+
+4. Condition Processing Logic
+The key function for processing conditions is processPendingConditions in useWorkflowState.js:
+
+// Handle editing vs creating new conditions
+let blockId = null;
+if (isEditing && editingBlockId) {
+  // We're editing an existing block
+  blockId = editingBlockId;
+  // ... editing logic ...
+} else {
+  // We're creating a new condition block
+  if (pendingFirstCondition) {
+    // Create a new block with the main condition
+    blockId = addConditionBlock(pendingFirstCondition);
+    // ... additional logic for new block ...
+  }
+}
+This function checks if it's in editing mode based on both isEditing and editingBlockId flags. If either of these isn't properly reset, it would cause the function to edit an existing condition instead of creating a new one.
+
+Solution Recommendations
+To fix this issue:
+
+Ensure Consistent Reset of Editing State:
+
+Ensure the editingBlockId state in useWorkflowState is properly reset when a user clicks "Set conditions".
+Add additional safeguards to verify the editing state is properly cleared.
+Improve Session Storage Management:
+
+Implement more robust error handling around session storage operations.
+Add checks to verify that session storage clearing is complete before proceeding.
+Add Debug Logging:
+
+Add temporary debug logging to track the state of editingBlockId and other relevant state variables when "Set conditions" is clicked.
+Review State Flow:
+
+Ensure there's a clear and consistent flow for state management between WorkflowBuilder.jsx and useWorkflowState.js.
+Verify all paths properly reset editing state after completion.
+Implement Force Reset:
+
+Add a force reset mechanism that explicitly clears all editing state when adding a new condition.
+The most likely fix would be ensuring that workflowState.setEditingBlockId(null) is always called and takes effect before any new condition processing begins, with proper synchronization between the component and hook state.

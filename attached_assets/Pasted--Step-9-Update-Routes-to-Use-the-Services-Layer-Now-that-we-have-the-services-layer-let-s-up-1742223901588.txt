@@ -1,0 +1,139 @@
+### Step 9: Update Routes to Use the Services Layer
+
+Now that we have the services layer, let’s update the routes to delegate business logic to the service classes.
+
+#### Prompt 11: Update Routes to Use Services
+Let’s update the routes in bills_routes.py, vendors_routes.py, and ocr_routes.py to use the new service classes, removing the business logic from the routes layer.
+Update bills_routes.py
+Open routes/bills_routes.py and replace its content with the following, which delegates to BillService:
+
+"""Bill management routes for the Stride platform."""
+from flask import Blueprint, request, jsonify, g
+import logging
+from marshmallow import Schema, fields, ValidationError
+from models import Bill, BillStatus, Lineltem, Approval, ApprovalType, ApprovalStatus, Category, db
+from app import db
+from utils.response_utils import standardize_response
+from services.bill_service import BillService
+
+logger = logging.getLogger(__name__)
+bills_bp = Blueprint('bills', __name__, url_prefix='/api/bills')
+
+# Define Schemas for Validation
+class LineItemSchema(Schema):
+    description = fields.Str(required=True)
+    quantity = fields.Float(missing=1.0)
+    unit_price = fields.Float(required=True)
+    amount = fields.Float(required=True)
+    tax_rate = fields.Float(missing=0.0)
+    tax_amount = fields.Float(missing=0.0)
+    category_id = fields.Int(allow_none=True)
+
+class BillSchema(Schema):
+    vendor_id = fields.Int(required=True)
+    amount = fields.Float(required=True)
+    currency = fields.Str(missing='INR')
+    issue_date = fields.Date(required=True)
+    due_date = fields.Date(required=True)
+    invoice_file = fields.Str(allow_none=True)
+    notes = fields.Str(allow_none=True)
+    line_items = fields.List(fields.Nested(LineItemSchema), missing=[])
+
+@bills_bp.route('/', methods=['GET'])
+def get_bills():
+    """Get all bills for the tenant."""
+    try:
+        bill_service = BillService(g.tenant_id)
+        result = bill_service.get_all_bills()
+        return standardize_response(data={'bills': result})
+    except Exception as e:
+        logger.error(f"Error retrieving bills: {str(e)}")
+        raise
+
+@bills_bp.route('/<int:bill_id>', methods=['GET'])
+def get_bill(bill_id):
+    """Get a specific bill by ID with line items."""
+    try:
+        bill_service = BillService(g.tenant_id)
+        result = bill_service.get_bill(bill_id)
+        return standardize_response(data=result)
+    except ValueError as e:
+        raise
+    except Exception as e:
+        logger.error(f"Error retrieving bill {bill_id}: {str(e)}")
+        raise
+
+@bills_bp.route('/', methods=['POST'])
+def create_bill():
+    """Create a new bill."""
+    try:
+        bill_service = BillService(g.tenant_id)
+        bill_id = bill_service.create_bill(request.json)
+        return standardize_response(data={'id': bill_id}, message='Bill created successfully', status_code=201)
+    except ValueError as e:
+        raise
+    except Exception as e:
+        logger.error(f"Error creating bill: {str(e)}")
+        db.session.rollback()
+        raise
+
+@bills_bp.route('/<int:bill_id>', methods=['PUT'])
+def update_bill(bill_id):
+    """Update an existing bill."""
+    try:
+        bill_service = BillService(g.tenant_id)
+        bill_service.update_bill(bill_id, request.json)
+        return standardize_response(message='Bill updated successfully')
+    except ValueError as e:
+        raise
+    except Exception as e:
+        logger.error(f"Error updating bill {bill_id}: {str(e)}")
+        db.session.rollback()
+        raise
+
+@bills_bp.route('/<int:bill_id>', methods=['DELETE'])
+def delete_bill(bill_id):
+    """Delete a bill."""
+    try:
+        bill_service = BillService(g.tenant_id)
+        bill_service.delete_bill(bill_id)
+        return standardize_response(message='Bill deleted successfully')
+    except ValueError as e:
+        raise
+    except Exception as e:
+        logger.error(f"Error deleting bill {bill_id}: {str(e)}")
+        db.session.rollback()
+        raise
+
+@bills_bp.route('/submit-for-approval/<int:bill_id>', methods=['POST'])
+def submit_for_approval(bill_id):
+    """Submit a bill for approval."""
+    class ApprovalSchema(Schema):
+        approver_id = fields.Int(required=True)
+
+    try:
+        data = ApprovalSchema().load(request.json)
+    except ValidationError as err:
+        return standardize_response(message=str(err.messages), success=False, status_code=400)
+
+    try:
+        bill_service = BillService(g.tenant_id)
+        approval_id = bill_service.submit_for_approval(bill_id, data['approver_id'])
+        return standardize_response(data={'approval_id': approval_id}, message='Bill submitted for approval')
+    except ValueError as e:
+        raise
+    except Exception as e:
+        logger.error(f"Error submitting bill {bill_id} for approval: {str(e)}")
+        db.session.rollback()
+        raise
+
+@bills_bp.route('/categories', methods=['GET'])
+def get_categories():
+    """Get all expense categories."""
+    try:
+        bill_service = BillService(g.tenant_id)
+        result = bill_service.get_categories()
+        return standardize_response(data={'categories': result})
+    except Exception as e:
+        logger.error(f"Error retrieving categories: {str(e)}")
+        raise

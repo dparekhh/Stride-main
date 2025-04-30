@@ -1,0 +1,150 @@
+// src/components/Sidebar.jsx
+import React from "react";
+import {
+  Mail, Zap, IndianRupee, BookOpen, FileText,
+  CreditCard, Users, File, ChevronLeft, ChevronRight
+} from "lucide-react";
+
+const Sidebar = ({ sidebarCollapsed, toggleSidebar, activeView, setActiveView }) => {
+  return (
+    <div className={`bg-gray-100 h-full border-r transition-all duration-300 ${sidebarCollapsed ? 'w-16' : 'w-64'}`}>
+      <div className="p-4 relative">
+        {/* Toggle button inside the sidebar */}
+        <button
+          onClick={toggleSidebar}
+          className="absolute -right-3 top-4 bg-white border rounded-full p-1 shadow-md z-50"
+        >
+          {sidebarCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+        </button>
+        {sidebarCollapsed ? (
+          // Collapsed view - show only icons for principal tabs
+          <ul className="space-y-4 flex flex-col items-center mt-12">
+            <li
+              className={`p-2 rounded-lg cursor-pointer ${activeView === 'inbox' ? 'bg-orange-100 text-orange-500' : 'hover:bg-gray-200'}`}
+              onClick={() => setActiveView('inbox')}
+              title="Inbox"
+            >
+              <Mail size={20} />
+            </li>
+            <li
+              className={`p-2 rounded-lg cursor-pointer ${activeView === 'insights' ? 'bg-orange-100 text-orange-500' : 'hover:bg-gray-200'}`}
+              onClick={() => setActiveView('insights')}
+              title="Insights"
+            >
+              <Zap size={20} />
+            </li>
+            <li
+              className={`p-2 rounded-lg cursor-pointer ${activeView === 'expense' ? 'bg-orange-100 text-orange-500' : 'hover:bg-gray-200'}`}
+              onClick={() => setActiveView('expense')}
+              title="Expense"
+            >
+              <IndianRupee size={20} />
+            </li>
+            <li
+              className={`p-2 rounded-lg cursor-pointer ${activeView === 'accounting' ? 'bg-orange-100 text-orange-500' : 'hover:bg-gray-200'}`}
+              onClick={() => setActiveView('accounting')}
+              title="Accounting"
+            >
+              <BookOpen size={20} />
+            </li>
+            <li
+              className={`p-2 rounded-lg cursor-pointer ${activeView === 'overview' ? 'bg-orange-100 text-orange-500' : 'hover:bg-gray-200'}`}
+              onClick={() => setActiveView('overview')}
+              title="Bill Pay"
+            >
+              <FileText size={20} />
+            </li>
+            <li
+              className={`p-2 rounded-lg cursor-pointer ${activeView === 'card' ? 'bg-orange-100 text-orange-500' : 'hover:bg-gray-200'}`}
+              onClick={() => setActiveView('card')}
+              title="Card"
+            >
+              <CreditCard size={20} />
+            </li>
+            <li
+              className={`p-2 rounded-lg cursor-pointer ${activeView === 'policy' ? 'bg-orange-100 text-orange-500' : 'hover:bg-gray-200'}`}
+              onClick={() => setActiveView('policy')}
+              title="Policy"
+            >
+              <File size={20} />
+            </li>
+            <li
+              className={`p-2 rounded-lg cursor-pointer ${activeView === 'people' ? 'bg-orange-100 text-orange-500' : 'hover:bg-gray-200'}`}
+              onClick={() => setActiveView('people')}
+              title="People"
+            >
+              <Users size={20} />
+            </li>
+          </ul>
+        ) : (
+          // Expanded view - show full navigation with icons
+          <ul className="space-y-2 mt-12">
+            <li
+              className={`font-bold flex items-center cursor-pointer ${activeView === 'inbox' ? 'text-orange-500' : 'hover:text-orange-500'}`}
+              onClick={() => setActiveView('inbox')}
+            >
+              <Mail size={16} className="mr-2" /> Inbox
+            </li>
+            <li
+              className={`font-bold flex items-center cursor-pointer ${activeView === 'insights' ? 'text-orange-500' : 'hover:text-orange-500'}`}
+              onClick={() => setActiveView('insights')}
+            >
+              <Zap size={16} className="mr-2" /> Insights
+            </li>
+            <li
+              className={`font-bold flex items-center cursor-pointer ${activeView === 'expense' ? 'text-orange-500' : 'hover:text-orange-500'}`}
+              onClick={() => setActiveView('expense')}
+            >
+              <IndianRupee size={16} className="mr-2" /> Expense
+            </li>
+            <ul className="ml-4">
+              <li>Card Transactions</li>
+              <li>Reimbursements</li>
+            </ul>
+            <li
+              className={`font-bold flex items-center cursor-pointer ${activeView === 'accounting' ? 'text-orange-500' : 'hover:text-orange-500'}`}
+              onClick={() => setActiveView('accounting')}
+            >
+              <BookOpen size={16} className="mr-2" /> Accounting
+            </li>
+            <ul className="ml-4">
+              <li>Stride Card</li>
+              <li>Reimbursements</li>
+              <li>Bill Payment</li>
+            </ul>
+            <li
+              className={`font-bold flex items-center cursor-pointer ${activeView === 'overview' ? 'text-orange-500' : 'hover:text-orange-500'}`}
+              onClick={() => setActiveView('overview')}
+            >
+              <FileText size={16} className="mr-2" /> Bill Pay
+            </li>
+            <ul className="ml-4">
+              <li>Bills</li>
+              <li>Purchase Order</li>
+            </ul>
+            <li
+              className={`font-bold flex items-center cursor-pointer ${activeView === 'card' ? 'text-orange-500' : 'hover:text-orange-500'}`}
+              onClick={() => setActiveView('card')}
+            >
+              <CreditCard size={16} className="mr-2" /> Card
+            </li>
+            <li
+              className={`font-bold flex items-center cursor-pointer ${activeView === 'policy' ? 'text-orange-500' : 'hover:text-orange-500'}`}
+              onClick={() => setActiveView('policy')}
+            >
+              <File size={16} className="mr-2" /> Policy
+            </li>
+            <li
+              className={`font-bold flex items-center cursor-pointer ${activeView === 'people' ? 'text-orange-500' : 'hover:text-orange-500'}`}
+              onClick={() => setActiveView('people')}
+            >
+              <Users size={16} className="mr-2" /> People
+            </li>
+          </ul>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default Sidebar;

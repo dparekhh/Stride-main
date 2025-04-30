@@ -1,0 +1,35 @@
+{
+  "total_calls": 61,
+  "total_pages": 67,
+  "total_cost": 0.5399999999999997,
+  "ocr_calls": 44,
+  "ocr_pages": 50,
+  "ocr_cost": 0.029999999999999995,
+  "nlp_calls": 17,
+  "nlp_pages": 17,
+  "nlp_cost": 0.5100000000000002,
+  "tenants": {
+    "1": {
+      "total_calls": 27,
+      "total_pages": 31,
+      "total_cost": 0.22439999999999993,
+      "ocr_calls": 20,
+      "ocr_pages": 24,
+      "ocr_cost": 0.014399999999999998,
+      "nlp_calls": 7,
+      "nlp_pages": 7,
+      "nlp_cost": 0.21
+    },
+    "2": {
+      "total_calls": 1,
+      "total_pages": 3,
+      "total_cost": 0.0018,
+      "ocr_calls": 1,
+      "ocr_pages": 3,
+      "ocr_cost": 0.0018,
+      "nlp_calls": 0,
+      "nlp_pages": 0,
+      "nlp_cost": 0.0
+    }
+  }
+}

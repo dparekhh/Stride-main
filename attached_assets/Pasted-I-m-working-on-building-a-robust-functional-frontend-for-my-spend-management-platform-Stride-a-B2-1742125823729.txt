@@ -1,0 +1,16 @@
+I’m working on building a robust, functional frontend for my spend management platform, Stride, a B2B SaaS platform for the Indian market, similar to Ramp and Brex. The app is running on Replit, with the frontend built using React with Vite. The platform includes various sections, and I’m currently focusing on designing the UI for the "New Vendor" page, which appears after clicking "Create new vendor" on the "New Bill" page. The "New Vendor" page includes sections like "Basic Info," "Vendor owner," "Vendor contact," and "Tax details," as shown in the attached screenshot. I want to update the "Tax Details" dropdown and add conditional fields based on user selection.
+
+The current placeholder text in the "Tax Details" dropdown is "Enter manually," but I want to change it to "Select." When the user selects "Enter manually" from the dropdown, new fields should appear on the page: a GSTIN number input and an upload field for a GST certificate on the same line, a PAN number input and an upload field for a PAN card on the same line, an upload field for an MSME certificate, and an optional upload field for the latest ITR. These fields should only be visible when "Enter manually" is selected; if "Enter manually" is not selected (e.g., if the dropdown remains on "Select" or "other"), these fields should be hidden. Since I’m focusing on frontend design only, no backend logic or file upload functionality should be implemented at this stage—the fields will be static UI elements with placeholders.
+
+Locate and Update the "Tax Details" Dropdown
+Task: Find the "Tax Details" section in the "New Vendor" page and change the placeholder text to "Select."
+
+Instruct Replit to open the React component for the "New Vendor" page (likely frontend/src/pages/NewVendor.jsx or a similar component used after clicking "Create new vendor").
+Guide Replit to:
+Locate the "Tax details" section, which currently contains a dropdown with the placeholder text "Enter manually."
+Update the dropdown’s placeholder text to "Select" instead of "Enter manually."
+Ensure the dropdown retains its current styling and remains positioned below the "Phone" field in the "Vendor contact" section.
+Direct Replit to:
+Use Tailwind CSS to maintain the dropdown’s styling.
+Confirm that the dropdown still allows user interaction (e.g., clicking to open it) for UI purposes only, with no functionality yet.
+Deliverables: Share the updated component code for the "Tax details" section, a screenshot of the "New Vendor" page showing the dropdown with "Select" as the placeholder, and confirm the text has been changed.

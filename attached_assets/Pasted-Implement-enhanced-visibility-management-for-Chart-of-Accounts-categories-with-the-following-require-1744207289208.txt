@@ -1,0 +1,58 @@
+Implement enhanced visibility management for Chart of Accounts categories with the following requirements:
+
+Sync Visibility State:
+Create a visibility state management system in AccountingContext that maintains the hidden/visible state of categories
+Implement a caching mechanism using localStorage to persist visibility states
+Add visibility status to the CHART_OF_ACCOUNTS data structure
+Create helper functions to filter visible/hidden categories
+Enhance SearchableDropdown Component:
+Add a "Show hidden options" footer option instead of "Clear selection"
+Implement a toggle mechanism to show/hide hidden options
+When clicked on footer the hidden options should become visible
+Implement hover state handling for category options
+Add "Add rule" button that appears on hover
+Adjust dropdown width and styling to accommodate new buttons
+Update AccountingCategoryOptionsDrawer:
+Modify the toggle visibility handler to broadcast changes
+Add event emitter for visibility changes
+Implement optimistic UI updates
+Add visual feedback for visibility toggle actions
+Modify Dropdown Styling:
+Increase dropdown width to accommodate buttons
+Add hover states for options
+Style "Add rule" button with white background and black text
+Ensure proper spacing between category name and button
+The implementation should follow this structure:
+
+// Enhanced Chart of Accounts structure
+{
+  id: number,
+  name: string,
+  code: string,
+  type: string,
+  visible: boolean,
+  lastModified: timestamp
+}
+
+// Dropdown option structure
+{
+  value: string,
+  label: string,
+  isHidden: boolean,
+  canAddBack: boolean
+}
+
+Key Features:
+
+Real-time visibility sync between drawer and dropdowns
+Smooth transitions for show/hide animations
+Proper hover state management
+Responsive width adjustments
+Clear visual hierarchy for hidden options
+Technical Considerations:
+
+Use React Context for state management
+Implement proper event handling for hover states
+Use CSS transitions for smooth interactions
+Ensure proper accessibility for all interactive elements
+Maintain backward compatibility with existing implementations

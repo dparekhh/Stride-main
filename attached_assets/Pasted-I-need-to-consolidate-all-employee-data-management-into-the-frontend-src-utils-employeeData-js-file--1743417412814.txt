@@ -1,0 +1,53 @@
+I need to consolidate all employee data management into the frontend/src/utils/employeeData.js file and update all components to use this centralized data source. Here are the specific requirements:
+
+1. Enhance employeeData.js to include all employee fields needed across the application:
+- Basic info: firstName, lastName, email, department, location, tenant_id
+- Role and permissions related fields: role, permissions
+- Card related fields: cardStatus, spendLimits
+- Team structure: reportingManager, teamMembers
+- System fields: id, status, lastActive
+
+2. Update the employee data structure to match our production schema:
+- Use proper typing for all fields
+- Include relevant enums for status, roles, etc.
+- Add proper comments for field usage
+
+3. Components to update to use the centralized employeeData.js:
+- frontend/src/components/settings/PermissionsTab.jsx
+- frontend/src/components/PhysicalCardDrawer.jsx  
+- frontend/src/components/VirtualCardDrawer.jsx
+- frontend/src/components/EmployeeDrawer.jsx
+- frontend/src/components/InvitePeopleHRIS.jsx
+- Any other components using mock employee data
+
+4. The updated data structure should support:
+- Multi-tenant data separation (using tenant_id)
+- Role-based filtering
+- Department/location based grouping
+- Active/inactive status filtering
+
+5. Add utility functions in employeeData.js for common operations:
+- Filtering employees by department/location
+- Getting employee details by ID
+- Getting an employee's team members
+- Checking employee permissions
+
+6. Update all mock/demo data to use realistic Indian company context:
+- Proper Indian names and locations
+- Relevant department structures
+- Appropriate role hierarchies
+
+7. Add proper comments and documentation:
+- Field descriptions
+- Usage examples
+- Integration notes for when we connect to real HRIS
+- Data structure versioning
+
+8. Ensure the consolidated data structure supports all current UI features:
+- Employee search/filtering
+- Permission management
+- Card issuance flows
+- Team management
+- Audit logging
+
+The consolidation should maintain all existing functionality while making the data structure more maintainable and ready for real HRIS integration.

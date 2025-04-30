@@ -1,0 +1,150 @@
+enhancing the WorkflowBuilder's condition selection functionality. This should leverage our existing components while maintaining consistency with our UI patterns.
+
+WorkflowBuilder Enhancement Specification
+1. Set Conditions Box Layout
+Maintain fixed dimensions for the Set Conditions box regardless of dropdown selection
+Box should have a consistent width of 600px and minimum height of 200px
+Remove the orange border and replace with gray (border-gray-300)
+2. Dropdown Positioning and z-index
+All dropdowns (Primary, Operator, Value Selection) should overlay on top of Set Conditions box
+Use z-index: 50 for dropdowns to ensure proper layering
+Position dropdowns using absolute positioning relative to their trigger buttons
+Center dropdowns below their respective trigger buttons
+
+3. Operator Dropdown Updates
+Add new operator options:
+const operatorOptions = [
+  'is',
+  'greater than',
+  'equal to',
+  'less than',
+  'greater than or equal to',
+  'less than or equal to', 
+  'is not'
+]
+Position operator dropdown directly below operator button
+Width should match content width with minimum 120px
+
+4. Primary Condition Options
+Remove "Business entity" and use these conditions:
+const primaryConditions = [
+  'Spend type',
+  'Amount',
+  'User type',
+  'Direct Stride manager',
+  'Employee',
+  'Merchant',
+  'Merchant category',
+  'Stride department', 
+  'Stride location'
+]
+
+5. Value Selection Configuration
+Map each primary condition to its value selection type:
+interface ValueSelectionConfig {
+  [key: string]: {
+    type: 'dropdown' | 'input' | 'custom';
+    options?: any[];
+    source?: string;
+    inputType?: string;
+    placeholder?: string;
+  }
+}
+
+const valueSelectionConfig = {
+  'Spend type': {
+    type: 'dropdown',
+    options: ['Card transaction', 'Reimbursement']
+  },
+  'Amount': {
+    type: 'input',
+    inputType: 'number',
+    placeholder: 'Enter amount',
+    suffix: '₹'
+  },
+  'User type': {
+    type: 'dropdown',
+    source: 'PeoplePage_Role.roles' #(role name)
+  },
+  'Direct Stride manager': {
+    type: 'dropdown',
+    source: 'PeoplePage_PlaceholderPeople.people.filter(p => p.role === "Manager")'
+  },
+  'Employee': {
+    type: 'dropdown',
+    source: 'PeoplePage_PlaceholderPeople.people'
+  },
+  'Merchant': {
+    type: 'dropdown',
+    source: 'Expenses_CardTransactionPageData.MOCK_CARD_TRANSACTION_EXPENSES.map(tx => tx.merchant)'
+  },
+  'Merchant category': {
+    type: 'dropdown',
+    source: 'Expenses_CardTransactionPageData.MOCK_CARD_TRANSACTION_EXPENSES.map(tx => tx.category)'
+  },
+  'Stride department': {
+    type: 'dropdown',
+    source: 'PeoplePage_PlaceholderPeople.departments'
+  },
+  'Stride location': {
+    type: 'dropdown',
+    source: 'PeoplePage_PlaceholderPeople.locations'
+  }
+}
+
+6. UI/UX Requirements
+Dropdown Positioning
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 50;
+  width: max-content;
+  min-width: 100%;
+  margin-top: 4px;
+  background: white;
+  border: 1px solid rgb(229 231 235);
+  border-radius: 6px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+Set Conditions Box
+.conditions-box {
+  width: 600px;
+  min-height: 200px;
+  border: 1px solid rgb(229 231 235);
+  border-radius: 8px;
+  background: white;
+  padding: 16px;
+  position: relative;
+}
+
+Amount Input Styling
+.amount-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.amount-input {
+  padding-right: 24px; /* Space for INR symbol */
+}
+
+.currency-symbol {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgb(107 114 128);
+}
+
+7. Component Integration
+Use SearchableDropdown component for all dropdown selections (customize to not include footer in this context)
+Implement custom input component for Amount condition
+Ensure proper data loading from specified utility files
+Handle value changes and validation appropriately
+
+8. Accessibility
+Maintain keyboard navigation support
+Proper ARIA labels for all interactive elements
+Focus management between dropdowns
+Screen reader friendly announcements for selections

@@ -1,0 +1,20 @@
+I’m working on building a robust, functional frontend and backend for my spend management platform, Stride, a B2B SaaS platform for the Indian market, similar to Ramp and Brex. The backend is built with Python, Flask, Flask-SQLAlchemy, and PostgreSQL, served with Gunicorn, and the frontend uses React with Vite. The app is running on Replit, and the sidebar includes tabs like Inbox, Insights, Expense, Accounting, Bill Pay (Bills, Purchase Order, Vendors), Card, Policy, and People. I’ve enabled the Google Document AI API under a single service account for "My First Project," with assigned roles: Document AI API User and Document AI Viewer. I’ve provided the service account JSON credentials to Replit as GOOGLE_APPLICATION_CREDENTIALS_JSON. The utils/ocr_vision.py file implements Document AI OCR and NLP processing for invoices, with multi-tenancy support (tenant_id) and usage tracking.
+
+I’ve attached a screenshot of the "Bills" page under Bill Pay, where users can upload invoices. After Step 1, Replit created a redundant and duplicate "New Bill" button and "Upload invoice over the page or click to select" section within the red box. This is incorrect—there should only be one "New Bill" button (the orange one at the top-right) and one "Upload invoice" section (the one with the dashed border and upload icon). Additionally, Replit mentioned an issue with the Document AI integration, noting that the necessary components are in place, but there’s a problem with empty extraction results, and it asked whether to continue a systematic code review or try a different debugging strategy.
+
+Tasks:
+
+Remove the duplicate "New Bill" button and "Upload invoice" section within the red box.
+Provide guidance on debugging the Document AI integration issue with empty extraction results.
+Please break this into small baby steps for seamless execution.
+
+Step 1: Identify and Remove the Duplicate "New Bill" Button
+Task: Locate and remove the extra "New Bill" button within the red box.
+
+Instruct Replit to open the React component file for the "Bills" page (likely frontend/src/pages/Bills.jsx or a similar file).
+Guide Replit to search for multiple instances of a button with the text "New Bill" or a similar action triggering the invoice upload process.
+Direct Replit to:
+Keep only the orange "New Bill" button at the top-right (next to the ellipsis menu).
+Delete the duplicate "New Bill" button within the red box (likely a blue button with a "+" icon).
+Ensure the remaining button triggers the invoice upload flow correctly (e.g., opens the file selector or navigates to the "New Bill" page).
+Deliverables: Share the updated React component code and confirm only one "New Bill" button remains (the orange one at the top-right).

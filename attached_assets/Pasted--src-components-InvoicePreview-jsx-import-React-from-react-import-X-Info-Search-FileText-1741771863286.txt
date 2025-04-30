@@ -1,0 +1,100 @@
+// src/components/InvoicePreview.jsx
+import React from "react";
+import { X, Info, Search, FileText } from "lucide-react";
+
+const InvoicePreview = ({
+  showInvoicePreview,
+  setShowInvoicePreview,
+  uploadedInvoice,
+  setUploadedInvoice
+}) => {
+  if (!showInvoicePreview) return null;
+
+  return (
+    <div className="fixed inset-0 bg-white z-50 overflow-auto">
+      <div className="p-4 border-b flex justify-between items-center">
+        <h2 className="text-xl font-bold">New bill</h2>
+        <button
+          onClick={() => {
+            setShowInvoicePreview(false);
+            setUploadedInvoice(null);
+          }}
+          className="p-1 rounded-full hover:bg-gray-100"
+        >
+          <X size={20} />
+        </button>
+      </div>
+      
+      <div className="flex h-[calc(100vh-70px)]">
+        {/* Left side - Invoice Preview */}
+        <div className="w-1/2 p-4 border-r overflow-auto">
+          <h3 className="text-lg font-medium mb-4">Invoice Preview</h3>
+          {uploadedInvoice && (
+            uploadedInvoice.file.type.includes('pdf') ? (
+              <div className="border p-4 rounded flex items-center">
+                <FileText size={40} className="text-gray-500 mr-2" />
+                <div>
+                  <p className="font-medium">{uploadedInvoice.name}</p>
+                  <p className="text-sm text-gray-500">PDF Document</p>
+                </div>
+              </div>
+            ) : (
+              <img 
+                src={uploadedInvoice.preview} 
+                alt="Invoice Preview" 
+                className="max-w-full border rounded shadow-sm" 
+              />
+            )
+          )}
+        </div>
+        
+        {/* Right side - Invoice Details */}
+        <div className="w-1/2 p-6 overflow-auto">
+          <div className="mb-8">
+            <h3 className="text-lg font-medium mb-4">Who's it for?</h3>
+            <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-md mb-4">
+              <div className="flex items-center">
+                <Info size={16} className="text-yellow-600 mr-2" />
+                <span>We couldn't find an existing vendor that matches this bill</span>
+              </div>
+              <p className="text-sm mt-1">Create a new vendor if this is your first time paying them, or select another vendor if one already exists.</p>
+            </div>
+            
+            <div className="mb-6">
+              <h4 className="text-base font-medium mb-2">Create new vendor from invoice</h4>
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center">
+                  <div className="w-8 h-8 bg-gray-100 flex items-center justify-center rounded mr-2">
+                    <span className="text-xs">SV</span>
+                  </div>
+                  <span>Sassy SAAS Vendor, Inc.</span>
+                </div>
+                <button className="px-3 py-1 border rounded hover:bg-gray-50">
+                  Create new vendor
+                </button>
+              </div>
+            </div>
+            
+            <div className="mb-6">
+              <h4 className="text-base font-medium mb-2">Select another vendor</h4>
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search or create a new vendor"
+                  className="w-full p-2 pr-8 border rounded"
+                />
+                <div className="absolute right-2 top-2">
+                  <Search size={16} className="text-gray-400" />
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Additional invoice detail fields would go here */}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default InvoicePreview;

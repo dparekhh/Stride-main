@@ -1,0 +1,239 @@
+import React, { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
+import { X, Check, Search, ChevronDown } from 'lucide-react';
+
+/**
+ * FieldSelector component - Dialog for selecting required/optional fields with multi-select and search capabilities
+ * 
+ * @param {Object} props - Component props
+ * @param {boolean} props.isOpen - Whether the dialog is open
+ * @param {Array} props.fieldOptions - Available field options
+ * @param {string} props.title - Dialog title
+ * @param {Function} props.onClose - Callback for close action
+ * @param {Function} props.onSave - Callback for save action
+ * @param {Array} [props.initialFields] - Initial selected fields for editing
+ * @param {boolean} [props.isRequired] - Whether fields are required or optional
+ * @returns {JSX.Element|null} The FieldSelector component or null if closed
+ */
+const FieldSelector = ({
+  isOpen,
+  fieldOptions,
+  title = 'Select Fields',
+  onClose,
+  onSave,
+  initialFields = [],
+  isRequired = true
+}) => {
+  // State for selected fields and search
+  const [selectedFields, setSelectedFields] = useState(initialFields);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showDropdown, setShowDropdown] = useState(false);
+  const searchInputRef = useRef(null);
+  const dropdownRef = useRef(null);
+  
+  // Reset state when dialog is opened/closed
+  useEffect(() => {
+    if (isOpen) {
+      setSelectedFields(initialFields);
+      setSearchTerm('');
+      setShowDropdown(true); // Automatically show dropdown when opened
+      
+      // Focus on search input when dialog opens
+      setTimeout(() => {
+        if (searchInputRef.current) {
+          searchInputRef.current.focus();
+        }
+      }, 100);
+    }
+  }, [isOpen, initialFields]);
+  
+  // Handle field selection toggle
+  const handleFieldToggle = (field) => {
+    console.log('Field toggle:', field);
+    
+    setTimeout(() => {
+      if (selectedFields.includes(field)) {
+        setSelectedFields(selectedFields.filter(f => f !== field));
+      } else {
+        setSelectedFields([...selectedFields, field]);
+      }
+    }, 0);
+  };
+  
+  // Filter options based on search term
+  const filteredOptions = searchTerm
+    ? fieldOptions.filter(field => 
+        field.toLowerCase().includes(searchTerm.toLowerCase()))
+    : fieldOptions;
+  
+  // Handle save action
+  const handleSave = () => {
+    onSave({
+      fields: selectedFields,
+      isRequired
+    });
+  };
+  
+  // Handle search input change
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+    setShowDropdown(true); // Show dropdown when typing
+  };
+  
+  // Handle search input focus
+  const handleSearchFocus = () => {
+    setShowDropdown(true);
+  };
+  
+  // Handle click outside to close dropdown
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && 
+          !dropdownRef.current.contains(event.target) && 
+          searchInputRef.current && 
+          !searchInputRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+    
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+  
+  // Don't render if not open
+  if (!isOpen) return null;
+  
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+      <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl p-6">
+        <div className="flex justify-between items-center mb-6">
+          <h3 className="text-xl font-bold">{title}</h3>
+          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+            <X size={20} />
+          </button>
+        </div>
+        
+        {/* Search input with dropdown */}
+        <div className="mb-4">
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Search size={18} className="text-gray-400" />
+            </div>
+            <div className="relative" ref={dropdownRef}>
+              <input
+                ref={searchInputRef}
+                type="text"
+                className="block w-full pl-10 pr-8 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Search fields..."
+                value={searchTerm}
+                onChange={handleSearchChange}
+                onFocus={handleSearchFocus}
+              />
+              <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+                <ChevronDown size={16} 
+                  className={`text-gray-400 transition-transform ${showDropdown ? 'transform rotate-180' : ''}`} 
+                  onClick={() => setShowDropdown(!showDropdown)}
+                />
+              </div>
+              
+              {/* Dropdown list */}
+              {showDropdown && (
+                <div className="absolute z-10 left-0 right-0 mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
+                  {filteredOptions.length > 0 ? (
+                    filteredOptions.map((field, index) => {
+                      const isSelected = selectedFields.includes(field);
+                      return (
+                        <div
+                          key={index}
+                          className="border-b border-gray-200 last:border-b-0 hover:bg-gray-50 cursor-pointer"
+                          onClick={() => handleFieldToggle(field)}
+                        >
+                          <div className="px-4 py-3 flex items-center">
+                            {/* Custom checkbox with green fill and white checkmark when selected */}
+                            <div className={`flex-shrink-0 w-5 h-5 mr-3 rounded border ${
+                              isSelected 
+                                ? 'bg-green-500 border-green-500 flex items-center justify-center' 
+                                : 'border-gray-300'
+                            }`}>
+                              {isSelected && <Check size={14} className="text-white" />}
+                            </div>
+                            <span>{field}</span>
+                          </div>
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <div className="px-4 py-3 text-gray-500 text-center">
+                      No matching fields found
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+        
+        {/* Selected fields display as tags */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Selected fields {selectedFields.length > 0 && `(${selectedFields.length})`}
+          </label>
+          <div className="flex flex-wrap gap-2 p-2 border border-gray-300 rounded-md bg-gray-50 min-h-[50px]">
+            {selectedFields.length > 0 ? (
+              selectedFields.map((field, index) => (
+                <div
+                  key={index}
+                  className="bg-gray-200 text-gray-800 px-3 py-1 rounded-md text-sm flex items-center"
+                >
+                  <span>{field}</span>
+                  <button
+                    className="ml-2 text-gray-600 hover:text-gray-800"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleFieldToggle(field);
+                    }}
+                  >
+                    <X size={14} />
+                  </button>
+                </div>
+              ))
+            ) : (
+              <div className="text-gray-500 px-2">No fields selected</div>
+            )}
+          </div>
+        </div>
+        
+        {/* Action buttons */}
+        <div className="flex justify-between">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 bg-gray-100 text-black rounded hover:bg-gray-200"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleSave}
+            className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={selectedFields.length === 0}
+          >
+            Save & close
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+FieldSelector.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  fieldOptions: PropTypes.array.isRequired,
+  title: PropTypes.string,
+  onClose: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
+  initialFields: PropTypes.array,
+  isRequired: PropTypes.bool
+};
+
+export default FieldSelector;

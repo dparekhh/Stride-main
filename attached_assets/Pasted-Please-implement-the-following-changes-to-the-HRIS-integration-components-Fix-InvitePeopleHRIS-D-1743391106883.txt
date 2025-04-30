@@ -1,0 +1,46 @@
+Please implement the following changes to the HRIS integration components:
+
+Fix InvitePeopleHRIS Drawer Integration:
+Modify InvitePeopleHRIS drawer to use the same opening/closing behavior as ConnectHRISDrawer
+The drawer should slide in from the right side like ConnectHRISDrawer
+Remove the "PUB" tag from the sync settings toggle in InvitePeopleHRIS drawer
+Update the sync message box styling to match ConnectHRISDrawer's design
+Add "Unlink HRIS" Button in ConnectHRISDrawer:
+Add a new button next to "Invite people" when HRIS is connected
+Button specifications:
+Text: "Unlink HRIS"
+Background: Light orange (use Tailwind's orange-100 or similar)
+Hover state: Slightly darker orange
+Position: Right after "Invite people" button
+Icon: Optional - consider using Unlink or X icon from lucide-react
+Add unlink functionality that:
+Resets the connectedHRIS state to null
+Shows a confirmation dialog before unlinking
+Updates the UI to show the connect options again
+Component Integration:
+Ensure InvitePeopleHRIS drawer opens correctly from ConnectHRISDrawer
+Maintain state consistency between both drawers
+Handle proper transition animations
+Ensure back button in InvitePeopleHRIS returns to ConnectHRISDrawer
+State Management Updates:
+Add unlinkHRIS functionality to handle the new unlink button
+Update drawer state management to handle proper transitions
+Maintain selected HRIS provider information across components
+File paths to modify:
+
+frontend/src/components/ConnectHRISDrawer.jsx
+frontend/src/components/InvitePeopleHRIS.jsx
+frontend/src/components/common/AppDrawer.jsx (if needed for consistent behavior)
+Reference existing patterns from:
+
+The drawer transition behavior in ConnectHRISDrawer
+The button styling used in the codebase
+The existing HRIS connection state management
+Key considerations:
+
+Match the existing UI/UX patterns in the application
+Maintain consistent state management between components
+Ensure smooth transitions between drawers
+Follow the established error handling patterns
+Use existing color schemes and styling patterns
+Follow the architectural patterns used in ConnectHRISDrawer.jsx and maintain consistency with the existing HRIS integration functionality. Use Tailwind CSS classes for styling to match the current design system.

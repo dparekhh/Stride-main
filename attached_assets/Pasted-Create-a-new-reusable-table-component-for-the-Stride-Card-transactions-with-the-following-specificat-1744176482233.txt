@@ -1,0 +1,45 @@
+Create a new reusable table component for the Stride Card transactions with the following specifications:
+
+1. Create a new component at frontend/src/components/accounting/StrideCardTransactionsTable.jsx that will:
+- Accept transaction data and column configurations as props
+- Handle all table-related state management
+- Implement sorting, filtering, and checkbox selection functionality
+- Include hover tooltips for status icons using Tailwind's tooltip classes
+- Handle category dropdown and selection
+- Maintain current styling and UI patterns
+
+The component should accept these props:
+- transactions: Array of transaction data
+- onTransactionSelect: Callback for checkbox selection
+- onCategoryChange: Callback for category updates
+- accountingSoftwareName: String for dynamic category column header
+- isLoading: Boolean for loading state
+- onRefresh: Callback for refresh functionality
+- columns: Array of column configurations
+
+2. Update Accounting_StrideCardPage.jsx to:
+- Import and use the new StrideCardTransactionsTable component
+- Pass only necessary props for table functionality
+- Keep filters, search, and actions in the parent component
+- Maintain existing notification and drawer states
+
+Key requirements:
+
+For the table component:
+- Keep the sticky left columns (checkbox and merchant)
+- Maintain the category dropdown with Chart of Accounts options
+- Preserve current hover effects and tooltips
+- Keep the checkbox selection functionality
+- Support column visibility toggling and reordering
+- Handle loading and empty states
+- Maintain current responsive design
+
+For the parent page:
+- Keep global filtering and search functionality
+- Maintain drawer integration for settings
+- Keep notification handling
+- Preserve subtab navigation
+
+The component should seamlessly integrate with existing contexts and maintain all current functionality while improving code organization and maintainability.
+
+Use existing styling patterns and Tailwind classes from the current implementation.

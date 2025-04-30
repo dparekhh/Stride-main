@@ -1,0 +1,84 @@
+Please make the following changes to our codebase:
+1. First, remove the backup file:
+- Delete the file frontend/src/pages/Accounting_StrideCardPage.jsx.bak as it's redundant
+2. In frontend/src/pages/Accounting_StrideCardPage.jsx:
+a) Column Name Updates:
+- Change the column name from "Memo/Notes" to "Notes" in the columns array
+- Add a Edit icon from lucide-react next to the notes text in each row for editing
+
+b) Merchant Column Icon Tooltip:
+- Add a tooltip that appears on hover over the status icon in the merchant column
+- The tooltip should have a white background with black text
+- It should display the approval status text (e.g., "Approved", "Awaiting cardholder")
+- Use a simple CSS tooltip implementation with position: absolute
+
+c) Category Column Updates:
+- Change the category column header to use dynamic provider name
+- For now, use "Tally Category" as the placeholder
+- Update all transaction data to have category set to "Choose one (required)"
+- Modify the category select dropdown options to be placeholder Chart of Accounts
+- Add a constant PLACEHOLDER_CHART_OF_ACCOUNTS array that will be replaced by API data later
+
+The category dropdown should include these placeholder accounts:
+Raw Material Consumed
+Direct Labor
+Manufacturing Overheads
+Purchase of Trading Goods
+Salaries and Wages
+Bonus and Incentives
+Staff Welfare Expenses
+Provident Fund Contribution
+ESI Contribution
+Gratuity Expenses
+Employee Training and Development
+Staff Uniform Expenses
+Employee Medical Insurance
+Leave Encashment Expenses
+Rent
+Electricity and Water
+Printing and Stationery
+Telephone and Internet
+Traveling and Conveyance
+Legal and Professional Fees
+Audit Fees
+Insurance
+Repairs and Maintenance
+Security Services
+Cleaning and Housekeeping
+Office Supplies
+Postage and Courier
+Directors' Sitting Fees
+Business Promotion
+Corporate Social Responsibility
+Donations
+Subscriptions and Memberships
+Books and Periodicals
+Property Tax
+Advertisement and Promotion
+Sales Commission
+Freight Outward
+Packing Expenses
+Marketing Expenses
+Trade Fair Expenses
+Sales Incentives
+Product Sampling
+Market Research
+E-commerce Fees
+Digital Marketing
+Sales Team Travel
+Customer Entertainment
+Interest on Loans
+Bank Charges
+Foreign Exchange Loss
+Credit Card Processing Fees
+Depreciation
+Amortization
+Income Tax
+Late Filing Fees and Penalties
+
+When implementing this, ensure:
+- The category column state is managed properly
+- The placeholder chart of accounts is easily replaceable with API data
+- The UI remains responsive and maintains current styling
+- All existing functionality remains intact
+Please maintain the existing styling patterns and component structure while making these changes.

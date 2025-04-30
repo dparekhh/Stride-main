@@ -1,0 +1,12 @@
+Inside the workflow builder area, create a predefined workflow structure with three parts connected by vertical connectors (lines). The structure should be left aligned in the workflow builder area.
+Part 1: Starting Point
+At the top, display the text "When Submitting policy" When in black text and Submitting policy in light green color tag like style. This text should be centered horizontally.
+Below this text, draw a vertical gray line (the connector) that extends downward to connect to the next part.
+Part 2: Condition Block
+Below the connector, create a condition block styled as a rectangular box with a light off-white background (e.g., #F5F5F5), and a subtle shadow.
+Inside the box, display the text "If Expense is" in black text, followed by a box to the right.  The box should have a dropdown menu. The dropdown menu should have a white background, a thin gray border, and a downward arrow on the right side. The dropdown options should be "Card transactions" and "Reimbursement." The default selection should be "Select"
+Below the "If Expense is.." line, add a "+ Add requirements or conditions" button. This button should be indented slightly to the right (e.g., 20 pixels) from the left edge of the "If Expense is" text. Style the button with a small plus icon (+) to the left of the text. The text should be light gray and add a sutble border around the button.
+Below the "+ Add requirements or conditions" button, add a "+ Add new layer" button. This button should be aligned with the "If Expense is" text on the same X-axis (i.e., not indented). Style the button with a small plus icon (+) to the left of the text, the text color should be blacl.
+Below the condition block, draw another vertical gray line (the connector) that extends downward to connect to the next part.
+Part 3: Ending Point
+Below the connector, display the text "Approve Expense", "Approve" in black text, Expense in light green color tag like style. This text should be centered horizontally, matching the alignment of the "When Submitting policy" text at the top.

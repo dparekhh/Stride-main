@@ -1,0 +1,47 @@
+Create AccountingSetupAccount Page
+First, we'll create a new page component for the account setup:
+frontend/src/pages/AccountingSetupAccount.jsx
+Update Route Configuration
+Add the new route in the router configuration to handle the account setup page.
+
+Update AccountingConnect Component
+
+Add close button in top-right corner
+Modify navigation logic to redirect to AccountingSetupAccount after successful connection
+Pass selected provider information through navigation state
+Navigation Flow Implementation
+When user connects successfully in AccountingConnect:
+navigate('/accounting/setup-account', {
+  state: { 
+    provider: selectedProvider,
+    providerName: accountingSoftwareList.find(p => p.id === selectedProvider)?.name
+  }
+});
+AccountingSetupAccount Component Structure
+// Core sections:
+- Header with provider name and close button
+- Left side: Account selection form
+  - Radio group for new/existing account
+  - Dropdown for existing accounts
+  - Input for new account name
+- Right side: Animation panel
+  - Reuse animation logic from AccountingConnect
+  - Show only selected provider logo orbiting
+Styling Requirements
+Match AccountingConnect animation style
+Use primary orange color (#FF6B00) for continue button
+Maintain consistent spacing and typography
+Component Dependencies
+Import requirements:
+- React hooks (useState, useEffect)
+- React Router hooks (useLocation, useNavigate)
+- Framer Motion for animations
+- Lucide React for icons
+State Management
+Track selected account type (new/existing)
+Store selected account details
+Handle form validation
+Maintain connection status
+This implementation plan will maintain consistency with your existing codebase while adding the new functionality. Would you like me to provide this to the Replit agent for implementation?
+
+The component will be responsive, maintain your existing styling patterns, and provide a smooth user experience. The animation logic can be largely reused from AccountingConnect with modifications to show only the relevant provider logo.

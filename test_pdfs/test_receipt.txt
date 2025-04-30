@@ -1,0 +1,13 @@
+
+    ABC Store Receipt
+    Date: 2025-03-14
+    
+    Item          Qty   Price
+    -----------------------
+    Coffee        1     Rs. 150
+    Sandwich      2     Rs. 300
+    
+    Total: Rs. 450
+    
+    Thank you for your purchase!
+    

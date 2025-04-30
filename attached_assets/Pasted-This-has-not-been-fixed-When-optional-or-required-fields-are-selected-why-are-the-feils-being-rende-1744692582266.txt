@@ -1,0 +1,38 @@
+This has not been fixed: When optional or required fields are selected why are the feils being renderd as "Require Require Receipts" and "Optional Optional Memos" as seen in image_1744690181352.png. There should only be 1 Require and 1 Optional and it should be the one outside the tag where the feild is listed. FOr example when memo is selected as a required field it should be "Require [Memo]", when Recipt is selected as optional it should be "Require [Recipt]"
+
+Root Cause Analysis:
+
+Looking at the WorkflowBuilder component and related code, the issue stems from how the condition text is being rendered in two places:
+First render: In the condition type indicator ("Required"/"Optional")
+Second render: Inside the actual field text display
+The duplication occurs because:
+
+The condition text includes "Required"/"Optional" as part of the stored condition.text value
+The UI also adds "Required"/"Optional" as a visual indicator before displaying the condition
+This creates the redundant display like:
+"Required Required Receipts" instead of just "Required [Receipts]"
+
+Solution Strategy (without code changes):
+
+Data Structure Modification:
+
+Separate the field name from its requirement type in the condition data structure
+Store only the field name (e.g., "Receipts") in the condition.text
+Store the requirement type (required/optional) as a separate property
+UI Rendering Logic:
+
+Use the separated properties to render the requirement type indicator once
+Display the clean field name without the requirement type prefix
+State Management:
+
+When adding new conditions, ensure the text is cleaned before storage
+Remove any existing requirement type prefixes from the field names
+Component Architecture:
+
+Consider splitting the rendering of requirement indicators and field names into separate sub-components
+Use proper prop drilling to avoid duplicate information
+The proper display should follow this pattern:
+
+[Requirement Type Indicator] [Field Name]
+Example: "Required [Receipts]" or "Optional [Memos]"
+Looking at your codebase structure, particularly the WorkflowBuilder component in /frontend/src/components/common/action-buttons/Workflow builder/WorkflowBuilder.jsx, this appears to be a presentational issue rather than a functional one.

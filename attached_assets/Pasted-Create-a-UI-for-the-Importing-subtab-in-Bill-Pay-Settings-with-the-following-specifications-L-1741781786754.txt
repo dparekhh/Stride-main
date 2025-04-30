@@ -1,0 +1,50 @@
+Create a UI for the Importing subtab in Bill Pay Settings with the following specifications:
+
+## Layout and Structure
+- Page header: "Bill Pay Settings"
+- Navigation tabs: "Permissions", "Approvals", "Accounting", and "Importing" (with "Importing" underlined to show it's active)
+- Content organized into 4 main sections with proper spacing between them
+
+## Section 1: Pay bills from Tally on Stride
+- Bold section title "Pay bills from Tally on Stride"
+- Toggle control with label "Import bills from Tally" that can be turned on/off
+- The toggle should be right-aligned in a bordered container
+
+## Section 2: Automatically import Purchase Orders
+- Bold section title "Automatically import Purchase Orders"
+- Toggle control with label matching the section title
+- The toggle should be right-aligned in a bordered container
+
+## Section 3: Reconcile Procurement
+- Bold section title "Reconcile Procurement"
+- Two side-by-side option cards of equal width with:
+  - Left card: Double arrow icon (↔), "2-way match" as title, "Bills will be patched to imported POs" as description
+  - Right card: Box/package icon (📦), "3-way match" as title, "Bills will be patched to imported POs and Goods Received Notes" as description
+- Both cards should have borders and proper padding
+
+## Section 4: Overbilling Protection
+- Bold section title "Overbilling Protection"
+- Subtitle text: "Alert or block payments when the invoice doesn't match your purchase order"
+- First toggle item with an alert/flag icon (🚩) labeled "Flag unexpectedly high invoices" (this should always be visible)
+- Descriptive text below: "Stride AI will automatically flag unexpectedly high line items to your team"
+- Second toggle item labeled "Block payments for unexpectedly high invoices" with on/off functionality
+- When the "Block payments" toggle is ON, display two input fields side by side:
+  - Left field labeled "Percent threshold" (show % symbol after number entry)
+  - Right field labeled "Amount threshold" (use ₹ symbol only when value is entered)
+  - Left field subtitle: "A percentage line items can't exceed in overbilling"
+  - Right field subtitle: "An upper limit line items can't exceed in overbilling"
+- When the "Block payments" toggle is OFF, hide both threshold input fields
+
+## Visual Styles
+- Clean, minimalist design with consistent spacing
+- Light gray borders for containers
+- Dark text for headings, slightly lighter for descriptions
+- Toggles should be green when active
+- Use appropriate icons for each section
+- Layout should be responsive and maintain proper alignment
+
+## Interaction Requirements
+- All toggles should have functional on/off states
+- Input fields should only appear when their parent toggle is enabled
+- Currency values should use INR (₹) symbol but only after amount is entered
+- Percentage field should display % after value entry
